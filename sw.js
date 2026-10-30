@@ -1,5 +1,5 @@
-const CACHE="hunter-app-v47-shadow-coach";
-const FILES=["./","./index.html","./manifest.json","./icon.svg","./assets/gear-ring.webp","./assets/shadow-golem.webp","./assets/shadow-archer.webp","./assets/shadow-elf.webp","./assets/boss-insect.webp","./assets/shadow-knight.webp","./assets/gear-crystal.webp","./assets/boss-demon.webp","./assets/gear-armor.webp","./assets/boss-ice-dragon.webp","./assets/boss-monarch.webp","./assets/shadow-mage.webp","./assets/shadow-wolf.webp","./assets/gear-sword.webp","./assets/shadow-assassin.webp","./assets/shadow-paladin.webp"];
-self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
-self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
-self.addEventListener("fetch",event=>event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request))));
+const CACHE="hunter-app-v50-awakening";
+const FILES=["./","./index.html","./manifest.json","./icon.svg","./assets/gear-crystal.webp","./assets/shadow-assassin.webp","./assets/shadow-wolf.webp","./assets/gear-armor.webp","./assets/boss-demon.webp","./assets/boss-monarch.webp","./assets/shadow-paladin.webp","./assets/boss-insect.webp","./assets/gear-sword.webp","./assets/shadow-archer.webp","./assets/gear-ring.webp","./assets/shadow-mage.webp","./assets/boss-ice-dragon.webp","./assets/shadow-golem.webp","./assets/shadow-knight.webp","./assets/shadow-elf.webp"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
+self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(r=>{let copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match("./index.html"))))});
