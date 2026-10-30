@@ -35,6 +35,365 @@ main{padding:14px;max-width:720px;margin:auto}.card{background:linear-gradient(1
 /* v4.7 Shadow Coach + boss portrait */
 .coach-panel{display:flex;gap:11px;align-items:flex-start;padding:12px;margin:12px 0;background:linear-gradient(135deg,#102a45,#071321);border:1px solid #277eb4;border-radius:13px;box-shadow:0 0 18px #168aff18}.coach-avatar{width:76px;height:88px;object-fit:cover;object-position:center 20%;border-radius:10px;border:1px solid #49bfff;box-shadow:0 0 16px #168aff33;flex-shrink:0}.coach-title{font-weight:900;color:#9be4ff;font-size:12px;letter-spacing:.5px}.coach-tip{font-size:12px;line-height:1.5;color:#d5e9fa;margin:5px 0 8px}.coach-step{font-size:10px;color:#77bde8}.raid-boss-avatar{width:88px;height:94px;object-fit:cover;object-position:center 22%;border-radius:12px;border:1px solid #ff718c;box-shadow:0 0 18px #f04c7233;flex-shrink:0}.raid-head{align-items:center}.coach-next{font-size:10px;padding:7px 9px}
 .atlas-card summary{list-style:none;cursor:pointer}.atlas-card summary::-webkit-details-marker{display:none}.atlas-card[open]{border-color:#3b9bd2;box-shadow:0 0 18px #168aff22}.atlas-card .details{padding-top:0}.atlas-card .details p{line-height:1.55}.atlas-card .notice{margin:10px 0}.atlas-card summary .tag{flex-shrink:0}.atlas-card[open] summary .tag{color:#6de6bb;border-color:#26795e}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.setting-label{display:block;color:#a9c6e2;font-size:11px;font-weight:800}.setting-label .field{margin-top:5px}.atlas-card summary{display:flex;align-items:center}@media(max-width:390px){.settings-grid{grid-template-columns:1fr}.atlas-card summary .tag{font-size:9px}}
+  
+/* ==========================================
+   SOLO LEVELING 5.1 — AWAKENING SYSTEM UI
+   VISUAL UPDATE ONLY — KEEP GAME LOGIC
+========================================== */
+
+:root {
+  --bg: #030711;
+  --panel: #091729;
+  --panel2: #0d2038;
+  --line: #287eb5;
+  --blue: #63d5ff;
+  --cyan: #b8efff;
+  --text: #eff8ff;
+  --muted: #91abc5;
+}
+
+html {
+  background: #030711;
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -12%,
+      #174a72 0%,
+      #0a1b30 28%,
+      #030711 68%);
+  background-attachment: fixed;
+  letter-spacing: .01em;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: .12;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 3px,
+      #5dcaff 4px,
+      transparent 5px
+    );
+}
+
+header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding:
+    calc(22px + env(safe-area-inset-top))
+    20px 22px;
+  border-bottom: 1px solid #45bfff66;
+  background:
+    linear-gradient(
+      115deg,
+      #071525f2,
+      #0b2743e8 55%,
+      #06101ff5
+    );
+  box-shadow: 0 12px 36px #0008;
+}
+
+header:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 230px;
+  height: 230px;
+  right: -95px;
+  top: -135px;
+  border: 1px solid #55caff55;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 18px #55caff08,
+    0 0 0 38px #55caff06,
+    0 0 48px #168aff22;
+}
+
+header:after {
+  content: "SYSTEM // HUNTER INTERFACE";
+  display: block;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #3987b655;
+  color: #64cfff;
+  font: 700 9px/1.2 monospace;
+  letter-spacing: 2.2px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 3.2px;
+  text-shadow: 0 0 14px #3cbcff99;
+}
+
+.hero {
+  font-size: clamp(25px, 7vw, 39px);
+  line-height: 1.02;
+  letter-spacing: 1.5px;
+  margin: 12px 0 9px;
+  text-shadow: 0 0 22px #168aff33;
+}
+
+.sub {
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+main {
+  max-width: 760px;
+  padding: 17px 14px 26px;
+}
+
+.tabs {
+  gap: 7px;
+  padding: 9px 14px 11px;
+  top: 0;
+  background: #030914ef;
+  border-bottom: 1px solid #28618a66;
+  backdrop-filter: blur(18px);
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  border: 1px solid #24577e88;
+  background: linear-gradient(180deg, #10243a, #071321);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 11px;
+  letter-spacing: .02em;
+  transition: .2s;
+}
+
+.tab.active {
+  background: linear-gradient(180deg, #15517b, #0b2b49);
+  border-color: #65d7ff;
+  box-shadow:
+    inset 0 0 16px #2bbaff22,
+    0 0 16px #168aff33;
+  color: #f4fbff;
+}
+
+.card {
+  position: relative;
+  background: linear-gradient(145deg, #0d2036ed, #06101ff5);
+  border: 1px solid #2876a8aa;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 13px;
+  box-shadow:
+    inset 0 1px #b9edff0d,
+    0 10px 28px #0005;
+}
+
+.card h2 {
+  font-size: clamp(20px, 5vw, 27px);
+  line-height: 1.15;
+}
+
+.stats {
+  gap: 9px;
+}
+
+.stat {
+  min-width: 0;
+  background: linear-gradient(145deg, #10263d, #091626);
+  border: 1px solid #24577e99;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: inset 0 1px #d5f4ff0a;
+}
+
+.stat small {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.stat strong {
+  font-size: clamp(16px, 4.5vw, 21px);
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.xpbar {
+  height: 9px;
+  background: #142a40;
+  border: 1px solid #244766;
+  box-shadow: inset 0 1px 4px #0008;
+}
+
+.xpbar span {
+  background: linear-gradient(
+    90deg,
+    #087bdb,
+    #42caff,
+    #c0f5ff
+  );
+  box-shadow: 0 0 12px #3bbdff99;
+}
+
+.tag,
+.pill {
+  border-color: #3286b8;
+  color: #a9e8ff;
+  background: #0b2940;
+}
+
+.primary {
+  background: linear-gradient(
+    105deg,
+    #0875c8,
+    #16aee7 55%,
+    #55d9ff
+  );
+  box-shadow:
+    0 0 18px #168aff44,
+    inset 0 1px #ffffff55;
+  border: 1px solid #8ae4ff66;
+}
+
+.secondary,
+.mini-btn {
+  background: linear-gradient(180deg, #12304b, #091a2d);
+  border-color: #347eaa;
+  color: #b8efff;
+}
+
+.workout,
+.campaign-step,
+.recipe,
+.guide-block {
+  background: linear-gradient(145deg, #0b1e32, #06111f);
+  border-color: #245b82;
+}
+
+.workout h3 {
+  font-size: 13px;
+}
+
+.bottom {
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  background: #030914ed;
+  border-top: 1px solid #3c9bd277;
+  box-shadow: 0 -8px 28px #0008;
+  backdrop-filter: blur(22px);
+}
+
+.bottom button {
+  font-size: 10px;
+  letter-spacing: .02em;
+}
+
+.bottom button span {
+  font-size: 20px;
+  text-shadow: 0 0 12px #55caff44;
+}
+
+.bottom button.active {
+  color: #6bd7ff;
+  text-shadow: 0 0 12px #168aff77;
+}
+
+.notice,
+.safety-note {
+  border-color: #4ba8d3;
+  background: linear-gradient(110deg, #102b43, #0a1a2b);
+  color: #d4efff;
+}
+
+.field {
+  background: #061321;
+  border-color: #2b638b;
+}
+
+.model-card {
+  background: linear-gradient(150deg, #102b49, #07101d 75%);
+  border-color: #3279a8;
+}
+
+.raid-card {
+  box-shadow:
+    inset 0 0 36px #168aff12,
+    0 10px 30px #0006;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 430px) {
+  header {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 11px;
+  }
+
+  .tabs {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .tab {
+    padding: 9px 11px;
+  }
+
+  .card {
+    padding: 13px;
+  }
+
+  .bottom button span {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card,
+  .stat,
+  .workout {
+    transition:
+      border-color .2s,
+      box-shadow .2s,
+      transform .2s;
+  }
+
+  .card:active,
+  .stat:active {
+    border-color: #65d7ff;
+    box-shadow: 0 0 18px #168aff22;
+  }
+
+  .tab:active,
+  .primary:active,
+  .secondary:active {
+    transform: translateY(1px);
+  }
+}
+
+/* END AWAKENING 5.1 VISUAL UPDATE */
+
 </style>
 </head>
 <body>
