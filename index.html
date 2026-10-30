@@ -867,7 +867,66 @@ function totalStats(){let o={strength:state.stats.strength,agility:state.stats.a
 function spend(k){if(state.stats.points<1)return alert('Нет свободных очков. Повышай уровень или выполняй испытания.');state.stats[k]++;state.stats.points--;save()}
 function claimWeekly(){let n=state.history.length;if(n<4)return alert('Нужно завершить ещё '+(4-n)+' квеста.');let wk=new Date().getFullYear()+'-'+Math.ceil((((new Date())-new Date(new Date().getFullYear(),0,1))/86400000+new Date(new Date().getFullYear(),0,1).getDay()+1)/7);if(state.claimed[wk])return alert('Награда за эту неделю уже получена.');state.claimed[wk]=true;state.xp+=150;state.stats.points++;save();alert('Испытание пройдено: +150 XP и +1 очко характеристик!')}
 function renderCharacter(){let st=totalStats(),names={strength:'Сила',agility:'Ловкость',endurance:'Выносливость'};document.getElementById('statpoints').textContent=state.stats.points;document.getElementById('power').textContent=st.strength*3+st.agility*2+st.endurance*2+level();document.getElementById('statrows').innerHTML=Object.keys(names).map(k=>`<div class="statline"><b>${names[k]}</b><div class="xpbar"><span style="width:${Math.min(100,st[k]*5)}%"></span></div><small>${st[k]}</small><button class="mini-btn" onclick="spend('${k}')">+1</button></div>`).join('');let n=state.history.length;document.getElementById('weeklybar').style.width=Math.min(100,n/4*100)+'%';document.getElementById('weeklytext').textContent=Math.min(4,n)+'/4 завершённых квестов для испытания';let ach=[['first','⚔','Первый шаг','Заверши первый квест',n>=1],['streak','🔥','В ритме','Достигни серии 3 дня',state.streak>=3],['five','✦','Проверенный охотник','Заверши 5 квестов',n>=5],['rank','♛','Пробуждение','Достигни ранга D',rank()!=='E'],['weight','◈','Внимание к деталям','Запиши вес',state.weights.length>0],['level10','★','Новый уровень','Достигни 10 уровня',level()>=10]];document.getElementById('achievements').innerHTML=ach.map(a=>`<div class="achievement ${a[4]?'':'locked'}"><span class="medal">${a[1]}</span><div><b>${a[2]}</b><div class="muted">${a[3]}</div></div><span style="margin-left:auto">${a[4]?'✓':'🔒'}</span></div>`).join('')}
-function renderShadows(){let n=state.history.length;document.getElementById('shadowlist').innerHTML=shadows.map(x=>{let open=n>=x.req,lv=Number(state.shadowLevels[x.id]||1),skill=Number(state.shadowSkills[x.id]||0);return `<div class="model-card" style="--glow:${x.glow}44"><img class="model-portrait" src="${x.image}" alt="Портрет: ${x.name}" loading="lazy" style="--glow:${x.glow}"><div class="model-name rarity-${x.rarity}">${x.name}</div><div class="model-sub">${x.role} · ${x.rarity.toUpperCase()} · ур. ${lv}</div><div class="model-stats"><div class="model-stat">Сила<b>${x.stats.strength+Math.max(0,lv-1)*3}</b></div><div class="model-stat">Ловкость<b>${x.stats.agility+Math.max(0,lv-1)*2}</b></div><div class="model-stat">Выносливость<b>${x.stats.endurance+Math.max(0,lv-1)*3}</b></div><div class="model-stat">Условие<b>${x.req} квестов</b></div></div><div class="model-skill"><b>Навык:</b> ${x.skill}<br><b>Усиление навыка:</b> ${skill}/3</div><div class="muted">${x.desc}</div><div class="pill">${open?'ПРОБУЖДЕНА':'🔒 ЗАБЛОКИРОВАНА'}</div>${open?`<button class="secondary" style="width:100%;margin-top:8px" onclick="trainShadow('${x.id}')">Усилить тень · 2 осколка</button><button class="secondary" style="width:100%;margin-top:6px" onclick="upgradeShadowSkill('${x.id}')">Улучшить навык · 1 руна</button>`:''}</div>`}).join('')}
+
+function openShadowDetails(id){
+ const x=shadows.find(s=>s.id===id);
+ if(!x)return;
+
+ const n=state.history.length;
+ const unlocked=n>=x.req;
+ const lv=Number(state.shadowLevels[x.id]||1);
+ const skill=Number(state.shadowSkills[x.id]||0);
+
+ openDetail(`
+  <h2 class="model-name rarity-${x.rarity}">${x.name}</h2>
+
+  <img src="${x.image}" alt="${x.name}">
+
+  <div class="model-sub">
+   ${x.role} · ${x.rarity.toUpperCase()} · УРОВЕНЬ ${lv}
+  </div>
+
+  <div class="model-stats">
+   <div class="model-stat">
+    Сила<b>${x.stats.strength+Math.max(0,lv-1)*3}</b>
+   </div>
+   <div class="model-stat">
+    Ловкость<b>${x.stats.agility+Math.max(0,lv-1)*2}</b>
+   </div>
+   <div class="model-stat">
+    Выносливость<b>${x.stats.endurance+Math.max(0,lv-1)*3}</b>
+   </div>
+   <div class="model-stat">
+    Условие<b>${x.req} квестов</b>
+   </div>
+  </div>
+
+  <div class="model-skill">
+   <b>Навык:</b> ${x.skill}<br>
+   <b>Усиление навыка:</b> ${skill}/3
+  </div>
+
+  <p>${x.desc}</p>
+
+  <div class="pill">
+   ${unlocked?'ПРОБУЖДЕНА':'🔒 ЗАБЛОКИРОВАНА'}
+  </div>
+
+  ${unlocked?`
+   <button class="secondary" style="width:100%;margin-top:12px"
+    onclick="trainShadow('${x.id}');openShadowDetails('${x.id}')">
+    Усилить тень · 2 осколка
+   </button>
+
+   <button class="secondary" style="width:100%;margin-top:6px"
+    onclick="upgradeShadowSkill('${x.id}');openShadowDetails('${x.id}')">
+    Улучшить навык · 1 руна
+   </button>
+  `:''}
+ `);
+}
+
+  function renderShadows(){let n=state.history.length;document.getElementById('shadowlist').innerHTML=shadows.map(x=>{let open=n>=x.req,lv=Number(state.shadowLevels[x.id]||1),skill=Number(state.shadowSkills[x.id]||0);return `<div class="model-card" style="--glow:${x.glow}44"><img class="model-portrait" src="${x.image}" alt="Портрет: ${x.name}" loading="lazy" style="--glow:${x.glow}"><div class="model-name rarity-${x.rarity}">${x.name}</div><div class="model-sub">${x.role} · ${x.rarity.toUpperCase()} · ур. ${lv}</div><div class="model-stats"><div class="model-stat">Сила<b>${x.stats.strength+Math.max(0,lv-1)*3}</b></div><div class="model-stat">Ловкость<b>${x.stats.agility+Math.max(0,lv-1)*2}</b></div><div class="model-stat">Выносливость<b>${x.stats.endurance+Math.max(0,lv-1)*3}</b></div><div class="model-stat">Условие<b>${x.req} квестов</b></div></div><div class="model-skill"><b>Навык:</b> ${x.skill}<br><b>Усиление навыка:</b> ${skill}/3</div><div class="muted">${x.desc}</div><div class="pill">${open?'ПРОБУЖДЕНА':'🔒 ЗАБЛОКИРОВАНА'}</div>${open?`<button class="secondary" style="width:100%;margin-top:8px" onclick="trainShadow('${x.id}')">Усилить тень · 2 осколка</button><button class="secondary" style="width:100%;margin-top:6px" onclick="upgradeShadowSkill('${x.id}')">Улучшить навык · 1 руна</button>`:''}</div>`}).join('')}
 function isGearUnlocked(g){return (!g.reqLevel||level()>=g.reqLevel)&&(!g.reqQuests||state.history.length>=g.reqQuests)}
   function openGearDetails(id){
  const g=gear.find(x=>x.id===id);
