@@ -714,20 +714,20 @@ main {
 </main>
 
 <nav class="bottom">
-  <button class="active" onclick="go('home')">
-    <span>◈</span>Статус
+  <button class="active" data-main="home" onclick="go('home')">
+    <span>⌂</span>ГЛАВНАЯ
   </button>
-  <button onclick="go('quests')">
-    <span>⚔</span>Квесты
+  <button data-main="quests" onclick="go('quests')">
+    <span>⚔</span>КВЕСТЫ
   </button>
-  <button onclick="go('atlas')">
-    <span>▦</span>Атлас
+  <button data-main="boss" onclick="go('boss')">
+    <span>✧</span>РАЗЛОМЫ
   </button>
-  <button onclick="go('progress')">
-    <span>↗</span>Прогресс
+  <button data-main="inventory" onclick="go('inventory')">
+    <span>⚒</span>АРСЕНАЛ
   </button>
-  <button onclick="openNavMenu()">
-    <span>☰</span>Ещё
+  <button data-main="profile" onclick="go('profile')">
+    <span>◈</span>СИСТЕМА
   </button>
 </nav>
 
