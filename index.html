@@ -678,6 +678,14 @@ main {
 </div>
 <script>
 function openArt(src,title){const m=document.getElementById('artModal');document.getElementById('artModalImage').src=src;document.getElementById('artModalCaption').textContent=title;m.classList.add('open')}
+ function openDetail(content){
+ document.getElementById('detailContent').innerHTML=content;
+ document.getElementById('detailModal').classList.add('open');
+}
+
+function closeDetail(){
+ document.getElementById('detailModal').classList.remove('open');
+} 
 function closeArt(){document.getElementById('artModal').classList.remove('open')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeArt()});
 
