@@ -668,6 +668,14 @@ main {
   </div>
 </div>
 <div id="artModal" class="art-modal" onclick="if(event.target===this)closeArt()"><button class="art-close" onclick="closeArt()">Закрыть ✕</button><img id="artModalImage" alt="Увеличенная иллюстрация"><div id="artModalCaption" style="position:absolute;bottom:18px;left:18px;right:18px;text-align:center;color:#bceaff;font-weight:800"></div></div>
+  <div id="detailModal" class="detail-modal"
+ onclick="if(event.target===this)closeDetail()">
+ <div class="detail-window">
+  <div id="detailContent"></div>
+  <button class="secondary detail-close"
+   onclick="closeDetail()">Закрыть ✕</button>
+ </div>
+</div>
 <script>
 function openArt(src,title){const m=document.getElementById('artModal');document.getElementById('artModalImage').src=src;document.getElementById('artModalCaption').textContent=title;m.classList.add('open')}
 function closeArt(){document.getElementById('artModal').classList.remove('open')}
