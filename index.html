@@ -884,7 +884,6 @@ state.resources.lastRecovery=Number(state.resources.lastRecovery)||Date.now();
 function maxPlayerHP(){let st=totalStats();return 100+level()*10+st.endurance*15}
 function maxPlayerMP(){let st=totalStats();return 50+level()*5+st.agility*3}
 function initPlayerResources(){let hp=maxPlayerHP(),mp=maxPlayerMP();if(state.resources.hp===null)state.resources.hp=hp;if(state.resources.mp===null)state.resources.mp=mp;state.resources.hp=Math.max(0,Math.min(hp,state.resources.hp));state.resources.mp=Math.max(0,Math.min(mp,state.resources.mp))}
-initPlayerResources();
 if(!state.start) state.start=new Date().toISOString().slice(0,10);
 let selectedDay=new Date().getDay(); // Sunday=0
 let idx=selectedDay===0?6:selectedDay-1;
