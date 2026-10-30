@@ -883,7 +883,17 @@ state.resources.lastRecovery=Number(state.resources.lastRecovery)||Date.now();
 
 function maxPlayerHP(){let st=totalStats();return 100+level()*10+st.endurance*15}
 function maxPlayerMP(){let st=totalStats();return 50+level()*5+st.agility*3}
-function initPlayerResources(){let hp=maxPlayerHP(),mp=maxPlayerMP();if(state.resources.hp===null)state.resources.hp=hp;if(state.resources.mp===null)state.resources.mp=mp;state.resources.hp=Math.max(0,Math.min(hp,state.resources.hp));state.resources.mp=Math.max(0,Math.min(mp,state.resources.mp))}
+function recoverPlayerResources(){
+ let now=Date.now(),last=Number(state.resources.lastRecovery)||now;
+ let intervals=Math.floor((now-last)/300000);
+ if(intervals<1)return false;
+ let hp=maxPlayerHP(),mp=maxPlayerMP();
+ state.resources.hp=Math.min(hp,state.resources.hp+Math.max(1,Math.floor(hp*0.01))*intervals);
+ state.resources.mp=Math.min(mp,state.resources.mp+Math.max(1,Math.floor(mp*0.01))*intervals);
+ state.resources.lastRecovery=last+intervals*300000;
+ return true;
+}
+  function initPlayerResources(){let hp=maxPlayerHP(),mp=maxPlayerMP();if(state.resources.hp===null)state.resources.hp=hp;if(state.resources.mp===null)state.resources.mp=mp;state.resources.hp=Math.max(0,Math.min(hp,state.resources.hp));state.resources.mp=Math.max(0,Math.min(mp,state.resources.mp))}
 if(!state.start) state.start=new Date().toISOString().slice(0,10);
 let selectedDay=new Date().getDay(); // Sunday=0
 let idx=selectedDay===0?6:selectedDay-1;
@@ -1447,7 +1457,12 @@ renderQuests=function(){originalRenderQuests();let advice=document.getElementByI
 const originalRenderAll=renderAll;
 renderAll=function(){originalRenderAll();renderAwakeningExtras()};
 
-function renderAll(){renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile()}
+function renderAll(){
+ if(recoverPlayerResources()){
+  try{localStorage.setItem("hunterState",JSON.stringify(state))}catch(e){}
+ }
+ renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile()
+}
 renderAll();
 if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script>
