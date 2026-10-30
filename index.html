@@ -965,7 +965,36 @@ function closeNavMenu(){
 function dayKey(i){return "d"+i}
 function renderPersonalSettings(){let p=state.personalization||(state.personalization={goal:"Сила + масса",weight:"",targetWeight:"",height:"",weeklyGoal:4,trainingLevel:"Начинающий",gear:["Гантели","Турник"],notes:""});const fields={personalGoal:p.goal||"Сила + масса",personalWeight:p.weight??"",targetWeight:p.targetWeight??"",personalHeight:p.height??"",weeklyGoal:String(p.weeklyGoal||4),trainingLevel:p.trainingLevel||"Начинающий",personalNotes:p.notes||""};Object.entries(fields).forEach(([id,v])=>{let el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=v});document.querySelectorAll('input[name="personalGear"]').forEach(el=>el.checked=(p.gear||[]).includes(el.value));let summary=[];if(p.weight)summary.push("вес "+p.weight+" кг");if(p.targetWeight)summary.push("цель "+p.targetWeight+" кг");if(p.height)summary.push("рост "+p.height+" см");summary.push((p.weeklyGoal||4)+" тренировок/нед.");document.getElementById("personalSummary").textContent=summary.length?"Профиль: "+summary.join(" · ")+". Уровень: "+(p.trainingLevel||"Начинающий")+".":"Заполни профиль, чтобы видеть свою цель."}
 function savePersonalSettings(){let val=id=>document.getElementById(id).value.trim(),weight=val("personalWeight"),target=val("targetWeight"),height=val("personalHeight");for(let [name,v,min,max] of [["Текущий вес",weight,30,300],["Целевой вес",target,30,300],["Рост",height,100,250]])if(v&&(Number(v)<min||Number(v)>max||!Number.isFinite(Number(v))))return alert("Проверь поле «"+name+"». Введи корректное значение.");state.personalization={goal:val("personalGoal"),weight:weight?Number(weight):"",targetWeight:target?Number(target):"",height:height?Number(height):"",weeklyGoal:Number(val("weeklyGoal"))||4,trainingLevel:val("trainingLevel"),gear:[...document.querySelectorAll('input[name="personalGear"]:checked')].map(e=>e.value),notes:val("personalNotes")};save();alert("Персональные настройки сохранены!")}
-function renderHome(){renderPersonalSettings();document.getElementById("rank").textContent=rank();document.getElementById("level").textContent=level();document.getElementById("xp").textContent=state.xp;document.getElementById("xp2").textContent=state.xp;document.getElementById("nextxp").textContent=100-(state.xp%100);document.getElementById("xpfill").style.width=(state.xp%100)+"%";document.getElementById("daynum").textContent=Math.min(28,Math.max(1,Math.floor((Date.now()-new Date(state.start).getTime())/86400000)+1));document.getElementById("streak").textContent=state.streak;document.getElementById("todayname").textContent=plan[idx].name;document.getElementById("todaydesc").textContent=plan[idx].desc;document.getElementById("todayxp").textContent="+"+plan[idx].xp+" XP";let p=state.personalization||{};document.getElementById("goalstat").textContent=p.goal||"Не задана";document.getElementById("gearstat").textContent=(p.gear||[]).join(" / ")||"Не указано";document.getElementById("weightstat").textContent=p.weight?(p.targetWeight?`${p.weight} → ${p.targetWeight} кг`:`${p.weight} кг`):"Не задан"}
+function renderHome(){
+ renderPersonalSettings();
+
+ document.getElementById("rank").textContent=rank();
+ document.getElementById("level").textContent=level();
+ document.getElementById("xp").textContent=state.xp;
+ document.getElementById("xp2").textContent=state.xp;
+ document.getElementById("nextxp").textContent=100-(state.xp%100);
+ document.getElementById("xpfill").style.width=(state.xp%100)+"%";
+ document.getElementById("daynum").textContent=Math.min(28,Math.max(1,Math.floor((Date.now()-new Date(state.start).getTime())/86400000)+1));
+ document.getElementById("streak").textContent=state.streak;
+ document.getElementById("todayname").textContent=plan[idx].name;
+ document.getElementById("todaydesc").textContent=plan[idx].desc;
+ document.getElementById("todayxp").textContent="+"+plan[idx].xp+" XP";
+
+ let hpMax=maxPlayerHP();
+ let mpMax=maxPlayerMP();
+ let hp=Math.max(0,Math.min(hpMax,Number(state.resources.hp)||0));
+ let mp=Math.max(0,Math.min(mpMax,Number(state.resources.mp)||0));
+
+ document.getElementById("homeHP").textContent=hp+" / "+hpMax;
+ document.getElementById("homeMP").textContent=mp+" / "+mpMax;
+ document.getElementById("homeHPFill").style.width=(hpMax?hp/hpMax*100:0)+"%";
+ document.getElementById("homeMPFill").style.width=(mpMax?mp/mpMax*100:0)+"%";
+
+ let p=state.personalization||{};
+ document.getElementById("goalstat").textContent=p.goal||"Не задана";
+ document.getElementById("gearstat").textContent=(p.gear||[]).join(" / ")||"Не указано";
+ document.getElementById("weightstat").textContent=p.weight?(p.targetWeight?`${p.weight} → ${p.targetWeight} кг`:`${p.weight} кг`):"Не задан";
+}
 function adaptiveTask(task){
  let t=[...task], name=t[0], p=state.personalization||{}, gear=p.gear||[], has=x=>gear.includes(x), noWeights=!has('Гантели')&&!has('Штанга')&&!has('Тренажёры'), note='';
  const swap=(n,pr,tech,muscle,err)=>{t[0]=n;t[1]=pr;t[2]=tech;t[3]=muscle;t[4]=err;note='Вариант подобран под доступное оборудование.'};
