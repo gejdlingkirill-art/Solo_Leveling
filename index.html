@@ -910,7 +910,35 @@ function isGearUnlocked(g){return (!g.reqLevel||level()>=g.reqLevel)&&(!g.reqQue
   </button>
  `);
 }
-function renderInventory(){document.getElementById('equipmentbonus').textContent='Активный бонус: +'+currentGearXpBonus()+'% XP. Характеристики экипировки добавляются к твоим статам; это игровые значения.';document.getElementById('inventorylist').innerHTML=[['weapon','⚔ ОРУЖИЕ'],['armor','⬡ БРОНЯ'],['accessory','◇ АКСЕССУАРЫ']].map(([slot,title])=>`<div class="model-section">${title}</div><div class="model-grid">`+gear.filter(g=>g.slot===slot).map(g=>{let unlocked=isGearUnlocked(g),eq=state.equipped[slot]===g.id;let bonus=Object.entries(g.bonus).map(([k,v])=>({strength:'Сила',agility:'Ловкость',endurance:'Выносливость'}[k]+' +'+v)).join(' · ');return `<div class="model-card" style="--glow:${g.glow}44"><img class="gear-portrait" src="${g.image}" alt="${g.name}" loading="lazy"><div class="model-name rarity-${g.rarity}">${g.name}</div><div class="model-sub">${g.rarity.toUpperCase()} · ${g.slot==='weapon'?'оружие':g.slot==='armor'?'броня':'аксессуар'} · +${Number(state.gearUpgrades[g.id]||0)}</div>${g.damage?`<div class="model-stat">Урон<b>${g.damage}</b></div>`:''}${g.defense?`<div class="model-stat">Защита<b>${g.defense}</b></div>`:''}<div class="model-skill">${bonus}<br>+${g.xpBonus}% XP</div><div class="muted">${g.passive}</div><div class="pill">${unlocked?'ДОСТУПНО':g.reqLevel?'Нужен уровень '+g.reqLevel:'Нужно '+g.reqQuests+' квестов'}</div><button class="${eq?'primary':'secondary'}" style="width:100%;margin-top:8px" ${!unlocked?'disabled':''} onclick="equip('${slot}','${g.id}')">${!unlocked?'Заблокировано':eq?'Экипировано ✓':'Экипировать'}</button></div>`}).join('')+'</div>').join('')}
+
+function renderInventory(){
+ document.getElementById('equipmentbonus').textContent='Активный бонус: +'+currentGearXpBonus()+'% XP. Характеристики экипировки добавляются к твоим статам; это игровые значения.';
+
+ document.getElementById('inventorylist').innerHTML=[
+  ['weapon','⚔ ОРУЖИЕ'],
+  ['armor','⬡ БРОНЯ'],
+  ['accessory','◇ АКСЕССУАРЫ']
+ ].map(([slot,title])=>`
+  <div class="model-section">${title}</div>
+  <div class="compact-grid">
+   ${gear.filter(g=>g.slot===slot).map(g=>{
+    const unlocked=isGearUnlocked(g);
+    const eq=state.equipped[slot]===g.id;
+
+    return `
+     <div class="compact-card" onclick="openGearDetails('${g.id}')">
+      <img src="${g.image}" alt="${g.name}" loading="lazy">
+      <div class="compact-info">
+       <b class="rarity-${g.rarity}">${g.name}</b>
+       <small>${eq?'✓ ЭКИПИРОВАНО':unlocked?'ДОСТУПНО':'🔒 ЗАБЛОКИРОВАНО'}</small>
+      </div>
+     </div>
+    `;
+   }).join('')}
+  </div>
+ `).join('');
+}
+
 function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
 function saveRecord(){let n=document.getElementById('recordname').value.trim(),v=document.getElementById('recordvalue').value.trim();if(!n||!v)return alert('Введи упражнение и результат.');state.records[n]={value:v,date:new Date().toLocaleDateString('ru-RU')};document.getElementById('recordname').value='';document.getElementById('recordvalue').value='';save()}
 function renderRecords(){let r=Object.entries(state.records||{});document.getElementById('recordlist').innerHTML=r.length?r.map(([n,x])=>`<div class="dayrow"><span class="daybadge">★</span><div><b>${n}</b><div class="muted">${x.date}</div></div><strong style="color:var(--blue)">${x.value}</strong></div>`).join(''):'<p class="muted">Пока нет записей. Добавь первый личный рекорд.</p>'}
