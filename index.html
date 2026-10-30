@@ -643,8 +643,41 @@ function save(){
 }
 function rank(){let x=state.xp;return x>=7500?"S":x>=5000?"A":x>=3000?"B":x>=1500?"C":x>=500?"D":"E"}
 function level(){return Math.floor(state.xp/100)+1}
-function go(page){document.querySelectorAll(".page").forEach(e=>e.classList.toggle("hidden",e.id!==page));document.querySelectorAll("[data-page]").forEach(e=>e.classList.toggle("active",e.dataset.page===page));window.scrollTo({top:0,behavior:"smooth"})}
-document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+function go(page){
+  document.querySelectorAll(".page").forEach(e=>{
+    e.classList.toggle("hidden",e.id!==page);
+  });
+
+  document.querySelectorAll(".bottom button").forEach(e=>{
+    e.classList.remove("active");
+  });
+
+  const menuButtons=document.querySelectorAll(".bottom button");
+  const mainPages=["home","quests","atlas","progress"];
+  const index=mainPages.indexOf(page);
+
+  if(index!==-1){
+    menuButtons[index].classList.add("active");
+  }
+
+  closeNavMenu();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function openNavMenu(){
+  document.getElementById("navMenu").classList.add("open");
+}
+
+function closeNavMenu(){
+  const menu=document.getElementById("navMenu");
+  if(menu){
+    menu.classList.remove("open");
+  }
+}
 function dayKey(i){return "d"+i}
 function renderPersonalSettings(){let p=state.personalization||(state.personalization={goal:"Сила + масса",weight:"",targetWeight:"",height:"",weeklyGoal:4,trainingLevel:"Начинающий",gear:["Гантели","Турник"],notes:""});const fields={personalGoal:p.goal||"Сила + масса",personalWeight:p.weight??"",targetWeight:p.targetWeight??"",personalHeight:p.height??"",weeklyGoal:String(p.weeklyGoal||4),trainingLevel:p.trainingLevel||"Начинающий",personalNotes:p.notes||""};Object.entries(fields).forEach(([id,v])=>{let el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=v});document.querySelectorAll('input[name="personalGear"]').forEach(el=>el.checked=(p.gear||[]).includes(el.value));let summary=[];if(p.weight)summary.push("вес "+p.weight+" кг");if(p.targetWeight)summary.push("цель "+p.targetWeight+" кг");if(p.height)summary.push("рост "+p.height+" см");summary.push((p.weeklyGoal||4)+" тренировок/нед.");document.getElementById("personalSummary").textContent=summary.length?"Профиль: "+summary.join(" · ")+". Уровень: "+(p.trainingLevel||"Начинающий")+".":"Заполни профиль, чтобы видеть свою цель."}
 function savePersonalSettings(){let val=id=>document.getElementById(id).value.trim(),weight=val("personalWeight"),target=val("targetWeight"),height=val("personalHeight");for(let [name,v,min,max] of [["Текущий вес",weight,30,300],["Целевой вес",target,30,300],["Рост",height,100,250]])if(v&&(Number(v)<min||Number(v)>max||!Number.isFinite(Number(v))))return alert("Проверь поле «"+name+"». Введи корректное значение.");state.personalization={goal:val("personalGoal"),weight:weight?Number(weight):"",targetWeight:target?Number(target):"",height:height?Number(height):"",weeklyGoal:Number(val("weeklyGoal"))||4,trainingLevel:val("trainingLevel"),gear:[...document.querySelectorAll('input[name="personalGear"]:checked')].map(e=>e.value),notes:val("personalNotes")};save();alert("Персональные настройки сохранены!")}
