@@ -1582,7 +1582,28 @@ const recipes=[
 function canPay(cost){return Object.entries(cost).every(([k,v])=>(state.materials[k]||0)>=v)}
 function pay(cost){Object.entries(cost).forEach(([k,v])=>state.materials[k]-=v)}
 function renderCraft(){let m=state.materials;document.getElementById('matshards').textContent=m.shards;document.getElementById('matcrystals').textContent=m.crystals;document.getElementById('matrunes').textContent=m.runes;document.getElementById('craftrecipes').innerHTML=recipes.map(r=>{let ok=canPay(r.cost),cost=Object.entries(r.cost).filter(x=>x[1]).map(([k,v])=>({shards:'осколок',crystals:'кристалл',runes:'руна'}[k]+' ×'+v).replace('осколок ×','осколок ×')).join(', ');return `<div class="recipe"><h4>${r.title}</h4><p class="muted">${r.desc}</p><div class="muted">Стоимость: ${cost||'без затрат'}</div><button class="secondary" style="width:100%;margin-top:8px" ${!ok?'disabled':''} onclick="craftRecipe('${r.id}')">Создать</button></div>`}).join('');let equipped=Object.entries(state.equipped).filter(([slot,id])=>id);document.getElementById('upgradepanel').innerHTML=equipped.length?equipped.map(([slot,id])=>{let g=gear.find(x=>x.id===id);if(!g)return '';let lv=Number(state.gearUpgrades[id]||0),cost={shards:2+lv,crystals:lv>=2?1:0,runes:lv>=4?1:0},ok=canPay(cost);return `<div class="recipe"><h4>${g.name} · улучшение +${lv}</h4><p class="muted">${g.passive}</p><div class="muted">Следующий уровень: +1 к игровому бонусу предмета. Стоимость: ${cost.shards} осколка${cost.crystals?' · '+cost.crystals+' кристалл':''}${cost.runes?' · '+cost.runes+' руна':''}</div><button class="secondary" style="width:100%;margin-top:8px" ${!ok?'disabled':''} onclick="upgradeGear('${g.id}')">Улучшить</button></div>`}).join(''):'<p class="muted">Сначала экипируй предмет во вкладке «Инвентарь».</p>'}
-function craftRecipe(id){let r=recipes.find(x=>x.id===id);if(!r||!canPay(r.cost))return alert('Недостаточно материалов. Выполняй квесты или забирай сюжетные награды.');pay(r.cost);Object.entries(r.gain).forEach(([k,v])=>state.materials[k]+=v);state.crafted.push({id,date:new Date().toISOString()});save();alert('Рецепт создан.')}
+function craftRecipe(id){
+ let r=recipes.find(x=>x.id===id);
+ if(!r||!canPay(r.cost))return alert('Недостаточно материалов. Выполняй квесты или забирай сюжетные награды.');
+ pay(r.cost);
+
+ if(r.gain){
+  Object.entries(r.gain).forEach(([k,v])=>{
+   state.materials[k]=(state.materials[k]||0)+v;
+  });
+ }
+
+ if(r.potionGain){
+  state.potions=state.potions||{};
+  Object.entries(r.potionGain).forEach(([k,v])=>{
+   state.potions[k]=(Number(state.potions[k])||0)+v;
+  });
+ }
+
+ state.crafted.push({id,date:new Date().toISOString()});
+ save();
+ alert('Рецепт создан.');
+}
 function upgradeGear(id){let g=gear.find(x=>x.id===id);if(!g)return;let lv=Number(state.gearUpgrades[id]||0),cost={shards:2+lv,crystals:lv>=2?1:0,runes:lv>=4?1:0};if(!canPay(cost))return alert('Недостаточно материалов.');pay(cost);state.gearUpgrades[id]=lv+1;save();alert(g.name+' улучшен до +'+(lv+1)+'.')}
 function trainShadow(id){let s=shadows.find(x=>x.id===id);if(!s||state.history.length<s.req)return alert('Эта тень ещё закрыта.');if(state.materials.shards<2)return alert('Нужно 2 осколка разлома.');let lv=Number(state.shadowLevels[id]||1);if(lv>=10)return alert('Тень достигла максимального уровня 10.');state.materials.shards-=2;state.shadowLevels[id]=lv+1;save();alert(s.name+' повышает уровень до '+(lv+1)+'.')}
 function upgradeShadowSkill(id){let s=shadows.find(x=>x.id===id);if(!s||state.history.length<s.req)return alert('Эта тень ещё закрыта.');let lv=Number(state.shadowSkills[id]||0);if(lv>=3)return alert('Навык уже улучшен до максимума.');if(state.materials.runes<1)return alert('Нужна 1 руна. Получи её из сюжетной главы или полного силового квеста.');state.materials.runes--;state.shadowSkills[id]=lv+1;save();alert('Навык тени усилен до '+(lv+1)+'/3.')}
