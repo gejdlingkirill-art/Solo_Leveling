@@ -1460,7 +1460,54 @@ function combatAction(action){
  bt.log=log.slice(0,8);
  save();
 }
-function renderBattle(){let el=document.getElementById('battlepanel');if(!el)return;let bt=state.battle;if(!bt){el.innerHTML='<p class="muted">Выбери босса в бестиарии и нажми «Начать бой». В бою можно атаковать, защищаться или потратить руну на особый навык.</p>'+bosses.map(b=>`<button class="secondary" style="width:100%;margin:5px 0" onclick="startBossFight('${b.id}')">⚔ Вызвать: ${b.name} · ур. ${b.level}</button>`).join('');return}let b=bosses.find(x=>x.id===bt.bossId);if(!b){el.innerHTML='';return}el.innerHTML=`<div class="recipe"><div class="row"><b>Бой: ${b.name}</b><span class="tag">ХОД ${bt.turn}</span></div><img class="boss-art" style="margin-top:8px;height:160px;object-fit:cover;cursor:zoom-in" src="${b.image}" alt="${b.name}" onclick="openArt('${b.image}','${b.name}')"><p class="muted">Босс: ${Math.max(0,bt.hp).toLocaleString('ru-RU')} / ${b.hp} HP</p><div class="xpbar"><span style="width:${Math.max(0,bt.hp)/b.hp*100}%"></span></div><p class="muted">Охотник: ${Math.max(0,bt.playerHp)} HP</p><div class="xpbar"><span style="width:${Math.max(0,bt.playerHp)/Math.max(100,100+totalStats().endurance*8+level()*5)*100}%;background:linear-gradient(90deg,#14a878,#6de6bb)"></span></div>${bt.won?'<div class="notice">ПОБЕДА · Награда получена</div>':bt.lost?'<div class="notice">Поражение · начни новый бой после отдыха</div>':`<div class="smallgrid"><button class="primary" onclick="combatAction('strike')">⚔ Атаковать</button><button class="secondary" onclick="combatAction('guard')">🛡 Защищаться</button><button class="secondary" style="grid-column:1/-1" onclick="combatAction('skill')">✦ Особый навык · 1 руна</button></div>`}<div class="guide-block"><b>Журнал боя</b>${(bt.log||[]).map(x=>`<p class="muted">• ${x}</p>`).join('')}</div><button class="secondary" style="width:100%" onclick="state.battle=null;save()">Закрыть / выбрать другого босса</button></div>`}
+function renderBattle(){
+ let el=document.getElementById('battlepanel');
+ if(!el)return;
+ let bt=state.battle;
+
+ if(!bt){
+  el.innerHTML='<p class="muted">Выбери босса в бестиарии и нажми «Начать бой». В бою можно атаковать, защищаться или потратить 20 MP на особый навык.</p>'+
+  bosses.map(b=>`<button class="secondary" style="width:100%;margin:5px 0" onclick="startBossFight('${b.id}')">⚔ Вызвать: ${b.name} · ур. ${b.level}</button>`).join('');
+  return;
+ }
+
+ let b=bosses.find(x=>x.id===bt.bossId);
+ if(!b){el.innerHTML='';return}
+
+ state.resources=state.resources||{};
+ let hpMax=maxPlayerHP();
+ let mpMax=maxPlayerMP();
+ let hp=Math.max(0,Math.min(hpMax,Number(bt.playerHp)||0));
+ let mp=Math.max(0,Math.min(mpMax,Number(state.resources.mp)||0));
+ let hpPercent=hpMax?hp/hpMax*100:0;
+ let mpPercent=mpMax?mp/mpMax*100:0;
+ let bossPercent=b.hp?Math.max(0,bt.hp)/b.hp*100:0;
+
+ el.innerHTML=`<div class="recipe">
+ <div class="row"><b>Бой: ${b.name}</b><span class="tag">ХОД ${bt.turn}</span></div>
+ <img class="boss-art" style="margin-top:8px;height:160px;object-fit:cover;cursor:zoom-in" src="${b.image}" alt="${b.name}" onclick="openArt('${b.image}','${b.name}')">
+
+ <p class="muted">Босс: ${Math.max(0,bt.hp).toLocaleString('ru-RU')} / ${b.hp} HP</p>
+ <div class="xpbar"><span style="width:${bossPercent}%"></span></div>
+
+ <p class="muted">❤️ HP охотника: ${hp} / ${hpMax}</p>
+ <div class="xpbar"><span style="width:${hpPercent}%;background:linear-gradient(90deg,#14a878,#6de6bb)"></span></div>
+
+ <p class="muted">🔷 MP охотника: ${mp} / ${mpMax}</p>
+ <div class="xpbar"><span style="width:${mpPercent}%;background:linear-gradient(90deg,#2878ed,#79baff)"></span></div>
+
+ ${bt.won?'<div class="notice">ПОБЕДА · Награда получена</div>':
+ bt.lost?'<div class="notice">Поражение · начни новый бой после восстановления HP</div>':
+ `<div class="smallgrid">
+ <button class="primary" onclick="combatAction('strike')">⚔ Атаковать</button>
+ <button class="secondary" onclick="combatAction('guard')">🛡 Защищаться</button>
+ <button class="secondary" style="grid-column:1/-1" onclick="combatAction('skill')">✦ Особый навык · 20 MP</button>
+ </div>`}
+
+ <div class="guide-block"><b>Журнал боя</b>${(bt.log||[]).map(x=>`<p class="muted">• ${x}</p>`).join('')}</div>
+ <button class="secondary" style="width:100%" onclick="state.battle=null;save()">Закрыть / выбрать другого босса</button>
+ </div>`;
+}
 const storyChapters=[
 {id:'awakening',title:'Глава I — Пробуждение',req:0,xp:150,shards:2,crystals:0,runes:0,story:'Система обнаружила потенциал. Первое испытание — доказать, что ты способен действовать регулярно.'},
 {id:'gate',title:'Глава II — Синий Разлом',req:3,xp:250,shards:3,crystals:1,runes:0,story:'За пределами тренировочного зала открылся разлом. Каждое завершённое задание укрепляет твою связь с системой.'},
