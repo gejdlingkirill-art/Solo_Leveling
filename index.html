@@ -1061,19 +1061,32 @@ function openShadowDetails(id){
 
   function renderShadows(){
  let n=state.history.length;
+ let unlockedCount=shadows.filter(x=>n>=x.req).length;
 
  document.getElementById('shadowlist').innerHTML=`
-  <div class="compact-grid">
+  <div class="shadow-header">
+   <strong>${unlockedCount} / ${shadows.length}</strong>
+   <small>ТЕНЕВОЙ ЛЕГИОН · ПРОБУЖДЕНО</small>
+  </div>
+
+  <div class="shadow-collection">
    ${shadows.map(x=>{
     const unlocked=n>=x.req;
     const lv=Number(state.shadowLevels[x.id]||1);
+
     return `
-     <div class="compact-card" onclick="openShadowDetails('${x.id}')">
+     <div class="shadow-card ${unlocked?'':'locked'}"
+      onclick="openShadowDetails('${x.id}')">
+
+      <span class="shadow-rank">${x.rarity.toUpperCase()}</span>
+      <span class="shadow-state">${unlocked?'✦':'🔒'}</span>
+
       <img src="${x.image}" alt="${x.name}" loading="lazy">
-      <div class="compact-info">
+
+      <div class="shadow-card-info">
        <b class="rarity-${x.rarity}">${x.name}</b>
-       <small>${x.role} · ур. ${lv}</small>
-       <small>${unlocked?'✓ ПРОБУЖДЕНА':'🔒 ЗАБЛОКИРОВАНА'}</small>
+       <small>${x.role}</small>
+       <small>${unlocked?'УРОВЕНЬ '+lv:'ТРЕБУЕТСЯ '+x.req+' КВЕСТОВ'}</small>
       </div>
      </div>`;
    }).join('')}
