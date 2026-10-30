@@ -901,7 +901,12 @@ state.resources=state.resources||{};
 state.resources.hp=Number.isFinite(Number(state.resources.hp))?Number(state.resources.hp):null;
 state.resources.mp=Number.isFinite(Number(state.resources.mp))?Number(state.resources.mp):null;
 state.resources.lastRecovery=Number(state.resources.lastRecovery)||Date.now();
-
+// Зелья охотника — безопасное добавление к существующему сохранению
+state.potions=state.potions||{};
+state.potions.hpSmall=Math.max(0,Number(state.potions.hpSmall)||0);
+state.potions.hpLarge=Math.max(0,Number(state.potions.hpLarge)||0);
+state.potions.mp=Math.max(0,Number(state.potions.mp)||0);
+  
 function maxPlayerHP(){let st=totalStats();return 100+level()*10+st.endurance*15}
 function maxPlayerMP(){let st=totalStats();return 50+level()*5+st.agility*3}
 function recoverPlayerResources(){
