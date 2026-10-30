@@ -475,7 +475,38 @@ main {
 <div class="footer">ДИСЦИПЛИНА СЕГОДНЯ — СИЛА ЗАВТРА</div>
 </main>
 
-<nav class="bottom"><button class="active" data-page="home"><span>◈</span>Статус</button><button data-page="quests"><span>⚔</span>Квесты</button><button data-page="atlas"><span>▦</span>Атлас</button><button data-page="progress"><span>↗</span>Прогресс</button></nav>
+<nav class="bottom">
+  <button class="active" onclick="go('home')">
+    <span>◈</span>Статус
+  </button>
+  <button onclick="go('quests')">
+    <span>⚔</span>Квесты
+  </button>
+  <button onclick="go('atlas')">
+    <span>▦</span>Атлас
+  </button>
+  <button onclick="go('progress')">
+    <span>↗</span>Прогресс
+  </button>
+  <button onclick="openNavMenu()">
+    <span>☰</span>Ещё
+  </button>
+</nav>
+
+<div id="navMenu" class="nav-menu" onclick="if(event.target===this)closeNavMenu()">
+  <div class="nav-menu-panel">
+    <div class="nav-menu-head">
+      <b>СИСТЕМА ОХОТНИКА</b>
+      <button onclick="closeNavMenu()">✕</button>
+    </div>
+
+    <button onclick="go('character')">Персонаж</button>
+    <button onclick="go('profile')">Профиль</button>
+    <button onclick="go('inventory')">Инвентарь</button>
+    <button onclick="go('shadows')">Тени</button>
+    <button onclick="go('campaign')">Кампания</button>
+  </div>
+</div>
 <div id="artModal" class="art-modal" onclick="if(event.target===this)closeArt()"><button class="art-close" onclick="closeArt()">Закрыть ✕</button><img id="artModalImage" alt="Увеличенная иллюстрация"><div id="artModalCaption" style="position:absolute;bottom:18px;left:18px;right:18px;text-align:center;color:#bceaff;font-weight:800"></div></div>
 <script>
 function openArt(src,title){const m=document.getElementById('artModal');document.getElementById('artModalImage').src=src;document.getElementById('artModalCaption').textContent=title;m.classList.add('open')}
