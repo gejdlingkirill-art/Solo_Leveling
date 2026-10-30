@@ -835,26 +835,27 @@ function go(page){
     e.classList.toggle("hidden",e.id!==page);
   });
 
-  document.querySelectorAll(".bottom button").forEach(e=>{
-    e.classList.remove("active");
+  const mainPage={
+    home:"home",
+    quests:"quests",
+    atlas:"quests",
+    boss:"boss",
+    campaign:"boss",
+    inventory:"inventory",
+    shadows:"inventory",
+    craft:"inventory",
+    profile:"profile",
+    progress:"profile",
+    character:"profile"
+  };
+
+  document.querySelectorAll(".bottom [data-main]").forEach(e=>{
+    e.classList.toggle("active",e.dataset.main===mainPage[page]);
   });
-
-  const menuButtons=document.querySelectorAll(".bottom button");
-  const mainPages=["home","quests","atlas","progress"];
-  const index=mainPages.indexOf(page);
-
-  if(index!==-1){
-    menuButtons[index].classList.add("active");
-  }
 
   closeNavMenu();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function openNavMenu(){
   document.getElementById("navMenu").classList.add("open");
 }
