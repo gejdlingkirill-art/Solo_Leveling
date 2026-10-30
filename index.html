@@ -1575,14 +1575,9 @@ const recipes=[
 {id:'rune',title:'Руна усиления',desc:'Материал для улучшения навыка тени.',cost:{shards:3,crystals:1,runes:0},gain:{runes:1}},
 {id:'crystal',title:'Кристалл маны',desc:'Редкий ресурс для улучшения экипировки.',cost:{shards:2,crystals:0,runes:0},gain:{crystals:1}},
 {id:'shards',title:'Осколки разлома ×3',desc:'Базовый материал для улучшений.',cost:{shards:0,crystals:1,runes:0},gain:{shards:3}},
-
 {id:'potion_hp_small',title:'Малое зелье здоровья',desc:'Восстанавливает 25% максимального HP.',cost:{shards:2,crystals:0,runes:0},potionGain:{hpSmall:1}},
 {id:'potion_hp_large',title:'Большое зелье здоровья',desc:'Восстанавливает 50% максимального HP.',cost:{shards:4,crystals:1,runes:0},potionGain:{hpLarge:1}},
 {id:'potion_mp',title:'Зелье маны',desc:'Восстанавливает 30% максимального MP.',cost:{shards:2,crystals:1,runes:0},potionGain:{mp:1}}
-];
-{id:'rune',title:'Руна усиления',desc:'Материал для улучшения навыка тени.',cost:{shards:3,crystals:1,runes:0},gain:{runes:1}},
-{id:'crystal',title:'Кристалл маны',desc:'Редкий ресурс для улучшения экипировки.',cost:{shards:2,crystals:0,runes:0},gain:{crystals:1}},
-{id:'shards',title:'Осколки разлома ×3',desc:'Базовый материал для улучшений.',cost:{shards:0,crystals:1,runes:0},gain:{shards:3}}
 ];
 function canPay(cost){return Object.entries(cost).every(([k,v])=>(state.materials[k]||0)>=v)}
 function pay(cost){Object.entries(cost).forEach(([k,v])=>state.materials[k]-=v)}
