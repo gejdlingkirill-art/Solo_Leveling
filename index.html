@@ -987,7 +987,75 @@ function openBossDetails(id){
  `);
 }
 
-  function renderBoss(){let n=state.history.filter(h=>h.weekKey===weekKey()).length;document.getElementById('bossbar').style.width=Math.min(100,n/4*100)+'%';document.getElementById('bosscount').textContent=Math.min(4,n)+' / 4 квестов этой недели';let done=!!state.bossClaimed?.[weekKey()];document.getElementById('bossstatus').textContent=done?'Трофей этой недели уже получен.':n>=4?'Босс ослаблен — можно забрать награду!':'Продолжай выполнять квесты, чтобы заполнить шкалу.';let featured=bosses[Math.floor(Date.now()/604800000)%4];document.getElementById('bosstitle').textContent=featured.name;document.getElementById('featuredBossArt').src=featured.image;document.getElementById('bossroster').innerHTML=bosses.map(b=>{let open=state.history.length>=b.req;return `<div class="model-card boss-model-card" style="--glow:${b.glow}44"><img class="model-portrait boss-roster-art" src="${b.image}" alt="Детализированный аватар босса: ${b.name}" loading="lazy" style="--glow:${b.glow}" onclick="openArt('${b.image}','${b.name}')"><div class="model-name rarity-${b.rarity}">${b.name}</div><div class="model-sub">${b.rarity.toUpperCase()} · УРОВЕНЬ ${b.level}</div><div class="model-stats"><div class="model-stat">Здоровье<b>${b.hp.toLocaleString('ru-RU')}</b></div><div class="model-stat">Атака<b>${b.attack}</b></div><div class="model-stat">Защита<b>${b.defense}</b></div><div class="model-stat">Слабость<b>${b.weakness}</b></div></div><p class="boss-detail">${b.lore}</p><div class="model-skill"><b>Награда:</b> ${b.reward}</div><div class="pill">${open?'ДОСТУПЕН В БЕСТИАРИИ':'🔒 Требуется '+b.req+' квестов'}</div></div>`}).join('');let ranks=[['E',0],['D',500],['C',1500],['B',3000],['A',5000],['S',7500]],r=rank();document.getElementById('awakening').innerHTML=ranks.map((a,i)=>`<div class="dayrow"><span class="daybadge">${a[0]}</span><div><b>${['Пробуждение','Охотник','Закалённый','Элитный','Мастер','Монарх'][i]}</b><div class="muted">${a[1]} XP ${state.xp>=a[1]?'· достигнуто':'· требуется'}</div></div><strong>${state.xp>=a[1]?'✓':'🔒'}</strong></div>`).join('')}
+  
+function renderBoss(){
+ let n=state.history.filter(h=>h.weekKey===weekKey()).length;
+
+ document.getElementById('bossbar').style.width=Math.min(100,n/4*100)+'%';
+ document.getElementById('bosscount').textContent=Math.min(4,n)+' / 4 квестов этой недели';
+
+ let done=!!state.bossClaimed?.[weekKey()];
+
+ document.getElementById('bossstatus').textContent=
+  done?'Трофей этой недели уже получен.':
+  n>=4?'Босс ослаблен — можно забрать награду!':
+  'Продолжай выполнять квесты, чтобы заполнить шкалу.';
+
+ let featured=bosses[Math.floor(Date.now()/604800000)%4];
+
+ document.getElementById('bosstitle').textContent=featured.name;
+ document.getElementById('featuredBossArt').src=featured.image;
+
+ document.getElementById('bossroster').innerHTML=bosses.map(b=>{
+  let unlocked=state.history.length>=b.req;
+  let defeated=!!(state.bossVictories&&state.bossVictories[b.id]);
+
+  return `
+   <div class="compact-card" style="--glow:${b.glow}44"
+    onclick="openBossDetails('${b.id}')">
+
+    <img src="${b.image}" alt="${b.name}" loading="lazy">
+
+    <div class="compact-info">
+     <b class="rarity-${b.rarity}">${b.name}</b>
+
+     <small>
+      ${b.rarity.toUpperCase()} · УРОВЕНЬ ${b.level}
+     </small>
+
+     <small>
+      ${defeated?'✓ ПОБЕЖДЁН':unlocked?'ДОСТУПЕН':'🔒 ЗАБЛОКИРОВАН'}
+     </small>
+    </div>
+   </div>
+  `;
+ }).join('');
+
+ let ranks=[
+  ['E',0],
+  ['D',500],
+  ['C',1500],
+  ['B',3000],
+  ['A',5000],
+  ['S',7500]
+ ];
+
+ let r=rank();
+
+ document.getElementById('awakening').innerHTML=ranks.map((a,i)=>`
+  <div class="dayrow">
+   <span class="daybadge">${a[0]}</span>
+   <div>
+    <b>${['Пробуждение','Охотник','Закалённый','Элитный','Мастер','Монарх'][i]}</b>
+    <div class="muted">
+     ${a[1]} XP ${state.xp>=a[1]?'· достигнуто':'· требуется'}
+    </div>
+   </div>
+   <strong>${state.xp>=a[1]?'✓':'🔒'}</strong>
+  </div>
+ `).join('');
+}
+
 function weekKey(){let d=new Date(),one=new Date(d.getFullYear(),0,1),week=Math.ceil((((d-one)/86400000)+one.getDay()+1)/7);return d.getFullYear()+'-W'+week}
 function claimBoss(){state.bossClaimed=state.bossClaimed||{};let n=state.history.filter(h=>h.weekKey===weekKey()).length;if(n<4)return alert('Для победы нужно завершить 4 квеста на этой неделе.');if(state.bossClaimed[weekKey()])return alert('Трофей уже получен на этой неделе.');state.bossClaimed[weekKey()]=true;state.xp+=Math.round(250*(1+currentGearXpBonus()/100));state.stats.points++;state.materials.shards+=3;state.materials.crystals+=1;if(rank()==='A'||rank()==='S')state.materials.runes+=1;save();alert('Босс побеждён! Получено +'+Math.round(250*(1+currentGearXpBonus()/100))+' XP и +1 очко характеристик.')}
 function exportBackup(){let blob=new Blob([JSON.stringify({app:'Solo Leveling PWA',version:4,exportedAt:new Date().toISOString(),hunterState:state},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='solo-leveling-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
