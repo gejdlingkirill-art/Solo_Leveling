@@ -1025,11 +1025,20 @@ main {
   <h3 class="section-title">Управление охотником</h3>
 
   <button class="secondary" style="width:100%;margin-top:10px" onclick="go('progress')">
-    📊 Журнал прогресса
+    <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M4 19V5M4 19H21"/>
+  <path d="m7 15 4-4 3 2 5-6"/>
+  <path d="M16 7h3v3"/>
+</svg>
+Журнал прогресса
   </button>
 
   <button class="secondary" style="width:100%;margin-top:10px" onclick="go('character')">
-    ⚔ Характеристики и достижения
+    <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="m5 4 15 15M19 4 4 19"/>
+  <path d="m5 4 4 1-4 4M19 4l-4 1 4 4"/>
+</svg>
+Характеристики и достижения
   </button>
 </div>
  <div class="card">
@@ -1038,7 +1047,11 @@ main {
   <p class="muted">Управление данными охотника и резервными копиями прогресса.</p>
 
   <button class="secondary" style="width:100%;margin-top:10px" onclick="go('boss')">
-    💾 Резервная копия и восстановление
+    <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M5 3h12l3 3v15H4V3z"/>
+  <path d="M8 3v6h8V3M8 21v-7h8v7"/>
+</svg>
+Резервная копия и восстановление
   </button>
 </div>
  <div class="card"><h3 class="section-title">ЭКИПИРОВКА ПЕРСОНАЖА</h3><p class="muted">Текущие предметы, надетые на охотника. Чтобы сменить предмет, открой инвентарь.</p><div id="profileGearSlots" class="profile-slots"></div><button class="primary" style="margin-top:10px" onclick="go('inventory')">Открыть инвентарь →</button><div id="gearSetBonus" class="set-bonus"></div></div>
