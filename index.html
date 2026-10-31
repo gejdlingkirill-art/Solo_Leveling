@@ -637,7 +637,28 @@ main {
   margin:8px auto;
   border-radius:12px;
 }
-.detail-close{
+/* Ранг предмета в окне подробностей */
+.detail-window img.gear-detail-art{
+  border:1px solid var(--rank,#287eb4);
+  box-shadow:0 0 12px var(--glow,#168aff33);
+  background:radial-gradient(circle,var(--glow,#124f7c),#050b16 75%);
+  transition:box-shadow .3s ease;
+}
+.detail-window img.gear-detail-art.rarity-epic,
+.detail-window img.gear-detail-art.rarity-legendary,
+.detail-window img.gear-detail-art.rarity-mythic,
+.detail-window img.gear-detail-art.rarity-ascended,
+.detail-window img.gear-detail-art.rarity-divine{
+  box-shadow:0 0 18px var(--glow);
+}
+.detail-window img.gear-detail-art.rarity-hell{
+  animation:hellPulse 2s ease-in-out infinite;
+  border-color:#ff4828;
+}
+@media(prefers-reduced-motion:reduce){
+  .detail-window img.gear-detail-art.rarity-hell{animation:none}
+}
+  .detail-close{
   display:block;
   width:100%;
   margin-top:12px;
@@ -1520,7 +1541,7 @@ function isGearUnlocked(g){return (!g.reqLevel||level()>=g.reqLevel)&&(!g.reqQue
 
  openDetail(`
   <h2 class="model-name rarity-${g.rarity}">${g.name}</h2>
-  <img src="${g.image}" alt="${g.name}">
+  <img class="gear-detail-art rarity-${g.rarity}" src="${g.image}" alt="${g.name}">
   <div class="model-sub">
    ${g.rarity.toUpperCase()} · ${g.slot==='weapon'?'ОРУЖИЕ':g.slot==='armor'?'БРОНЯ':'АКСЕССУАР'}
   </div>
