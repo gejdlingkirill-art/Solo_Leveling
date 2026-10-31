@@ -2195,7 +2195,9 @@ function combatAction(action){
  if(!bt)return;
  let b=bosses.find(x=>x.id===bt.bossId);
  if(!b)return;
- if(bt.won||bt.lost)return alert('Этот бой завершён. Выбери босса и начни новый вызов.');
+ if(bt.won||bt.lost){
+  return showSystemToast('Этот бой завершён. Выбери босса и начни новый вызов.','error');
+ }
 
  state.resources=state.resources||{};
  state.resources.hp=Math.max(0,Number(bt.playerHp)||0);
@@ -2209,7 +2211,9 @@ function combatAction(action){
   bt.hp=Math.max(0,bt.hp-damage);
   log.unshift('Ты наносишь '+damage+' урона.');
  }else if(action==='skill'){
-  if(state.resources.mp<20)return alert('Недостаточно MP. Для особого навыка нужно 20 MP.');
+  if(state.resources.mp<20){
+   return showSystemToast('Недостаточно MP. Для особого навыка нужно 20 MP.','error');
+  }
   state.resources.mp-=20;
   damage=Math.max(25,Math.round(power*1.8-b.defense*.5));
   bt.hp=Math.max(0,bt.hp-damage);
@@ -2220,6 +2224,43 @@ function combatAction(action){
  }else{
   return;
  }
+
+ if(bt.hp<=0){
+  bt.won=true;
+  state.resources.hp=bt.playerHp;
+  let bossXp=Math.round((b.level*18+150)*(1+currentGearXpBonus()/100));
+  let oldLevel=level();
+  state.xp+=bossXp;
+  let gained=level()-oldLevel;
+  if(gained>0)state.stats.points+=gained*2;
+  state.materials.shards+=2;
+  state.materials.crystals+=1;
+  state.stats.points+=1;
+  state.bossVictories=state.bossVictories||{};
+  state.bossVictories[b.id]=true;
+  log.unshift('ПОБЕДА! Получены XP, 2 осколка, 1 кристалл и 1 очко статов.');
+  bt.log=log.slice(0,8);
+  save();
+  showSystemToast('Босс побеждён! Награда добавлена в сохранение.');
+  return;
+ }
+
+ let bossDamage=Math.max(8,b.attack-Math.floor(totalStats().endurance/2));
+ if(bt.guard)bossDamage=Math.ceil(bossDamage*.4);
+ bt.guard=false;
+ bt.playerHp=Math.max(0,bt.playerHp-bossDamage);
+ state.resources.hp=bt.playerHp;
+ log.unshift(b.name+' наносит '+bossDamage+' урона.');
+ bt.turn++;
+
+ if(bt.playerHp<=0){
+  bt.lost=true;
+  log.unshift('Охотник потерпел поражение. Восстанови HP перед следующим боем.');
+ }
+
+ bt.log=log.slice(0,8);
+ save();
+}
 
  if(bt.hp<=0){
   bt.won=true;
