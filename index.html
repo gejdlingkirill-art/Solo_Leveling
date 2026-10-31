@@ -401,10 +401,21 @@ main {
   }
 
   .tab:active,
-  .primary:active,
-  .secondary:active {
-    transform: translateY(1px);
-  }
+.primary:active,
+.secondary:active {
+  transform: translateY(1px);
+  transition: transform .15s, box-shadow .15s, filter .15s;
+}
+
+.primary:active {
+  box-shadow: 0 0 24px #168aff99, inset 0 0 12px #ffffff22;
+  filter: brightness(1.15);
+}
+
+.secondary:active {
+  box-shadow: 0 0 18px #168aff66, inset 0 0 10px #65c7ff22;
+  filter: brightness(1.12);
+}
 }
 
 /* END AWAKENING 5.1 VISUAL UPDATE */
