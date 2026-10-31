@@ -1324,7 +1324,50 @@ function renderInventory(){
  `;
 }
 
-function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
+function usePotion(type){
+ state.potions=state.potions||{};
+ state.resources=state.resources||{};
+
+ let resource='',maximum=0,amount=0;
+
+ if(type==='hpSmall'){
+  resource='hp';
+  maximum=maxPlayerHP();
+  amount=Math.max(1,Math.floor(maximum*0.25));
+ }else if(type==='hpLarge'){
+  resource='hp';
+  maximum=maxPlayerHP();
+  amount=Math.max(1,Math.floor(maximum*0.50));
+ }else if(type==='mp'){
+  resource='mp';
+  maximum=maxPlayerMP();
+  amount=Math.max(1,Math.floor(maximum*0.30));
+ }else{
+  return;
+ }
+
+ if((Number(state.potions[type])||0)<1){
+  return alert('Такого зелья нет в инвентаре.');
+ }
+
+ let current=Math.max(0,Number(state.resources[resource])||0);
+
+ if(current>=maximum){
+  return alert(resource==='hp'?'HP уже полностью восстановлено.':'MP уже полностью восстановлена.');
+ }
+
+ state.resources[resource]=Math.min(maximum,current+amount);
+
+ if(resource==='hp'&&state.battle&&!state.battle.won&&!state.battle.lost){
+  state.battle.playerHp=state.resources.hp;
+ }
+
+ state.potions[type]--;
+
+ save();
+ alert('Зелье использовано. Ресурс восстановлен.');
+}
+  function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
 function saveRecord(){let n=document.getElementById('recordname').value.trim(),v=document.getElementById('recordvalue').value.trim();if(!n||!v)return alert('Введи упражнение и результат.');state.records[n]={value:v,date:new Date().toLocaleDateString('ru-RU')};document.getElementById('recordname').value='';document.getElementById('recordvalue').value='';save()}
 function renderRecords(){let r=Object.entries(state.records||{});document.getElementById('recordlist').innerHTML=r.length?r.map(([n,x])=>`<div class="dayrow"><span class="daybadge">★</span><div><b>${n}</b><div class="muted">${x.date}</div></div><strong style="color:var(--blue)">${x.value}</strong></div>`).join(''):'<p class="muted">Пока нет записей. Добавь первый личный рекорд.</p>'}
 function renderChart(){let svg=document.getElementById('weightchart'),a=(state.weights||[]).slice().reverse();if(!a.length){svg.innerHTML='<text x="160" y="75" text-anchor="middle" fill="#8da8c4" font-size="12">Добавь записи веса</text>';return}let vals=a.map(x=>Number(x.kg)),min=Math.min(...vals)-1,max=Math.max(...vals)+1,pts=vals.map((v,i)=>[15+i*(290/Math.max(1,vals.length-1)),135-(v-min)/(max-min)*110]);svg.innerHTML=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4"/><text x="${p[0]}" y="${Math.max(12,p[1]-8)}" fill="#a2e5ff" font-size="9" text-anchor="middle">${vals[i]}</text>`).join('')}
