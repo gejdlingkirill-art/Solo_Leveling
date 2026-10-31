@@ -1301,7 +1301,7 @@ function showSystemToast(message, type = "success"){
   function save(){
  const key="hunterState", raw=localStorage.getItem(key);
  try{if(raw && raw.length>10)localStorage.setItem("hunterStateBackup",raw);localStorage.setItem(key,JSON.stringify(state));}
- catch(e){try{localStorage.setItem("hunterStateBackup",JSON.stringify(state));alert("Не удалось записать основное сохранение. Создана попытка резервной копии; экспортируй JSON как можно скорее.")}catch(_){} }
+ catch(e){try{localStorage.setItem("hunterStateBackup",JSON.stringify(state));showSystemToast("Не удалось записать основное сохранение. Создана попытка резервной копии; экспортируй JSON как можно скорее.", "error")}catch(_){} }
  renderAll();
 }
 function rank(){let x=state.xp;return x>=7500?"S":x>=5000?"A":x>=3000?"B":x>=1500?"C":x>=500?"D":"E"}
