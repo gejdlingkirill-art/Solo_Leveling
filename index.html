@@ -739,13 +739,25 @@ main {
 }
 
 .hp-potion {
-  color: #6de6bb;
-  filter: drop-shadow(0 0 4px #14a87866);
+  color: #ff5b75;
+  filter: drop-shadow(0 0 5px #ff365566);
+  transition: filter .2s, transform .2s;
 }
 
 .mp-potion {
-  color: #79baff;
-  filter: drop-shadow(0 0 4px #2878ed66);
+  color: #65baff;
+  filter: drop-shadow(0 0 5px #398cff66);
+  transition: filter .2s, transform .2s;
+}
+
+.hp-potion:active {
+  filter: drop-shadow(0 0 12px #ff3655);
+  transform: scale(1.12);
+}
+
+.mp-potion:active {
+  filter: drop-shadow(0 0 12px #398cff);
+  transform: scale(1.12);
 }
 .material .material-icon {
   display: block;
