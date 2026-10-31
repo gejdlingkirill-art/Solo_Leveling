@@ -632,13 +632,51 @@ main {
 .shadow-header small{
   color:#91abc5;
 }
-/* Пять основных вкладок */
-.bottom {
-  grid-template-columns: repeat(5, 1fr) !important;
+/* Hunter System — bottom navigation */
+.bottom.hunter-bottom {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  padding: 9px 6px calc(9px + env(safe-area-inset-bottom));
+  background: #050914f5;
+  border-top: 1px solid #32618f66;
+  box-shadow: 0 -8px 28px #0005;
 }
-/* Скрываем старую верхнюю навигацию */
-#tabs {
-  display: none !important;
+
+.hunter-bottom button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  color: #7188a8;
+  font-size: 9px;
+  letter-spacing: .7px;
+  transition: color .2s, filter .2s;
+}
+
+.hunter-bottom button svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: filter .2s, transform .2s;
+}
+
+.hunter-bottom button.active {
+  color: #8bdcff;
+  filter: drop-shadow(0 0 7px #398cff88);
+}
+
+.hunter-bottom button.active svg {
+  filter: drop-shadow(0 0 5px #6b8cffaa);
+  transform: translateY(-1px);
+}
+
+.hunter-bottom button:active svg {
+  transform: scale(.92);
 }
 </style>
 </head>
