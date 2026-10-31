@@ -681,6 +681,31 @@ main {
 #tabs {
   display: none !important;
 }
+.resource-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.resource-icon {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hp-icon {
+  color: #6de6bb;
+  filter: drop-shadow(0 0 4px #14a87866);
+}
+
+.mp-icon {
+  color: #79baff;
+  filter: drop-shadow(0 0 4px #2878ed66);
+}
 </style>
 </head>
 <body>
@@ -702,7 +727,13 @@ main {
   <div class="eyebrow">РЕСУРСЫ ОХОТНИКА</div>
   <div style="margin-top:12px">
    <div class="row">
-    <b>❤️ HP · Здоровье</b>
+    <b class="resource-label">
+  <svg class="resource-icon hp-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 21S3 15.5 3 9a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1c0 6.5-9 12-9 12Z"/>
+    <path d="M7 12h3l2-3 2 6 2-3h2"/>
+  </svg>
+  HP · Здоровье
+</b>
     <span class="muted" id="homeHP">0 / 0</span>
    </div>
    <div class="xpbar" style="margin-top:7px">
@@ -711,7 +742,13 @@ main {
   </div>
   <div style="margin-top:14px">
    <div class="row">
-    <b>🔷 MP · Мана</b>
+    <b class="resource-label">
+  <svg class="resource-icon mp-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 2 21 12 12 22 3 12 12 2Z"/>
+    <path d="m12 6 3 6-3 6-3-6 3-6Z"/>
+  </svg>
+  MP · Мана
+</b>
     <span class="muted" id="homeMP">0 / 0</span>
    </div>
    <div class="xpbar" style="margin-top:7px">
