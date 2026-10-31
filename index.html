@@ -1591,7 +1591,18 @@ const bosses=[
 {id:'monarchboss',image:'assets/boss-monarch.webp',name:'Монарх Теней',icon:'💀',glow:'#bd91ff',rarity:'legendary',level:25,hp:9000,attack:160,defense:140,req:20,reward:'1500 XP + легендарный предмет',weakness:'Сбалансированные характеристики',lore:'Финальное испытание для охотника, который не пропускает тренировки.'}];
 function totalStats(){let o={strength:state.stats.strength,agility:state.stats.agility,endurance:state.stats.endurance};gear.filter(g=>state.equipped[g.slot]===g.id).forEach(g=>Object.keys(g.bonus).forEach(k=>o[k]+=g.bonus[k]));return o}
 initPlayerResources();
-  function spend(k){if(state.stats.points<1)return alert('Нет свободных очков. Повышай уровень или выполняй испытания.');state.stats[k]++;state.stats.points--;save()}
+  function spend(k){
+  if(state.stats.points<1){
+    showSystemToast('Нет свободных очков. Повышай уровень или выполняй испытания.','error');
+    return;
+  }
+
+  state.stats[k]++;
+  state.stats.points--;
+  save();
+
+  showSystemToast('Характеристика повышена!');
+}
 function claimWeekly(){
   let n=state.history.length;
 
