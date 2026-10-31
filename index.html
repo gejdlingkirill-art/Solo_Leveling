@@ -1290,7 +1290,6 @@ function renderInventory(){
    ${gear.filter(g=>g.slot===slot).map(g=>{
     const unlocked=isGearUnlocked(g);
     const eq=state.equipped[slot]===g.id;
-
     return `
      <div class="compact-card" onclick="openGearDetails('${g.id}')">
       <img src="${g.image}" alt="${g.name}" loading="lazy">
@@ -1309,21 +1308,23 @@ function renderInventory(){
     <h4>❤️ Малое зелье здоровья</h4>
     <p class="muted">Восстанавливает 25% максимального HP.</p>
     <b>В наличии: ${potions.hpSmall||0}</b>
+    <button class="secondary" style="width:100%;margin-top:8px" ${!potions.hpSmall?'disabled':''} onclick="usePotion('hpSmall')">Использовать</button>
    </div>
    <div class="recipe">
     <h4>❤️ Большое зелье здоровья</h4>
     <p class="muted">Восстанавливает 50% максимального HP.</p>
     <b>В наличии: ${potions.hpLarge||0}</b>
+    <button class="secondary" style="width:100%;margin-top:8px" ${!potions.hpLarge?'disabled':''} onclick="usePotion('hpLarge')">Использовать</button>
    </div>
    <div class="recipe">
     <h4>🔷 Зелье маны</h4>
     <p class="muted">Восстанавливает 30% максимального MP.</p>
     <b>В наличии: ${potions.mp||0}</b>
+    <button class="secondary" style="width:100%;margin-top:8px" ${!potions.mp?'disabled':''} onclick="usePotion('mp')">Использовать</button>
    </div>
   </div>
  `;
 }
-
 function usePotion(type){
  state.potions=state.potions||{};
  state.resources=state.resources||{};
