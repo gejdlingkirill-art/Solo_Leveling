@@ -2165,11 +2165,17 @@ function importBackup(e){
 function startBossFight(id){
  let b=bosses.find(x=>x.id===id);
  if(!b)return;
- if(state.bossVictories&&state.bossVictories[id])return alert('Этот босс уже побеждён. Награда получена.');
- if(state.history.length<b.req)return alert('Чтобы бросить вызов, заверши ещё '+(b.req-state.history.length)+' квестов.');
+ if(state.bossVictories&&state.bossVictories[id]){
+  return showSystemToast('Этот босс уже побеждён. Награда получена.','error');
+ }
+ if(state.history.length<b.req){
+  return showSystemToast('Чтобы бросить вызов, заверши ещё '+(b.req-state.history.length)+' квестов.','error');
+ }
  initPlayerResources();
  recoverPlayerResources();
- if(state.resources.hp<=0)return alert('У охотника 0 HP. Дождись восстановления или выполни квест.');
+ if(state.resources.hp<=0){
+  return showSystemToast('У охотника 0 HP. Дождись восстановления или выполни квест.','error');
+ }
  state.battle={
   bossId:id,
   hp:b.hp,
