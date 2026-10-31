@@ -1274,7 +1274,31 @@ function recoverPlayerResources(){
 if(!state.start) state.start=new Date().toISOString().slice(0,10);
 let selectedDay=new Date().getDay(); // Sunday=0
 let idx=selectedDay===0?6:selectedDay-1;
-function save(){
+let toastTimer;
+
+function showSystemToast(message, type = "success"){
+  let toast = document.getElementById("systemToast");
+
+  if(!toast){
+    toast = document.createElement("div");
+    toast.id = "systemToast";
+    toast.className = "system-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.className = "system-toast " + type;
+
+  requestAnimationFrame(() => toast.classList.add("show"));
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
+}
+  function save(){
  const key="hunterState", raw=localStorage.getItem(key);
  try{if(raw && raw.length>10)localStorage.setItem("hunterStateBackup",raw);localStorage.setItem(key,JSON.stringify(state));}
  catch(e){try{localStorage.setItem("hunterStateBackup",JSON.stringify(state));alert("Не удалось записать основное сохранение. Создана попытка резервной копии; экспортируй JSON как можно скорее.")}catch(_){} }
