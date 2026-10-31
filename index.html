@@ -2262,42 +2262,7 @@ function combatAction(action){
  save();
 }
 
- if(bt.hp<=0){
-  bt.won=true;
-  state.resources.hp=bt.playerHp;
-  let bossXp=Math.round((b.level*18+150)*(1+currentGearXpBonus()/100));
-  let oldLevel=level();
-  state.xp+=bossXp;
-  let gained=level()-oldLevel;
-  if(gained>0)state.stats.points+=gained*2;
-  state.materials.shards+=2;
-  state.materials.crystals+=1;
-  state.stats.points+=1;
-  state.bossVictories=state.bossVictories||{};
-  state.bossVictories[b.id]=true;
-  log.unshift('ПОБЕДА! Получены XP, 2 осколка, 1 кристалл и 1 очко статов.');
-  bt.log=log.slice(0,8);
-  save();
-  alert('Босс побеждён! Награда добавлена в сохранение.');
-  return;
- }
-
- let bossDamage=Math.max(8,b.attack-Math.floor(totalStats().endurance/2));
- if(bt.guard)bossDamage=Math.ceil(bossDamage*.4);
- bt.guard=false;
- bt.playerHp=Math.max(0,bt.playerHp-bossDamage);
- state.resources.hp=bt.playerHp;
- log.unshift(b.name+' наносит '+bossDamage+' урона.');
- bt.turn++;
-
- if(bt.playerHp<=0){
-  bt.lost=true;
-  log.unshift('Охотник потерпел поражение. Восстанови HP перед следующим боем.');
- }
-
- bt.log=log.slice(0,8);
- save();
-}
+  
 function renderBattle(){
  let el=document.getElementById('battlepanel');
  if(!el)return;
