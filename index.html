@@ -434,6 +434,20 @@ main {
     filter: brightness(1);
   }
 } 
+@media (prefers-reduced-motion: reduce) {
+  .material,
+  .recipe,
+  .potion-title,
+  .tab,
+  .primary,
+  .secondary,
+  .hp-potion,
+  .mp-potion {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
 }
 
 /* END AWAKENING 5.1 VISUAL UPDATE */
