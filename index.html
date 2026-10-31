@@ -2304,7 +2304,25 @@ function saveReadiness(){let r={sleep:Number(document.getElementById('readySleep
 function saveReadinessChoice(){state.readinessChoice=document.getElementById('readinessChoice').value;save()}
 function saveTrainingLocation(){state.trainingLocation=document.getElementById('trainingLocation').value;save()}
 function renderAwakeningExtras(){let r=state.readiness||{};[['readySleep',r.sleep??7],['readyEnergy',r.energy??7],['readyFatigue',r.fatigue??3],['readyWellbeing',r.wellbeing??8]].forEach(([id,v])=>{let el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=v});let ad=document.getElementById('readinessAdvice');if(ad){ad.innerHTML=r.date===new Date().toISOString().slice(0,10)?`<b>${r.label} · ${r.score}/100</b><br>${r.text}`:'Заполни показатели и получи рекомендацию.'}let ch=document.getElementById('readinessChoice');if(ch)ch.value=state.readinessChoice||'undecided';let loc=document.getElementById('trainingLocation');if(loc)loc.value=state.trainingLocation||'mixed';let day=Math.max(1,Math.floor((Date.now()-new Date((state.season||{}).started||new Date().toISOString().slice(0,10)).getTime())/86400000)+1),progress=Math.min(100,Math.round((state.history||[]).length/30*100));let sd=document.getElementById('seasonDays');if(sd)sd.textContent='ДЕНЬ '+Math.min(30,day)+' / 30';let sb=document.getElementById('seasonBar');if(sb)sb.style.width=progress+'%';let ss=document.getElementById('seasonSummary');if(ss)ss.textContent=(state.history||[]).length+' / 30 завершённых квестов · '+(30-(state.history||[]).length)+' до сезонного титула «Пробуждённый».';let sr=document.getElementById('seasonRewards');if(sr)sr.innerHTML=`<div class="row"><span class="muted">Сезонная награда</span><b>+300 XP · титул «Пробуждённый»</b></div><button class="secondary" style="width:100%;margin-top:8px" onclick="claimSeasonReward()" ${(state.history||[]).length<30||(state.season.claimed||[]).includes('s1')?'disabled':''}>${(state.season.claimed||[]).includes('s1')?'Награда получена':'Забрать награду'}</button>`}
-function claimSeasonReward(){if((state.history||[]).length<30)return alert('Нужно завершить 30 квестов.');state.season.claimed=state.season.claimed||[];if(state.season.claimed.includes('s1'))return;state.season.claimed.push('s1');state.xp+=300;save();alert('Сезонная награда получена! Открылся титул «Пробуждённый» — его можно выбрать в профиле.')}
+function claimSeasonReward(){
+  if((state.history||[]).length<30){
+    showSystemToast('Нужно завершить 30 квестов.','error');
+    return;
+  }
+
+  state.season.claimed=state.season.claimed||[];
+
+  if(state.season.claimed.includes('s1')){
+    showSystemToast('Сезонная награда уже получена.','error');
+    return;
+  }
+
+  state.season.claimed.push('s1');
+  state.xp+=300;
+  save();
+
+  showSystemToast('Сезонная награда получена! Титул «Пробуждённый» доступен в профиле.');
+}
 function openAtlasExercise(id){go('atlas');let search=document.getElementById('search');if(search)search.value='';let cat=document.getElementById('atlasCategory');if(cat)cat.value='all';let gear=document.getElementById('atlasGear');if(gear)gear.value='all';renderAtlas();let el=document.getElementById('excard-'+id);if(el){el.open=true;setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),80)}}
 function renderAtlas(){let q=(document.getElementById('search')?.value||'').toLowerCase().trim(),cat=document.getElementById('atlasCategory')?.value||'all',gear=document.getElementById('atlasGear')?.value||'all';let catEl=document.getElementById('atlasCategory');if(catEl&&catEl.options.length===1)atlasGroups.forEach(g=>{let o=document.createElement('option');o.value=g.cat;o.textContent=g.cat;catEl.appendChild(o)});let list=atlas.filter(x=>(cat==='all'||x.cat===cat)&&(gear==='all'||gear==='body'&&x.equipment==='Собственный вес'||gear==='home'&&x.gearType==='home'||gear==='gym'&&x.gearType==='gym')&&(x.name+' '+x.cat+' '+x.muscle+' '+x.equipment).toLowerCase().includes(q));let count=document.getElementById('atlasCount');if(count)count.textContent=list.length+' упражнений';let host=document.getElementById('atlaslist');if(!host)return;host.innerHTML=list.map((x,i)=>`<details class="workout atlas-card" id="excard-${x.id}"><summary class="workout-head"><span class="num">${String(i+1).padStart(3,'0')}</span><div style="flex:1;min-width:0"><h3>${x.name}</h3><div class="prescription">${x.cat} · ${x.pres}</div><div class="muted">${x.equipment} · ${x.level}</div></div><span class="tag">Подробнее</span></summary><div class="details"><p><b>Работающие мышцы:</b> ${x.muscle}</p><p><b>Подготовка:</b> ${x.setup}</p><p><b>Техника:</b> ${x.move}</p><p><b>Дыхание:</b> ${x.breathe}</p><p><b>Контроль:</b> ${x.checks}</p><p class="notice"><b>Важно:</b> ${x.error} Выбирай вариант по уровню и прекращай упражнение при резкой боли, головокружении или необычной одышке.</p><button class="secondary" onclick="addAtlasToLog('${x.id}')">Добавить в журнал тренировки</button></div></details>`).join('')||'<div class="card">Ничего не найдено.</div>'}
 function addAtlasToLog(id){let x=atlas.find(a=>a.id===id);if(!x)return;let input=document.getElementById('logExercise');if(input)input.value=x.name;go('progress');}
