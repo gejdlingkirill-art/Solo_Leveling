@@ -2328,18 +2328,18 @@ function renderBattle(){
  <p class="muted">Босс: ${Math.max(0,bt.hp).toLocaleString('ru-RU')} / ${b.hp} HP</p>
  <div class="xpbar"><span style="width:${bossPercent}%"></span></div>
 
- <p class="muted">❤️ HP охотника: ${hp} / ${hpMax}</p>
+ <p class="muted"><svg class="system-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/></svg> HP охотника: ${hp} / ${hpMax}</p>
  <div class="xpbar"><span style="width:${hpPercent}%;background:linear-gradient(90deg,#14a878,#6de6bb)"></span></div>
 
- <p class="muted">🔷 MP охотника: ${mp} / ${mpMax}</p>
+ <p class="muted"><svg class="system-icon" viewBox="0 0 24 24"><path d="m12 2 9 10-9 10L3 12z"/><path d="m12 2 3 10-3 10-3-10z"/></svg> MP охотника: ${mp} / ${mpMax}</p>
  <div class="xpbar"><span style="width:${mpPercent}%;background:linear-gradient(90deg,#2878ed,#79baff)"></span></div>
 
  ${bt.won?'<div class="notice">ПОБЕДА · Награда получена</div>':
  bt.lost?'<div class="notice">Поражение · начни новый бой после восстановления HP</div>':
  `<div class="smallgrid">
- <button class="primary" onclick="combatAction('strike')">⚔ Атаковать</button>
- <button class="secondary" onclick="combatAction('guard')">🛡 Защищаться</button>
- <button class="secondary" style="grid-column:1/-1" onclick="combatAction('skill')">✦ Особый навык · 20 MP</button>
+ <button class="primary" onclick="combatAction('strike')"><svg class="system-icon" viewBox="0 0 24 24"><path d="m5 19 3-3M7 17l-2-2M7 17l10-10 2-3 2 2-3 3L8 19z"/></svg> Атаковать</button>
+ <button class="secondary" onclick="combatAction('guard')"><svg class="system-icon" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5z"/><path d="m8 12 3 3 5-6"/></svg> Защищаться</button>
+ <button class="secondary" style="grid-column:1/-1" onclick="combatAction('skill')"><svg class="system-icon" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></svg> Особый навык · 20 MP</button>
  </div>`}
 
  <div class="guide-block"><b>Журнал боя</b>${(bt.log||[]).map(x=>`<p class="muted">• ${x}</p>`).join('')}</div>
