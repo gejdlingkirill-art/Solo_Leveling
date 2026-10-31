@@ -2164,7 +2164,32 @@ function craftRecipe(id){
  alert('Рецепт создан.');
 }
 function upgradeGear(id){let g=gear.find(x=>x.id===id);if(!g)return;let lv=Number(state.gearUpgrades[id]||0),cost={shards:2+lv,crystals:lv>=2?1:0,runes:lv>=4?1:0};if(!canPay(cost))return alert('Недостаточно материалов.');pay(cost);state.gearUpgrades[id]=lv+1;save();alert(g.name+' улучшен до +'+(lv+1)+'.')}
-function trainShadow(id){let s=shadows.find(x=>x.id===id);if(!s||state.history.length<s.req)return alert('Эта тень ещё закрыта.');if(state.materials.shards<2)return alert('Нужно 2 осколка разлома.');let lv=Number(state.shadowLevels[id]||1);if(lv>=10)return alert('Тень достигла максимального уровня 10.');state.materials.shards-=2;state.shadowLevels[id]=lv+1;save();alert(s.name+' повышает уровень до '+(lv+1)+'.')}
+function trainShadow(id){
+  let s=shadows.find(x=>x.id===id);
+
+  if(!s||state.history.length<s.req){
+    showSystemToast('Эта тень ещё закрыта.','error');
+    return;
+  }
+
+  if(state.materials.shards<2){
+    showSystemToast('Нужно 2 осколка разлома.','error');
+    return;
+  }
+
+  let lv=Number(state.shadowLevels[id]||1);
+
+  if(lv>=10){
+    showSystemToast('Тень достигла максимального уровня.','error');
+    return;
+  }
+
+  state.materials.shards-=2;
+  state.shadowLevels[id]=lv+1;
+  save();
+
+  showSystemToast(s.name+' повышает уровень до '+(lv+1)+'!');
+}
 function upgradeShadowSkill(id){let s=shadows.find(x=>x.id===id);if(!s||state.history.length<s.req)return alert('Эта тень ещё закрыта.');let lv=Number(state.shadowSkills[id]||0);if(lv>=3)return alert('Навык уже улучшен до максимума.');if(state.materials.runes<1)return alert('Нужна 1 руна. Получи её из сюжетной главы или полного силового квеста.');state.materials.runes--;state.shadowSkills[id]=lv+1;save();alert('Навык тени усилен до '+(lv+1)+'/3.')}
 const playerTitles=[
 {id:'Новичок',icon:'✦',desc:'Первое пробуждение охотника.',unlock:()=>true},
