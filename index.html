@@ -2190,7 +2190,32 @@ function trainShadow(id){
 
   showSystemToast(s.name+' повышает уровень до '+(lv+1)+'!');
 }
-function upgradeShadowSkill(id){let s=shadows.find(x=>x.id===id);if(!s||state.history.length<s.req)return alert('Эта тень ещё закрыта.');let lv=Number(state.shadowSkills[id]||0);if(lv>=3)return alert('Навык уже улучшен до максимума.');if(state.materials.runes<1)return alert('Нужна 1 руна. Получи её из сюжетной главы или полного силового квеста.');state.materials.runes--;state.shadowSkills[id]=lv+1;save();alert('Навык тени усилен до '+(lv+1)+'/3.')}
+function upgradeShadowSkill(id){
+  let s=shadows.find(x=>x.id===id);
+
+  if(!s||state.history.length<s.req){
+    showSystemToast('Эта тень ещё закрыта.','error');
+    return;
+  }
+
+  let lv=Number(state.shadowSkills[id]||0);
+
+  if(lv>=3){
+    showSystemToast('Навык уже улучшен до максимума.','error');
+    return;
+  }
+
+  if(state.materials.runes<1){
+    showSystemToast('Нужна 1 руна. Получи её из сюжетной главы или полного силового квеста.','error');
+    return;
+  }
+
+  state.materials.runes--;
+  state.shadowSkills[id]=lv+1;
+  save();
+
+  showSystemToast('Навык тени усилен до '+(lv+1)+'/3!');
+}
 const playerTitles=[
 {id:'Новичок',icon:'✦',desc:'Первое пробуждение охотника.',unlock:()=>true},
 {id:'Упорный',icon:'🔥',desc:'Заверши 3 тренировочных квеста.',unlock:()=>state.history.length>=3},
