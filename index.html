@@ -2082,7 +2082,35 @@ function renderBoss(){
 }
 
 function weekKey(){let d=new Date(),one=new Date(d.getFullYear(),0,1),week=Math.ceil((((d-one)/86400000)+one.getDay()+1)/7);return d.getFullYear()+'-W'+week}
-function claimBoss(){state.bossClaimed=state.bossClaimed||{};let n=state.history.filter(h=>h.weekKey===weekKey()).length;if(n<4)return alert('Для победы нужно завершить 4 квеста на этой неделе.');if(state.bossClaimed[weekKey()])return alert('Трофей уже получен на этой неделе.');state.bossClaimed[weekKey()]=true;let bossXp=Math.round(250*(1+currentGearXpBonus()/100));let oldLevel=level();state.xp+=bossXp;let gained=level()-oldLevel;if(gained>0)state.stats.points+=gained*2;state.stats.points++;state.materials.shards+=3;state.materials.crystals+=1;if(rank()==='A'||rank()==='S')state.materials.runes+=1;save();alert('Босс побеждён! Получено +'+bossXp+' XP и +'+(1+gained*2)+' очков характеристик.')}
+function claimBoss(){
+  state.bossClaimed=state.bossClaimed||{};
+  let n=state.history.filter(h=>h.weekKey===weekKey()).length;
+
+  if(n<4){
+    showSystemToast('Для победы нужно завершить 4 квеста на этой неделе.','error');
+    return;
+  }
+
+  if(state.bossClaimed[weekKey()]){
+    showSystemToast('Трофей уже получен на этой неделе.','error');
+    return;
+  }
+
+  state.bossClaimed[weekKey()]=true;
+  let bossXp=Math.round(250*(1+currentGearXpBonus()/100));
+  let oldLevel=level();
+  state.xp+=bossXp;
+  let gained=level()-oldLevel;
+  if(gained>0)state.stats.points+=gained*2;
+
+  state.stats.points++;
+  state.materials.shards+=3;
+  state.materials.crystals+=1;
+  if(rank()==='A'||rank()==='S')state.materials.runes+=1;
+
+  save();
+  showSystemToast('Босс побеждён! Получено +'+bossXp+' XP и '+(1+gained*2)+' очков характеристик.');
+}
 function exportBackup(){let blob=new Blob([JSON.stringify({app:'Solo Leveling PWA',version:4,exportedAt:new Date().toISOString(),hunterState:state},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='solo-leveling-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 function importBackup(e){let f=e.target.files&&e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result),incoming=obj.hunterState||obj;if(!confirm('Импорт заменит текущий прогресс. Перед импортом текущая версия будет сохранена как локальная резервная копия. Продолжить?'))return;if(!incoming||typeof incoming.xp!=='number'||!Array.isArray(incoming.history))throw new Error('Неподходящий файл сохранения');try{localStorage.setItem('hunterStateBackup',localStorage.getItem('hunterState')||JSON.stringify(state))}catch(_){}state={...state,...incoming};state.done=state.done||{};state.history=state.history||[];state.weights=state.weights||[];state.stats=state.stats||{strength:0,agility:0,endurance:0,points:0};state.claimed=state.claimed||{};state.unlocked=state.unlocked||[];state.equipped={weapon:null,armor:null,accessory:null,...(state.equipped||{})};state.records=state.records||{};state.materials={shards:0,crystals:0,runes:0,...(state.materials||{})};state.campaign={claimed:[],progress:0,...(state.campaign||{})};state.shadowLevels=state.shadowLevels||{};state.shadowSkills=state.shadowSkills||{};state.crafted=state.crafted||[];state.gearUpgrades=state.gearUpgrades||{};save();alert('Сохранение восстановлено.')}catch(err){alert('Не удалось импортировать файл. Выбери JSON, экспортированный из Solo Leveling.')}e.target.value=''};r.readAsText(f)}
 
