@@ -1278,6 +1278,8 @@ function isGearUnlocked(g){return (!g.reqLevel||level()>=g.reqLevel)&&(!g.reqQue
 function renderInventory(){
  document.getElementById('equipmentbonus').textContent='Активный бонус: +'+currentGearXpBonus()+'% XP. Характеристики экипировки добавляются к твоим статам; это игровые значения.';
 
+ let potions=state.potions||{};
+
  document.getElementById('inventorylist').innerHTML=[
   ['weapon','⚔ ОРУЖИЕ'],
   ['armor','⬡ БРОНЯ'],
@@ -1300,7 +1302,26 @@ function renderInventory(){
     `;
    }).join('')}
   </div>
- `).join('');
+ `).join('')+`
+  <div class="model-section">🧪 ЗЕЛЬЯ</div>
+  <div class="compact-grid">
+   <div class="recipe">
+    <h4>❤️ Малое зелье здоровья</h4>
+    <p class="muted">Восстанавливает 25% максимального HP.</p>
+    <b>В наличии: ${potions.hpSmall||0}</b>
+   </div>
+   <div class="recipe">
+    <h4>❤️ Большое зелье здоровья</h4>
+    <p class="muted">Восстанавливает 50% максимального HP.</p>
+    <b>В наличии: ${potions.hpLarge||0}</b>
+   </div>
+   <div class="recipe">
+    <h4>🔷 Зелье маны</h4>
+    <p class="muted">Восстанавливает 30% максимального MP.</p>
+    <b>В наличии: ${potions.mp||0}</b>
+   </div>
+  </div>
+ `;
 }
 
 function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
