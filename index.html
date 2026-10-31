@@ -891,7 +891,37 @@ main {
  <div class="card"><h3 class="section-title">Активная цепочка</h3><p class="muted" id="campaignhint">Начни с первой главы.</p><button class="primary" onclick="go('quests')">Перейти к тренировочному квесту</button></div>
 </section>
 <section id="craft" class="page hidden">
- <div class="card"><div class="eyebrow">МАСТЕРСКАЯ ОХОТНИКА</div><h2 style="margin:8px 0">Крафт и улучшение</h2><p class="muted">Материалы начисляются за завершённые квесты и награды. Улучшения меняют игровые характеристики предметов, не влияют на реальную нагрузку.</p><div class="material-grid"><div class="material"><span class="micon">🔩</span><span class="muted">Осколки</span><b id="matshards">0</b></div><div class="material"><span class="micon">🔷</span><span class="muted">Кристаллы</span><b id="matcrystals">0</b></div><div class="material"><span class="micon">✨</span><span class="muted">Руны</span><b id="matrunes">0</b></div></div></div>
+   <div class="card">
+    <div class="eyebrow">МАСТЕРСКАЯ ОХОТНИКА</div>
+    <h2 style="margin:8px 0">Крафт и улучшение</h2>
+    <p class="muted">Материалы начисляются за завершённые квесты и награды. Улучшения меняют игровые характеристики предметов, не влияют на реальную нагрузку.</p>
+    <div class="material-grid">
+      <div class="material">
+        <svg class="material-icon shard-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 3 9 1 6 8-8 9-8-7 1-11Z"/>
+          <path d="m5 3 7 18 2-17M5 14l15-2"/>
+        </svg>
+        <span class="muted">Осколки</span>
+        <b id="matshards">0</b>
+      </div>
+      <div class="material">
+        <svg class="material-icon crystal-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 2h10l6 8-11 12L1 10l6-8Z"/>
+          <path d="M1 10h22M7 2l5 20 5-20M7 2l5 8 5-8"/>
+        </svg>
+        <span class="muted">Кристаллы</span>
+        <b id="matcrystals">0</b>
+      </div>
+      <div class="material">
+        <svg class="material-icon rune-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 14.5 8 21 9l-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6.5-1L12 2Z"/>
+          <path d="m12 7 1.5 4.5L12 16l-1.5-4.5L12 7Z"/>
+        </svg>
+        <span class="muted">Руны</span>
+        <b id="matrunes">0</b>
+      </div>
+    </div>
+  </div>
  <div class="card"><h3 class="section-title">Рецепты</h3><div id="craftrecipes"></div></div>
  <div class="card"><h3 class="section-title">Улучшить экипированный предмет</h3><p class="muted">Улучшение усиливает игровой бонус предмета на один уровень. Стоимость растёт с каждым уровнем.</p><div id="upgradepanel"></div></div>
  <div class="card"><h3 class="section-title">Подготовка данных</h3><div class="safety-note">Сохранение выполняется после каждого игрового действия. Перед крупным обновлением экспортируй JSON и оставь файл в приложении «Файлы». Этот файл — дополнительная страховка, не замена сохранению на устройстве.</div><button class="secondary" style="width:100%;margin-top:10px" onclick="exportBackup()">Экспортировать резервную копию</button></div>
