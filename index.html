@@ -54,7 +54,36 @@ main{padding:14px;max-width:720px;margin:auto}.card{background:linear-gradient(1
   .compact-card.rarity-hell{animation:none}
 }.mini-btn{border:1px solid #24577e;background:#0d2035;color:var(--cyan);border-radius:9px;padding:7px 10px;font-weight:800}.statline{display:flex;align-items:center;gap:10px;margin:10px 0}.statline b{width:95px;font-size:12px}.statline .xpbar{flex:1;margin:0}.statline small{width:22px;text-align:right;color:var(--blue)}.svgpose{width:100%;height:110px;background:radial-gradient(ellipse,#163b5b,#07101d);border:1px solid #20466a;border-radius:12px;margin-top:8px}.achievement{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #183c5a;border-radius:12px;margin:7px 0;background:#091626}.achievement .medal{font-size:24px}.achievement.locked{opacity:.45;filter:grayscale(1)}.model-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.model-card{position:relative;overflow:hidden;background:linear-gradient(150deg,#102b49,#07101d 72%);border:1px solid #24577e;border-radius:14px;padding:11px;min-width:0}.model-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 5%,var(--glow,#0876ce33),transparent 58%);pointer-events:none}.model-card>*{position:relative}.model-portrait{height:150px;border-radius:10px;display:block;width:100%;object-fit:cover;object-position:center 30%;background:#07101d;border:1px solid #285d83;margin-bottom:9px;box-shadow:0 0 18px var(--glow,#168aff)22}.gear-portrait{height:112px;display:block;width:100%;object-fit:contain;object-position:center;background:radial-gradient(circle,var(--glow,#124f7c),#07101d 72%);border:1px solid #285d83;border-radius:10px;margin-bottom:8px;padding:4px}.boss-art{height:150px;border:1px solid #1b5e91;border-radius:14px;background:#07101e;display:block;width:100%;object-fit:cover;object-position:center 30%;box-shadow:0 0 24px #168aff33}.model-name{font-size:14px;font-weight:900;margin-bottom:4px}.model-sub{font-size:10px;color:var(--muted);margin-bottom:8px}.model-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px}.model-stat{font-size:10px;background:#071321;border:1px solid #173d5c;border-radius:7px;padding:6px;color:#cce6fa}.model-stat b{color:var(--blue);display:block;font-size:12px;margin-top:2px}.model-skill{font-size:11px;line-height:1.4;color:#c3d7e9;margin:8px 0}.model-card .secondary,.model-card .primary{font-size:11px;padding:9px 7px}.model-card .primary{margin-top:4px}.model-section{margin:14px 0 8px;color:var(--blue);font-size:12px;font-weight:900;letter-spacing:1px}.gear-portrait{height:94px;border-radius:10px;display:grid;place-items:center;font-size:48px;background:radial-gradient(circle,var(--glow,#124f7c),#07101d 72%);border:1px solid #285d83;margin-bottom:8px;text-shadow:0 0 18px var(--glow,#168aff)}.boss-detail{font-size:11px;color:#c3d7e9;line-height:1.45;margin:7px 0}.boss-art{height:100px;border:1px solid #1b5e91;border-radius:14px;background:radial-gradient(circle at 50% 50%,#174c78,#07101e 65%);display:grid;place-items:center;font-size:54px;color:#8edcff;text-shadow:0 0 24px #168aff}.anatomy{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.anatomy figure{margin:0;padding:7px;border:1px solid #20466a;border-radius:12px;background:#071321;text-align:center}.anatomy svg{width:100%;height:190px;display:block;cursor:zoom-in}.anatomy figure{overflow:hidden}.anatomy figure:active{border-color:#65c7ff}.anatomy{gap:10px}.anatomy figcaption{font-size:10px;padding:5px 0}.move-cue{font-size:12px;font-weight:800;background:#0b2136;border:1px solid #174a70;border-radius:9px;padding:8px;margin:8px 0}.anatomy figcaption{font-size:10px;color:#a2e5ff;font-weight:900;letter-spacing:1px}.move-cue{font-size:11px;color:#8bd8ff;text-align:center;margin:4px 0}.anatomy-legend{display:flex;gap:8px;flex-wrap:wrap;font-size:10px;color:#a9c6e2}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff617b;margin-right:4px}.guide-block{background:#071321;border:1px solid #20466a;border-radius:12px;padding:12px;margin:10px 0}.guide-block h4{color:#72d5ff;margin:0 0 8px;font-size:14px}.guide-block ol,.guide-block ul{padding-left:22px;margin:0}.guide-block li{margin:7px 0;line-height:1.5}.guide-block p{margin:0;line-height:1.5}
 
-/* v3.6: boss bestiary artwork */
+/* Постепенное усиление эффектов рангов */
+.compact-card.rarity-common{
+  box-shadow:0 0 4px var(--glow);
+}
+.compact-card.rarity-uncommon{
+  box-shadow:0 0 6px var(--glow),inset 0 0 3px var(--glow);
+}
+.compact-card.rarity-rare{
+  box-shadow:0 0 9px var(--glow),inset 0 0 5px var(--glow);
+}
+.compact-card.rarity-epic{
+  box-shadow:0 0 13px var(--glow),inset 0 0 8px var(--glow);
+}
+.compact-card.rarity-legendary{
+  box-shadow:0 0 16px var(--glow),inset 0 0 10px var(--glow);
+}
+.compact-card.rarity-mythic{
+  box-shadow:0 0 20px var(--glow),inset 0 0 12px var(--glow);
+}
+.compact-card.rarity-ascended{
+  box-shadow:0 0 24px var(--glow),inset 0 0 14px var(--glow);
+}
+.compact-card.rarity-divine{
+  box-shadow:0 0 28px var(--glow),inset 0 0 16px var(--glow);
+}
+.compact-card.rarity-hell{
+  box-shadow:0 0 32px var(--glow),inset 0 0 20px var(--glow);
+  animation:hellPulse 1.8s ease-in-out infinite;
+}
+  /* v3.6: boss bestiary artwork */
 .boss-roster-art{height:190px;object-fit:cover;object-position:center 24%;cursor:zoom-in;transition:transform .2s,box-shadow .2s}.boss-roster-art:active{transform:scale(.985)}.boss-model-card{padding:10px}.boss-model-card .model-name{font-size:14px}.art-modal{position:fixed;inset:0;z-index:9999;background:#020711f2;display:none;align-items:center;justify-content:center;padding:18px}.art-modal.open{display:flex}.art-modal img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid #2b8bca;border-radius:14px;box-shadow:0 0 32px #168aff66}.art-modal .art-close{position:absolute;top:20px;right:20px;background:#0b2136;color:#dff5ff;border:1px solid #3b9bd6;border-radius:999px;padding:10px 14px;font-size:16px}
 
 /* v4.0 campaign, crafting and protection */
