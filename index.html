@@ -1900,47 +1900,49 @@ function renderInventory(){
  `;
 }
 function usePotion(type){
- state.potions=state.potions||{};
- state.resources=state.resources||{};
+  state.potions=state.potions||{};
+  state.resources=state.resources||{};
 
- let resource='',maximum=0,amount=0;
+  let resource='',maximum=0,amount=0;
 
- if(type==='hpSmall'){
-  resource='hp';
-  maximum=maxPlayerHP();
-  amount=Math.max(1,Math.floor(maximum*0.25));
- }else if(type==='hpLarge'){
-  resource='hp';
-  maximum=maxPlayerHP();
-  amount=Math.max(1,Math.floor(maximum*0.50));
- }else if(type==='mp'){
-  resource='mp';
-  maximum=maxPlayerMP();
-  amount=Math.max(1,Math.floor(maximum*0.30));
- }else{
-  return;
- }
+  if(type==='hpSmall'){
+    resource='hp';
+    maximum=maxPlayerHP();
+    amount=Math.max(1,Math.floor(maximum*0.25));
+  }else if(type==='hpLarge'){
+    resource='hp';
+    maximum=maxPlayerHP();
+    amount=Math.max(1,Math.floor(maximum*0.50));
+  }else if(type==='mp'){
+    resource='mp';
+    maximum=maxPlayerMP();
+    amount=Math.max(1,Math.floor(maximum*0.30));
+  }else{
+    return;
+  }
 
- if((Number(state.potions[type])||0)<1){
-  return alert('Такого зелья нет в инвентаре.');
- }
+  if((Number(state.potions[type])||0)<1){
+    showSystemToast('Такого зелья нет в инвентаре.','error');
+    return;
+  }
 
- let current=Math.max(0,Number(state.resources[resource])||0);
+  let current=Math.max(0,Number(state.resources[resource])||0);
 
- if(current>=maximum){
-  return alert(resource==='hp'?'HP уже полностью восстановлено.':'MP уже полностью восстановлена.');
- }
+  if(current>=maximum){
+    showSystemToast(resource==='hp'?'HP уже полностью восстановлено.':'MP уже полностью восстановлена.','error');
+    return;
+  }
 
- state.resources[resource]=Math.min(maximum,current+amount);
+  state.resources[resource]=Math.min(maximum,current+amount);
 
- if(resource==='hp'&&state.battle&&!state.battle.won&&!state.battle.lost){
-  state.battle.playerHp=state.resources.hp;
- }
+  if(resource==='hp'&&state.battle&&!state.battle.won&&!state.battle.lost){
+    state.battle.playerHp=state.resources.hp;
+  }
 
- state.potions[type]--;
+  state.potions[type]--;
 
- save();
- alert('Зелье использовано. Ресурс восстановлен.');
+  save();
+  showSystemToast('Зелье использовано. Ресурс восстановлен.');
 }
   function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
 function saveRecord(){
