@@ -1104,17 +1104,32 @@ main {
     <div class="model-section">РАЗДЕЛЫ АРСЕНАЛА</div>
 
     <button class="secondary" style="width:100%;margin-top:10px" onclick="go('shadows')">
-      👥 Армия теней
+      <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <circle cx="9" cy="8" r="3"/>
+  <path d="M3 20v-2a6 6 0 0 1 12 0v2"/>
+  <path d="M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/>
+</svg>
+Армия теней
     </button>
 
     <button class="secondary" style="width:100%;margin-top:10px" onclick="go('craft')">
-      ⚒ Крафт и улучшения
+      <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="m14 7 3-3 4 4-3 3"/>
+  <path d="m17 11-6 6-3-3 6-6"/>
+  <path d="m8 14-5 5 2 2 5-5"/>
+  <path d="m4 4 5 5M3 7l4-4"/>
+</svg>
+Крафт и улучшения
     </button>
   </div>
 </section>
 <section id="boss" class="page hidden"><div class="card"><div class="eyebrow">РЕЙДОВОЕ ИСПЫТАНИЕ</div><h2 style="margin:8px 0">Босс недели</h2><img id="featuredBossArt" class="boss-art" src="assets/boss-ice-dragon.webp" alt="Иллюстрация босса недели"><h3 id="bosstitle">Страж Синего Разлома</h3><p class="muted" id="bossdesc">Заверши 4 квеста в течение недели, чтобы нанести решающий удар.</p><div class="xpbar"><span id="bossbar" style="width:0%"></span></div><div class="row"><span class="muted" id="bosscount">0 / 4 квестов</span><span class="tag">НАГРАДА: +250 XP</span></div><button class="primary" style="margin-top:12px" onclick="claimBoss()">Забрать трофей босса</button><p class="muted" id="bossstatus"></p><div class="model-section">БОЕВАЯ СИСТЕМА · ВЫБЕРИ БОССА НИЖЕ</div><div id="battlepanel"></div><div class="model-section">БЕСТИАРИЙ · БОССЫ</div><div id="bossroster" class="model-grid"></div></div><div class="card"><h3 class="section-title">Пробуждение ранга</h3><p class="muted">Повышай ранг через накопленный XP. Пороговые уровни открывают новые названия и косметические титулы.</p><div id="awakening"></div></div><div class="card"><h3 class="section-title">Резервная копия охотника</h3><p class="muted">Экспортируй прогресс в JSON перед публикацией обновлений или переносом на другое устройство. Файл можно сохранить в «Файлы».</p><button class="primary" onclick="exportBackup()">⬇ Экспортировать сохранение</button><label class="secondary" style="display:block;text-align:center;margin-top:9px">Импортировать сохранение<input type="file" accept="application/json,.json" onchange="importBackup(event)" style="display:block;width:100%;margin-top:8px"></label><p class="muted">Импорт заменит текущий прогресс данными из файла. Сделай экспорт перед импортом.</p></div>
 <button class="primary" style="margin-top:12px" onclick="go('campaign')">
-  📖 Открыть хроники Разлома
+  <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 6 3 3v16l9 2 9-2V3z"/>
+  <path d="M12 6v15M6 7l3 1M6 11l3 1M15 8l3-1M15 12l3-1"/>
+</svg>
+Открыть хроники Разлома
 </button>
 </section>
 
