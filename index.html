@@ -706,6 +706,32 @@ main {
   color: #79baff;
   filter: drop-shadow(0 0 4px #2878ed66);
 }
+.potion-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.potion-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hp-potion {
+  color: #6de6bb;
+  filter: drop-shadow(0 0 4px #14a87866);
+}
+
+.mp-potion {
+  color: #79baff;
+  filter: drop-shadow(0 0 4px #2878ed66);
+}
 </style>
 </head>
 <body>
@@ -1388,19 +1414,39 @@ function renderInventory(){
   <div class="model-section">🧪 ЗЕЛЬЯ</div>
   <div class="compact-grid">
    <div class="recipe">
-    <h4>❤️ Малое зелье здоровья</h4>
+    <h4 class="potion-title">
+  <svg class="potion-icon hp-potion" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 3h6M10 3v5l-5 8a4 4 0 0 0 3.5 5h7a4 4 0 0 0 3.5-5l-5-8V3"/>
+    <path d="M7 15h10M9 18h6"/>
+  </svg>
+  Малое зелье здоровья
+</h4>
     <p class="muted">Восстанавливает 25% максимального HP.</p>
     <b>В наличии: ${potions.hpSmall||0}</b>
     <button class="secondary" style="width:100%;margin-top:8px" ${!potions.hpSmall?'disabled':''} onclick="usePotion('hpSmall')">Использовать</button>
    </div>
    <div class="recipe">
-    <h4>❤️ Большое зелье здоровья</h4>
+    <h4 class="potion-title">
+  <svg class="potion-icon hp-potion" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 3h6M10 3v5l-5 8a4 4 0 0 0 3.5 5h7a4 4 0 0 0 3.5-5l-5-8V3"/>
+    <path d="M7 15h10M9 18h6"/>
+    <path d="M12 10v4M10 12h4"/>
+  </svg>
+  Большое зелье здоровья
+</h4>
     <p class="muted">Восстанавливает 50% максимального HP.</p>
     <b>В наличии: ${potions.hpLarge||0}</b>
     <button class="secondary" style="width:100%;margin-top:8px" ${!potions.hpLarge?'disabled':''} onclick="usePotion('hpLarge')">Использовать</button>
    </div>
    <div class="recipe">
-    <h4>🔷 Зелье маны</h4>
+    <h4 class="potion-title">
+  <svg class="potion-icon mp-potion" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 3h6M10 3v5l-5 8a4 4 0 0 0 3.5 5h7a4 4 0 0 0 3.5-5l-5-8V3"/>
+    <path d="M7 15h10M9 18h6"/>
+    <path d="m12 10 2 2-2 2-2-2 2-2Z"/>
+  </svg>
+  Зелье маны
+</h4>
     <p class="muted">Восстанавливает 30% максимального MP.</p>
     <b>В наличии: ${potions.mp||0}</b>
     <button class="secondary" style="width:100%;margin-top:8px" ${!potions.mp?'disabled':''} onclick="usePotion('mp')">Использовать</button>
