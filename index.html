@@ -913,6 +913,37 @@ main {
   color: #c4a0ff;
   filter: drop-shadow(0 0 5px #925cff66);
 }
+/* Системное уведомление */
+.system-toast{
+  position:fixed;
+  top:calc(16px + env(safe-area-inset-top));
+  left:50%;
+  transform:translate(-50%,-20px);
+  opacity:0;
+  z-index:10000;
+  width:calc(100% - 32px);
+  max-width:420px;
+  padding:14px 16px;
+  border:1px solid #65c7ff;
+  border-radius:12px;
+  background:linear-gradient(135deg,#102b49,#050914);
+  color:#dff5ff;
+  box-shadow:0 0 24px #168aff55;
+  font-size:13px;
+  font-weight:800;
+  text-align:center;
+  pointer-events:none;
+  transition:opacity .25s,transform .25s;
+}
+.system-toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+.system-toast.success{border-color:#6de6bb;color:#6de6bb}
+.system-toast.error{border-color:#ff617b;color:#ff9aaa}
+@media(prefers-reduced-motion:reduce){
+  .system-toast{transition:none}
+}
 </style>
 </head>
 <body>
