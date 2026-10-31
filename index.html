@@ -2213,7 +2213,28 @@ function craftRecipe(id){
 
   showSystemToast('Рецепт создан!');
 }
-function upgradeGear(id){let g=gear.find(x=>x.id===id);if(!g)return;let lv=Number(state.gearUpgrades[id]||0),cost={shards:2+lv,crystals:lv>=2?1:0,runes:lv>=4?1:0};if(!canPay(cost))return alert('Недостаточно материалов.');pay(cost);state.gearUpgrades[id]=lv+1;save();alert(g.name+' улучшен до +'+(lv+1)+'.')}
+function upgradeGear(id){
+  let g=gear.find(x=>x.id===id);
+  if(!g)return;
+
+  let lv=Number(state.gearUpgrades[id]||0);
+  let cost={
+    shards:2+lv,
+    crystals:lv>=2?1:0,
+    runes:lv>=4?1:0
+  };
+
+  if(!canPay(cost)){
+    showSystemToast('Недостаточно материалов.','error');
+    return;
+  }
+
+  pay(cost);
+  state.gearUpgrades[id]=lv+1;
+  save();
+
+  showSystemToast(g.name+' улучшен до +'+(lv+1)+'!');
+}
 function trainShadow(id){
   let s=shadows.find(x=>x.id===id);
 
