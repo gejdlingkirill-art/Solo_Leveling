@@ -2150,7 +2150,30 @@ const storyChapters=[
 {id:'monarch',title:'Глава IV — Наследие Монарха',req:15,xp:700,shards:6,crystals:3,runes:2,story:'Монарх наблюдает за твоим прогрессом. Победа принадлежит тому, кто не бросает путь.'}
 ];
 function renderCampaign(){let count=state.history.length,done=storyChapters.filter(c=>state.campaign.claimed.includes(c.id)).length;document.getElementById('campaignbar').style.width=(done/storyChapters.length*100)+'%';document.getElementById('campaignsummary').textContent=done+' / '+storyChapters.length+' глав завершено · '+count+' тренировочных квестов';document.getElementById('campaignhint').textContent=(storyChapters.find(c=>!state.campaign.claimed.includes(c.id))||{}).title||'Основная сюжетная линия пройдена. Продолжай развивать охотника.';document.getElementById('campaignlist').innerHTML=storyChapters.map((c,i)=>{let unlocked=count>=c.req,claimed=state.campaign.claimed.includes(c.id);return `<div class="campaign-step ${claimed?'done':unlocked?'':'locked'}"><div class="row"><b>${c.title}</b><span class="tag">${claimed?'ЗАВЕРШЕНО':unlocked?'ДОСТУПНО':'🔒 '+c.req+' квестов'}</span></div><p class="muted">${c.story}</p><div class="muted">Награда: +${c.xp} XP · ${c.shards} осколка · ${c.crystals} кристалла${c.runes?' · '+c.runes+' руны':''}</div><button class="${unlocked&&!claimed?'primary':'secondary'}" style="margin-top:9px" ${!unlocked||claimed?'disabled':''} onclick="claimChapter('${c.id}')">${claimed?'Награда получена':unlocked?'Забрать награду':'Продолжай тренировки'}</button></div>`}).join('')}
-function claimChapter(id){let c=storyChapters.find(x=>x.id===id);if(!c)return;if(state.history.length<c.req)return alert('Сначала заверши '+c.req+' тренировочных квестов.');if(state.campaign.claimed.includes(id))return alert('Эта награда уже получена.');state.campaign.claimed.push(id);state.xp+=c.xp;state.materials.shards+=c.shards;state.materials.crystals+=c.crystals;state.materials.runes+=c.runes;save();alert('Глава пройдена! +'+c.xp+' XP и материалы получены.')}
+function claimChapter(id){
+  let c=storyChapters.find(x=>x.id===id);
+
+  if(!c)return;
+
+  if(state.history.length<c.req){
+    showSystemToast('Сначала заверши '+c.req+' тренировочных квестов.','error');
+    return;
+  }
+
+  if(state.campaign.claimed.includes(id)){
+    showSystemToast('Эта награда уже получена.','error');
+    return;
+  }
+
+  state.campaign.claimed.push(id);
+  state.xp+=c.xp;
+  state.materials.shards+=c.shards;
+  state.materials.crystals+=c.crystals;
+  state.materials.runes+=c.runes;
+  save();
+
+  showSystemToast('Глава пройдена! +'+c.xp+' XP и материалы получены.');
+}
 const recipes=[
 {id:'rune',title:'Руна усиления',desc:'Материал для улучшения навыка тени.',cost:{shards:3,crystals:1,runes:0},gain:{runes:1}},
 {id:'crystal',title:'Кристалл маны',desc:'Редкий ресурс для улучшения экипировки.',cost:{shards:2,crystals:0,runes:0},gain:{crystals:1}},
