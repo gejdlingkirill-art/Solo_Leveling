@@ -1843,7 +1843,27 @@ function usePotion(type){
  alert('Зелье использовано. Ресурс восстановлен.');
 }
   function equip(slot,id){let g=gear.find(x=>x.id===id);if(!g||!isGearUnlocked(g))return;state.equipped[slot]=id;save()}
-function saveRecord(){let n=document.getElementById('recordname').value.trim(),v=document.getElementById('recordvalue').value.trim();if(!n||!v)return alert('Введи упражнение и результат.');state.records[n]={value:v,date:new Date().toLocaleDateString('ru-RU')};document.getElementById('recordname').value='';document.getElementById('recordvalue').value='';save()}
+function saveRecord(){
+  let n=document.getElementById('recordname').value.trim();
+  let v=document.getElementById('recordvalue').value.trim();
+
+  if(!n||!v){
+    showSystemToast('Введи упражнение и результат.','error');
+    return;
+  }
+
+  state.records=state.records||{};
+  state.records[n]={
+    value:v,
+    date:new Date().toLocaleDateString('ru-RU')
+  };
+
+  document.getElementById('recordname').value='';
+  document.getElementById('recordvalue').value='';
+
+  save();
+  showSystemToast('Личный рекорд сохранён!');
+}
 function renderRecords(){let r=Object.entries(state.records||{});document.getElementById('recordlist').innerHTML=r.length?r.map(([n,x])=>`<div class="dayrow"><span class="daybadge">★</span><div><b>${n}</b><div class="muted">${x.date}</div></div><strong style="color:var(--blue)">${x.value}</strong></div>`).join(''):'<p class="muted">Пока нет записей. Добавь первый личный рекорд.</p>'}
 function renderChart(){let svg=document.getElementById('weightchart'),a=(state.weights||[]).slice().reverse();if(!a.length){svg.innerHTML='<text x="160" y="75" text-anchor="middle" fill="#8da8c4" font-size="12">Добавь записи веса</text>';return}let vals=a.map(x=>Number(x.kg)),min=Math.min(...vals)-1,max=Math.max(...vals)+1,pts=vals.map((v,i)=>[15+i*(290/Math.max(1,vals.length-1)),135-(v-min)/(max-min)*110]);svg.innerHTML=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4"/><text x="${p[0]}" y="${Math.max(12,p[1]-8)}" fill="#a2e5ff" font-size="9" text-anchor="middle">${vals[i]}</text>`).join('')}
 function currentGearXpBonus(){return gear.filter(g=>state.equipped[g.slot]===g.id).reduce((sum,g)=>sum+(g.xpBonus||0)+Number(state.gearUpgrades[g.id]||0),0)}
