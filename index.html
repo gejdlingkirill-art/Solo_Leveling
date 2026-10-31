@@ -1518,9 +1518,55 @@ function renderAtlas(){let q=(document.getElementById("search")?.value||"").toLo
 function renderProgress(){renderWeeklyProgram();renderTrainingLog();document.getElementById("donecount").textContent=state.history.length;document.getElementById("history").innerHTML=state.history.length?state.history.map(h=>`<div class="dayrow"><span class="daybadge">XP</span><div><b>${h.name}</b><div class="muted">${h.date}</div></div><strong style="color:var(--blue)">+${h.xp}</strong></div>`).join(""):"Пока нет завершённых квестов.";document.getElementById("weightlog").textContent=state.weights.length?state.weights.map(w=>w.date+": "+w.kg+" кг").join(" · "):"Записей пока нет."}
 function renderWeeklyProgram(){let el=document.getElementById('weeklyProgram');if(!el)return;let p=state.personalization||{},n=Math.max(2,Math.min(6,Number(p.weeklyGoal)||4)),level=p.trainingLevel||'Начинающий';let templates=[plan[0],plan[1],plan[3],plan[4],plan[0],plan[1]];let labels=n===2?['ПН · Всё тело A','ЧТ · Всё тело B']:n===3?['ПН · Всё тело A','СР · Всё тело B','ПТ · Всё тело C']:n===4?['ПН · Верх A','ВТ · Низ A','ЧТ · Верх B','СБ · Низ B']:n===5?['ПН · Верх A','ВТ · Низ A','СР · Лёгкое кардио','ПТ · Верх B','СБ · Низ B']:['ПН · Верх A','ВТ · Низ A','СР · Верх B','ЧТ · Лёгкое кардио','ПТ · Низ B','СБ · Общая форма'];let chosen=n===2?[plan[0],plan[1]]:n===3?[plan[0],plan[1],plan[3]]:n===4?[plan[0],plan[1],plan[3],plan[4]]:n===5?[plan[0],plan[1],plan[2],plan[3],plan[4]]:[plan[0],plan[1],plan[3],plan[2],plan[4],plan[0]];let gear=(p.gear||[]).join(', ')||'собственный вес';el.innerHTML=`<div class="muted" style="margin-bottom:8px">${n} тренировочных дня · ${level} · цель: ${p.goal||'Общая форма'} · оборудование: ${gear}</div>`+chosen.map((d,i)=>{let rest=(n===2||n===3)&&i===chosen.length-1?'Заверши тренировку лёгкой заминкой.':d.desc;let tasks=d.tasks.slice(0,level==='Начинающий'?4:5).map(t=>adaptiveTask(t)).map(x=>`<li>${x.task[0]} <span class="muted">(${x.task[1]})</span></li>`).join('');return `<div class="dayrow"><span class="daybadge">${['ПН','ВТ','СР','ЧТ','ПТ','СБ'][i]}</span><div><b>${labels[i].split(' · ').slice(1).join(' · ')}</b><div class="muted">${rest}</div><details style="margin-top:6px"><summary class="muted">Упражнения</summary><ul class="muted">${tasks}</ul></details></div><span class="tag">${i===2&&n===5?'ЛЁГКО':'ПЛАН'}</span></div>`}).join('')+`<p class="muted" style="margin-top:10px">В остальные дни — отдых или спокойная прогулка. Если боль, необычная одышка или сильное утомление — остановись и снизь нагрузку. План не заменяет консультацию специалиста.</p>`;let opts=document.getElementById('exerciseOptions');if(opts)opts.innerHTML=[...new Set(plan.flatMap(d=>d.tasks.map(t=>adaptiveTask(t).task[0])))].map(x=>`<option value="${x}">`).join('')}
 function renderTrainingLog(){let entries=state.trainingLog||[],el=document.getElementById('trainingLogList');if(!el)return;el.innerHTML=entries.slice(0,12).map(e=>`<div class="dayrow"><span class="daybadge">${e.sets}×</span><div><b>${e.exercise}</b><div class="muted">${e.date} · ${e.weight} кг × ${e.reps} повт. · ${e.effort==='easy'?'легко':e.effort==='hard'?'тяжело':'нормально'}</div></div><button class="secondary" onclick="removeTrainingEntry('${e.id}')">×</button></div>`).join('')||'<p class="muted">Записей пока нет.</p>';let advice=document.getElementById('progressionAdvice');if(advice){let last=entries[0];if(!last)advice.textContent='Запиши результат, чтобы получить рекомендацию.';else{let same=entries.filter(e=>e.exercise.toLowerCase()===last.exercise.toLowerCase()).slice(0,2),lower=/присед|ног|выпад|тяга|мост|икр/i.test(last.exercise),inc=lower?0.05:0.025;let suggested=last.weight>0?Math.round(last.weight*(1+inc)*2)/2:0;if(last.effort==='hard')advice.textContent='Следующий раз: оставь вес '+last.weight+' кг или снизь его на 5–10%, если техника распадалась. Не увеличивай нагрузку.';else if(last.effort==='easy'&&same.length>=2&&same.every(e=>e.effort==='easy'))advice.textContent='Две лёгкие тренировки подряд: можно попробовать '+(suggested||'немного более сложный вариант')+(suggested?' кг':'')+' при сохранении техники.';else if(last.effort==='easy')advice.textContent='Если все подходы были чистыми, сначала добавь 1–2 повтора. После достижения верхней границы повторов можно повысить вес на 2,5–5%.';else advice.textContent='Сохрани вес '+last.weight+' кг и постепенно доведи подходы до верхней границы повторов. Повышай вес только после уверенного выполнения всех подходов.'}}}
-function saveTrainingEntry(){let exercise=document.getElementById('logExercise').value.trim(),weight=Number(document.getElementById('logWeight').value),sets=Number(document.getElementById('logSets').value),reps=Number(document.getElementById('logReps').value),effort=document.getElementById('logEffort').value;if(!exercise)return alert('Укажи упражнение.');if(!Number.isFinite(weight)||weight<0||weight>500||!Number.isInteger(sets)||sets<1||sets>20||!Number.isInteger(reps)||reps<1||reps>100)return alert('Проверь вес, подходы и повторы.');state.trainingLog=state.trainingLog||[];state.trainingLog.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),exercise,weight,sets,reps,effort,date:new Date().toLocaleDateString('ru-RU')});state.trainingLog=state.trainingLog.slice(0,200);document.getElementById('logWeight').value='';save()}
+function saveTrainingEntry(){
+  let exercise=document.getElementById('logExercise').value.trim(),
+  weight=Number(document.getElementById('logWeight').value),
+  sets=Number(document.getElementById('logSets').value),
+  reps=Number(document.getElementById('logReps').value),
+  effort=document.getElementById('logEffort').value;
+
+  if(!exercise){
+    showSystemToast('Укажи упражнение.','error');
+    return;
+  }
+
+  if(!Number.isFinite(weight)||weight<0||weight>500||
+     !Number.isInteger(sets)||sets<1||sets>20||
+     !Number.isInteger(reps)||reps<1||reps>100){
+    showSystemToast('Проверь вес, подходы и повторы.','error');
+    return;
+  }
+
+  state.trainingLog=state.trainingLog||[];
+  state.trainingLog.unshift({
+    id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    exercise,weight,sets,reps,effort,
+    date:new Date().toLocaleDateString('ru-RU')
+  });
+
+  state.trainingLog=state.trainingLog.slice(0,200);
+  document.getElementById('logWeight').value='';
+  save();
+  showSystemToast('Результат тренировки сохранён!');
+}
 function removeTrainingEntry(id){if(!confirm('Удалить эту запись?'))return;state.trainingLog=(state.trainingLog||[]).filter(e=>e.id!==id);save()}
-function saveWeight(){let v=Number(document.getElementById("weightinput").value);if(v<30||v>250||!v){alert("Введи корректный вес в кг.");return}state.weights.unshift({date:new Date().toLocaleDateString("ru-RU"),kg:v});document.getElementById("weightinput").value="";save()}
+function saveWeight(){
+  let v=Number(document.getElementById("weightinput").value);
+
+  if(v<30||v>250||!v){
+    showSystemToast("Введи корректный вес в кг.","error");
+    return;
+  }
+
+  state.weights.unshift({
+    date:new Date().toLocaleDateString("ru-RU"),
+    kg:v
+  });
+
+  document.getElementById("weightinput").value="";
+  save();
+  showSystemToast("Вес сохранён!");
+}
 function resetData(){if(confirm("Точно удалить весь XP, историю и записи веса?")){localStorage.removeItem("hunterState");state={xp:0,done:{},history:[],weights:[],streak:0,lastDate:"",start:new Date().toISOString().slice(0,10),stats:{strength:0,agility:0,endurance:0,points:0},claimed:{},unlocked:[],equipped:{weapon:null,armor:null,accessory:null},records:{},bossClaimed:{},materials:{shards:0,crystals:0,runes:0},campaign:{claimed:[],progress:0},shadowLevels:{},shadowSkills:{},crafted:[],gearUpgrades:{},bossVictories:{}};save()}}
 const gear=[
 {id:'blade',image:'assets/gear-sword.webp',slot:'weapon',name:'Клинок новичка',icon:'🗡️',glow:'#318bd8',rarity:'common',bonus:{strength:1},xpBonus:2,reqLevel:1,desc:'+1 сила · +2% XP',damage:'12–18',passive:'Уверенный старт: +2% XP за квесты'},
