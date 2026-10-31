@@ -416,6 +416,24 @@ main {
   box-shadow: 0 0 18px #168aff66, inset 0 0 10px #65c7ff22;
   filter: brightness(1.12);
 }
+ .material,
+.recipe,
+.potion-title {
+  animation: hunterReveal .35s ease-out both;
+}
+
+@keyframes hunterReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: brightness(.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+} 
 }
 
 /* END AWAKENING 5.1 VISUAL UPDATE */
