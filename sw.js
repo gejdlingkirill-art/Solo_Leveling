@@ -1,4 +1,4 @@
-const CACHE="hunter-app-v58-toast-cleanup";
+const CACHE="hunter-app-v59-nav-label-fix";
 const FILES=["./","./index.html","./manifest.json","./icon.svg","./assets/gear-crystal.webp","./assets/shadow-assassin.webp","./assets/shadow-wolf.webp","./assets/gear-armor.webp","./assets/boss-demon.webp","./assets/boss-monarch.webp","./assets/shadow-paladin.webp","./assets/boss-insect.webp","./assets/gear-sword.webp","./assets/shadow-archer.webp","./assets/gear-ring.webp","./assets/shadow-mage.webp","./assets/boss-ice-dragon.webp","./assets/shadow-golem.webp","./assets/shadow-knight.webp","./assets/shadow-elf.webp"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
