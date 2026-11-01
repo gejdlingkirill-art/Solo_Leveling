@@ -2573,7 +2573,7 @@ let icon=t.icon==='flame'?'<svg class="system-icon" viewBox="0 0 24 24"><path d=
 t.icon==='sword'?'<svg class="system-icon" viewBox="0 0 24 24"><path d="m14 6 4-4 4 4-4 4"/><path d="m2 22 4-1 12-12-3-3L3 18Z"/><path d="m6 17 3 3"/></svg>':
 t.icon==='crown'?'<svg class="system-icon" viewBox="0 0 24 24"><path d="m2 7 5 4 5-7 5 7 5-4-2 12H4L2 7Z"/><path d="M4 16h16"/></svg>':t.icon;
 return `<div class="title-card ${isActive?'active-title':''}"><div class="title-icon">${icon}</div><div class="title-info"><b class="${open?'':'muted'}">${t.id}</b><div class="muted">${open?t.desc:'Выполни условие для открытия'}</div></div>${open&&!isActive?`<button class="secondary" onclick="activateTitle('${t.id}')">Выбрать</button>`:isActive?'<span class="tag">АКТИВЕН</span>':''}</div>`;
-}).join('');
+}).join('');}
 
 // SOLO LEVELING 5.0 AWAKENING — расширенный атлас, связь квестов, готовность и сезон.
 const atlasGroups=[
