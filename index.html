@@ -1817,7 +1817,10 @@ function openShadowDetails(id){
       onclick="openShadowDetails('${x.id}')">
 
       <span class="shadow-rank">${x.rarity.toUpperCase()}</span>
-      <span class="shadow-state">${unlocked?'✦':'🔒'}</span>
+      <span class="shadow-state">${unlocked
+ ? '<svg class="system-icon" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></svg>'
+ : '<svg class="system-icon" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>'
+}</span>
 
       <img src="${x.image}" alt="${x.name}" loading="lazy">
 
@@ -1879,7 +1882,7 @@ function renderInventory(){
  let potions=state.potions||{};
 
  document.getElementById('inventorylist').innerHTML=[
-  ['weapon','⚔ ОРУЖИЕ'],
+  ['weapon','<svg class="system-icon" viewBox="0 0 24 24"><path d="m5 19 3-3M7 17l-2-2M7 17l10-10 2-3 2 2-3 3L8 19z"/></svg> ОРУЖИЕ'],
   ['armor','⬡ БРОНЯ'],
   ['accessory','◇ АКСЕССУАРЫ']
  ].map(([slot,title])=>`
@@ -1893,7 +1896,12 @@ function renderInventory(){
       <img src="${g.image}" alt="${g.name}" loading="lazy">
       <div class="compact-info">
        <b class="rarity-${g.rarity}">${g.name}</b>
-       <small>${eq?'✓ ЭКИПИРОВАНО':unlocked?'ДОСТУПНО':'🔒 ЗАБЛОКИРОВАНО'}</small>
+       <small>${eq
+ ? '✓ ЭКИПИРОВАНО'
+ : unlocked
+  ? 'ДОСТУПНО'
+  : '<svg class="system-icon" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> ЗАБЛОКИРОВАНО'
+}</small>
       </div>
      </div>
     `;
@@ -2044,7 +2052,12 @@ function openBossDetails(id){
   </div>
 
   <div class="pill">
-   ${defeated?'✓ БОСС ПОБЕЖДЁН':unlocked?'ДОСТУПЕН ДЛЯ БОЯ':'🔒 Требуется '+b.req+' квестов'}
+   ${defeated
+ ? '✓ БОСС ПОБЕЖДЁН'
+ : unlocked
+  ? 'ДОСТУПЕН ДЛЯ БОЯ'
+  : '<svg class="system-icon" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Требуется '+b.req+' квестов'
+}
   </div>
 
   ${defeated
