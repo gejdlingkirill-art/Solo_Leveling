@@ -2674,7 +2674,49 @@ renderQuests=function(){
     earnedEl.textContent = shownXp + ' XP';
   }
 
-  let advice=document.getElementById('adaptiveNotice'),ready=state.readiness||{};
+  let advice = document.getElementById('adaptiveNotice'),
+      ready = state.readiness || {};
+
+  if (advice && ready.date === new Date().toISOString().slice(0, 10)) {
+    advice.textContent += ' Готовность: ' + ready.label + '. ' +
+      ready.text + ' Твой выбор: ' +
+      ({
+        undecided: 'ещё не выбран',
+        normal: 'обычная тренировка',
+        reduced: 'облегчённая тренировка',
+        rest: 'отдых / восстановление'
+      }[state.readinessChoice || 'undecided']) + '.';
+  }
+
+  let host = document.getElementById('tasklist');
+  if (!host) return;
+
+  host.querySelectorAll('.workout').forEach(card => {
+    let title = card.querySelector('h3')?.textContent || '',
+        low = title.toLowerCase(),
+        x = atlas.find(a => a.name.toLowerCase() === low) ||
+            atlas.find(a => low.includes(a.name.toLowerCase()) ||
+              a.name.toLowerCase().includes(low)) ||
+            atlas.find(a =>
+              (/подтяг|тяга/.test(low) && a.cat === 'Спина') ||
+              (/жим|отжиман/.test(low) && a.cat === 'Грудь') ||
+              (/присед|выпад|ног|мост/.test(low) && a.cat === 'Ноги') ||
+              (/планк|пресс|колен/.test(low) && a.cat === 'Пресс и корпус') ||
+              (/скакал|кардио|бег/.test(low) && a.cat === 'Кардио') ||
+              (/мобиль|замин|восстанов/.test(low) &&
+                a.cat === 'Мобильность и восстановление')
+            );
+
+    if (x) {
+      let b = document.createElement('button');
+      b.className = 'secondary';
+      b.style.marginTop = '8px';
+      b.textContent = 'Техника в атласе ↗';
+      b.onclick = () => openAtlasExercise(x.id);
+      card.querySelector('.details')?.appendChild(b);
+    }
+  });
+};
 const originalRenderAll=renderAll;
 renderAll=function(){originalRenderAll();renderAwakeningExtras()};
 
