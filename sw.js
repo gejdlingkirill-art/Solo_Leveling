@@ -1,5 +1,5 @@
 
-const CACHE = "hunter-app-v65-profile-avatars";
+const CACHE = "hunter-app-v66-daily-quest-title";
 
 const FILES = [
   "./",
