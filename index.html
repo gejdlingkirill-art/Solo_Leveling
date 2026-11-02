@@ -2678,6 +2678,21 @@ renderQuests=function(){
   const questKey = dayKey(idx);
   const questPlan = plan[idx];
   const questDone = state.done[questKey] || [];
+    const titleEl = document.getElementById('questtitle');
+  const descEl = document.getElementById('questdesc');
+  const tagEl = document.getElementById('questtag');
+
+  if (titleEl && questPlan) {
+    const dayNames = [
+      'Воскресенье', 'Понедельник', 'Вторник',
+      'Среда', 'Четверг', 'Пятница', 'Суббота'
+    ];
+    titleEl.textContent = dayNames[new Date().getDay()] +
+      ' — ' + questPlan.name;
+  }
+
+  if (descEl && questPlan) descEl.textContent = questPlan.desc;
+  if (tagEl && questPlan) tagEl.textContent = questPlan.kind;
   const questHistory = (state.history || []).find(h => h.key === questKey);
 
   if (earnedEl && questPlan) {
