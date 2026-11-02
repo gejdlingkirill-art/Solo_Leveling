@@ -1090,7 +1090,7 @@ main {
  <div class="card"><h3 class="section-title">СВОДКА ПЕРСОНАЖА</h3><div class="stats"><div class="stat"><small>СИЛА</small><strong id="profileStrength">0</strong></div><div class="stat"><small>ЛОВКОСТЬ</small><strong id="profileAgility">0</strong></div><div class="stat"><small>ВЫНОСЛИВОСТЬ</small><strong id="profileEndurance">0</strong></div><div class="stat"><small>ЗАВЕРШЕНО КВЕСТОВ</small><strong id="profileQuests">0</strong></div></div><div class="row" style="margin-top:12px"><span class="muted">Серия тренировок</span><strong id="profileStreak" style="color:var(--blue)">0 дней</strong></div><div class="row" style="margin-top:8px"><span class="muted">Материалы</span><strong id="profileMaterials" style="color:var(--blue)">0 / 0 / 0</strong></div></div>
 </section>
 <section id="quests" class="page hidden">
- <div class="card"><div class="eyebrow">ЕЖЕДНЕВНАЯ МИССИЯ</div><h2 id="questtitle" style="margin:8px 0">Понедельник — Верх A</h2><p class="muted" id="questdesc">Отметь каждый выполненный элемент. Прогресс сохраняется на этом устройстве.</p><div class="row"><span class="tag" id="questtag">СИЛА</span><strong style="color:var(--blue)" id="earned">0 XP</strong></div><div class="xpbar"><span id="questfill" style="width:0%"></span></div></div>
+ <div class="card"><div class="eyebrow">ЕЖЕДНЕВНАЯ МИССИЯ</div><h2 id="questtitle" style="margin:8px 0">Понедельник — Верх A</h2><p class="muted" id="questdesc">Отметь каждый выполненный элемент. Прогресс сохраняется на этом устройстве.</p><div class="row"><span class="tag" id="questtag">СИЛА</span><strong style="color:var(--green)" id="questreward">НАГРАДА: +100 XP</strong></div><div class="row" style="margin-top:8px"><span class="muted">Заработано</span><strong style="color:var(--blue)" id="earned">0 XP</strong></div><div class="xpbar"><span id="questfill" style="width:0%"></span></div></div>
  <div class="card raid-card" id="workoutRaidPanel"></div><div id="tasklist"></div><button class="primary" id="complete" onclick="completeDay()">Завершить квест</button>
  <p class="muted" style="text-align:center">Не выполняй пропущенную нагрузку двойным объёмом. Отдых тоже часть системы.</p>
 </section>
@@ -2693,6 +2693,17 @@ renderQuests=function(){
 
   if (descEl && questPlan) descEl.textContent = questPlan.desc;
   if (tagEl && questPlan) tagEl.textContent = questPlan.kind;
+    const rewardEl = document.getElementById('questreward');
+
+  if (rewardEl && questPlan) {
+    const raidBonus = state.workoutRaids[questKey] ? 0 : 15;
+    const totalReward = Math.round(
+      (questPlan.xp + raidBonus) *
+      (1 + currentGearXpBonus() / 100)
+    );
+
+    rewardEl.textContent = 'НАГРАДА: +' + totalReward + ' XP';
+  }
   const questHistory = (state.history || []).find(h => h.key === questKey);
 
   if (earnedEl && questPlan) {
