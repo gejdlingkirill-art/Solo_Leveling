@@ -1,5 +1,5 @@
 
-const CACHE = "hunter-app-v72-gear-fix";
+const CACHE = "hunter-app-v73-onboarding";
 const FILES = [
   "./",
   "./index.html",
