@@ -1,5 +1,5 @@
 
-const CACHE = "hunter-app-v85-shadow-grid";
+const CACHE = "hunter-app-v86-compact-rarity";
 const FILES = [
   "./",
   "./index.html",
