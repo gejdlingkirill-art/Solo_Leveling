@@ -28,7 +28,13 @@ const FILES = [
   "./assets/05_pursuer_armor.png",
   "./assets/06_monarch_mantle.png",
   "./assets/07_rift_ring.png",
-  "./assets/08_mana_core.png"
+  "./assets/08_mana_core.png",
+"./assets/shadow-army-spark.jpg",
+"./assets/shadow-army-hound.jpg",
+"./assets/shadow-army-knight.jpg",
+"./assets/shadow-army-mage.jpg",
+"./assets/shadow-army-assassin.jpg",
+"./assets/shadow-army-commander.jpg"
 ];
 
 self.addEventListener("install", event => {
