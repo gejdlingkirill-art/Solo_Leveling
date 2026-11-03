@@ -1,5 +1,5 @@
 
-const CACHE = "hunter-app-v70-gear-icons";
+const CACHE = "hunter-app-v71-gear-icons";
 const FILES = [
   "./",
   "./index.html",
@@ -21,6 +21,14 @@ const FILES = [
   "./assets/shadow-golem.webp",
   "./assets/shadow-knight.webp",
   "./assets/shadow-elf.webp"
+  "./assets/01_novice_blade.png",
+  "./assets/02_blueflame_blade.png",
+  "./assets/03_shadow_edge.png",
+  "./assets/04_hunters_cloak.png",
+  "./assets/05_pursuer_armor.png",
+  "./assets/06_monarch_mantle.png",
+  "./assets/07_rift_ring.png",
+  "./assets/08_mana_core.png"
 ];
 
 self.addEventListener("install", event => {
