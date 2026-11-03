@@ -1,6 +1,5 @@
 
-const CACHE = "hunter-app-v69-quest-reward";
-
+const CACHE = "hunter-app-v70-gear-icons";
 const FILES = [
   "./",
   "./index.html",
