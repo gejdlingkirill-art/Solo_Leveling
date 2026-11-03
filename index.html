@@ -1723,13 +1723,13 @@ function saveWeight(){
 }
 function resetData(){if(confirm("Точно удалить весь XP, историю и записи веса?")){localStorage.removeItem("hunterState");state={xp:0,done:{},history:[],weights:[],streak:0,lastDate:"",start:new Date().toISOString().slice(0,10),stats:{strength:0,agility:0,endurance:0,points:0},claimed:{},unlocked:[],equipped:{weapon:null,armor:null,accessory:null},records:{},bossClaimed:{},materials:{shards:0,crystals:0,runes:0},campaign:{claimed:[],progress:0},shadowLevels:{},shadowSkills:{},crafted:[],gearUpgrades:{},bossVictories:{}};save()}}
 const gear=[
-{id:'blade',image:'assets/01_novice_blade.png', ...}
-{id:'blueblade',image:'assets/02_blueflame_blade.png', ...}
-{id:'shadowedge',image:'assets/03_shadow_edge.png', ...}
-{id:'cloth',image:'assets/04_hunters_cloak.png', ...}
-{id:'stalker',image:'assets/05_pursuer_armor.png', ...}
-{id:'monarch',image:'assets/06_monarch_mantle.png', ...}
-{id:'ring',image:'assets/07_rift_ring.png', ...}
+{id:'blade',image:'assets/01_novice_blade.png', ...},
+{id:'blueblade',image:'assets/02_blueflame_blade.png', ...},
+{id:'shadowedge',image:'assets/03_shadow_edge.png', ...},
+{id:'cloth',image:'assets/04_hunters_cloak.png', ...},
+{id:'stalker',image:'assets/05_pursuer_armor.png', ...},
+{id:'monarch',image:'assets/06_monarch_mantle.png', ...},
+{id:'ring',image:'assets/07_rift_ring.png', ...},
 {id:'core',image:'assets/08_mana_core.png', ...}
 const shadows=[
 {id:'spark',image:'assets/shadow-mage.webp',name:'Искра',icon:'<svg class="system-icon" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></svg>',glow:'#65c7ff',rarity:'common',req:0,level:1,stats:{strength:4,agility:8,endurance:5},role:'Разведчик',skill:'Вспышка: помогает держать серию квестов.',desc:'Первая тень. Верность начинается с первого шага.'},
