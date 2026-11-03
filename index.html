@@ -1643,6 +1643,43 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:2px s
 #atlas .atlas-toolbar.tap-fx-active,
 #atlas .atlas-card.tap-fx-active{transform:none!important;filter:none!important}
 
+/* Compact shadow rarity badges */
+.shadow-card .shadow-rank{
+  position:absolute;
+  top:7px;
+  left:7px;
+  z-index:2;
+  max-width:calc(100% - 14px);
+  padding:3px 6px;
+  border:1px solid currentColor;
+  border-radius:6px;
+  background:rgba(4,10,20,.88);
+  font-size:8px;
+  line-height:1.2;
+  letter-spacing:.04em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.shadow-card .shadow-state{
+  position:absolute;
+  top:7px;
+  right:7px;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  background:rgba(4,10,20,.88);
+}
+
+.shadow-card .shadow-state .system-icon{
+  width:13px;
+  height:13px;
+}
 </style>
 </head>
 <body>
