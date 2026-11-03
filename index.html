@@ -1091,7 +1091,17 @@ main {
 </section>
 <section id="quests" class="page hidden">
  <div class="card"><div class="eyebrow">ЕЖЕДНЕВНАЯ МИССИЯ</div><h2 id="questtitle" style="margin:8px 0">Понедельник — Верх A</h2><p class="muted" id="questdesc">Отметь каждый выполненный элемент. Прогресс сохраняется на этом устройстве.</p><div class="row"><span class="tag" id="questtag">СИЛА</span><strong style="color:var(--green)" id="questreward">НАГРАДА: +100 XP</strong></div><div class="row" style="margin-top:8px"><span class="muted">Заработано</span><strong style="color:var(--blue)" id="earned">0 XP</strong></div><div class="xpbar"><span id="questfill" style="width:0%"></span></div></div>
- <div class="card raid-card" id="workoutRaidPanel"></div><div id="tasklist"></div><button class="primary" id="complete" onclick="completeDay()">Завершить квест</button>
+ <div class="card raid-card" id="workoutRaidPanel"></div>
+<div id="tasklist"></div>
+
+<button class="secondary" style="width:100%;margin:12px 0"
+        onclick="go('atlas')">
+  📖 Открыть атлас упражнений
+</button>
+
+<button class="primary" id="complete" onclick="completeDay()">
+  Завершить квест
+</button>
  <p class="muted" style="text-align:center">Не выполняй пропущенную нагрузку двойным объёмом. Отдых тоже часть системы.</p>
 </section>
 <section id="atlas" class="page hidden">
