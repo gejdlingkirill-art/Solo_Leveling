@@ -20,7 +20,7 @@ const FILES = [
   "./assets/boss-ice-dragon.webp",
   "./assets/shadow-golem.webp",
   "./assets/shadow-knight.webp",
-  "./assets/shadow-elf.webp"
+  "./assets/shadow-elf.webp",
   "./assets/01_novice_blade.png",
   "./assets/02_blueflame_blade.png",
   "./assets/03_shadow_edge.png",
