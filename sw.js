@@ -29,12 +29,12 @@ const FILES = [
   "./assets/06_monarch_mantle.png",
   "./assets/07_rift_ring.png",
   "./assets/08_mana_core.png",
-"./assets/shadow-army-spark.jpg",
-"./assets/shadow-army-hound.jpg",
-"./assets/shadow-army-knight.jpg",
-"./assets/shadow-army-mage.jpg",
-"./assets/shadow-army-assassin.jpg",
-"./assets/shadow-army-commander.jpg"
+"./assets/spark.jpg",
+"./assets/shadow_hound.jpg",
+"./assets/shadow_knight.jpg",
+"./assets/shadow_mage.jpg",
+"./assets/shadow_assassin.jpg",
+"./assets/commander_shadow_army.jpg"
 ];
 
 self.addEventListener("install", event => {
