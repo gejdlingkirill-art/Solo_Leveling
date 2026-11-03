@@ -1,6 +1,6 @@
 {
-  "name": "Система охотника — Solo Leveling",
-  "short_name": "Охотник",
+ "name": "Solo Leveling System",
+"short_name": "Solo Leveling",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#050914",
