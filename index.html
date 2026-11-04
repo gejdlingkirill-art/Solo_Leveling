@@ -1919,7 +1919,106 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:2px s
   </div>
 </section>
 <section id="boss" class="page hidden"><div class="card"><div class="eyebrow">РЕЙДОВОЕ ИСПЫТАНИЕ</div><h2 style="margin:8px 0">Босс недели</h2><img id="featuredBossArt" class="boss-art" src="assets/boss-ice-dragon.webp" alt="Иллюстрация босса недели"><h3 id="bosstitle">Страж Синего Разлома</h3><p class="muted" id="bossdesc">Заверши 4 квеста в течение недели, чтобы нанести решающий удар.</p><div class="xpbar"><span id="bossbar" style="width:0%"></span></div><div class="row"><span class="muted" id="bosscount">0 / 4 квестов</span><span class="tag">НАГРАДА: +250 XP</span></div><button class="primary" style="margin-top:12px" onclick="claimBoss()">Забрать трофей босса</button><p class="muted" id="bossstatus"></p><div class="model-section">БОЕВАЯ СИСТЕМА · ВЫБЕРИ БОССА НИЖЕ</div><div id="battlepanel"></div><div class="model-section">БЕСТИАРИЙ · БОССЫ</div><div id="bossroster" class="model-grid"></div></div><div class="card"><h3 class="section-title">Пробуждение ранга</h3><p class="muted">Повышай ранг через накопленный XP. Пороговые уровни открывают новые названия и косметические титулы.</p><div id="awakening"></div></div><div class="card"><h3 class="section-title">Резервная копия охотника</h3><p class="muted">Экспортируй прогресс в JSON перед публикацией обновлений или переносом на другое устройство. Файл можно сохранить в «Файлы».</p><button class="primary" onclick="exportBackup()">⬇ Экспортировать сохранение</button><label class="secondary" style="display:block;text-align:center;margin-top:9px">Импортировать сохранение<input type="file" accept="application/json,.json" onchange="importBackup(event)" style="display:block;width:100%;margin-top:8px"></label><p class="muted">Импорт заменит текущий прогресс данными из файла. Сделай экспорт перед импортом.</p></div>
-<button class="primary" style="margin-top:12px" onclick="go('campaign')">
+
+<div class="card" id="raidHub">
+  <div class="eyebrow">DUNGEON GATE · РЕЙДОВЫЙ ЦЕНТР</div>
+  <h2 style="margin:8px 0">Разломы</h2>
+  <p class="muted">Выбирай подземелье, проходи испытания и забирай трофеи.</p>
+
+  <div class="row" style="flex-wrap:wrap;gap:6px;margin:14px 0">
+    <button class="mini-btn" onclick="filterRaidRank('ALL')">Все</button>
+    <button class="mini-btn" onclick="filterRaidRank('E')">E</button>
+    <button class="mini-btn" onclick="filterRaidRank('D')">D</button>
+    <button class="mini-btn" onclick="filterRaidRank('C')">C</button>
+    <button class="mini-btn" onclick="filterRaidRank('B')">B</button>
+    <button class="mini-btn" onclick="filterRaidRank('A')">A</button>
+    <button class="mini-btn" onclick="filterRaidRank('S')">S</button>
+  </div>
+
+  <div class="model-grid" id="raidDungeonGrid">
+    <div class="model-card" data-raid-rank="E">
+      <div class="tag">РАНГ E</div>
+      <div class="raid-icon">🟦</div>
+      <h3>Заброшенные катакомбы</h3>
+      <p class="muted">Сложность: начальная</p>
+      <p class="muted">Босс: Каменный страж</p>
+      <div class="raid-reward">
+        <span>+100 XP</span><span>Осколки</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('E')">Выбрать рейд</button>
+    </div>
+
+    <div class="model-card" data-raid-rank="D">
+      <div class="tag">РАНГ D</div>
+      <div class="raid-icon">🌑</div>
+      <h3>Лес теней</h3>
+      <p class="muted">Сложность: низкая</p>
+      <p class="muted">Босс: Теневой охотник</p>
+      <div class="raid-reward">
+        <span>+150 XP</span><span>Материалы</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('D')">Выбрать рейд</button>
+    </div>
+
+    <div class="model-card" data-raid-rank="C">
+      <div class="tag">РАНГ C</div>
+      <div class="raid-icon">❄️</div>
+      <h3>Ледяная пещера</h3>
+      <p class="muted">Сложность: средняя</p>
+      <p class="muted">Босс: Ледяной голем</p>
+      <div class="raid-reward">
+        <span>+200 XP</span><span>Кристаллы</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('C')">Выбрать рейд</button>
+    </div>
+
+    <div class="model-card" data-raid-rank="B">
+      <div class="tag">РАНГ B</div>
+      <div class="raid-icon">🔥</div>
+      <h3>Пылающий разлом</h3>
+      <p class="muted">Сложность: высокая</p>
+      <p class="muted">Босс: Демон-берсерк</p>
+      <div class="raid-reward">
+        <span>+300 XP</span><span>Редкая добыча</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('B')">Выбрать рейд</button>
+    </div>
+
+    <div class="model-card" data-raid-rank="A">
+      <div class="tag">РАНГ A</div>
+      <div class="raid-icon">⚡</div>
+      <h3>Цитадель Бездны</h3>
+      <p class="muted">Сложность: экстремальная</p>
+      <p class="muted">Босс: Владыка Бездны</p>
+      <div class="raid-reward">
+        <span>+500 XP</span><span>Эпическая добыча</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('A')">Выбрать рейд</button>
+    </div>
+
+    <div class="model-card" data-raid-rank="S">
+      <div class="tag">РАНГ S</div>
+      <div class="raid-icon">👑</div>
+      <h3>Врата Катастрофы</h3>
+      <p class="muted">Сложность: предельная</p>
+      <p class="muted">Босс: Древний дракон</p>
+      <div class="raid-reward">
+        <span>+1000 XP</span><span>Легендарная добыча</span>
+      </div>
+      <button class="secondary" style="width:100%;margin-top:12px"
+        onclick="selectRaid('S')">Выбрать рейд</button>
+    </div>
+  </div>
+
+  <div id="raidSelectionInfo" class="notice" style="display:none;margin-top:12px"></div>
+</div>
+
+  <button class="primary" style="margin-top:12px" onclick="go('campaign')">
   <svg class="system-icon" viewBox="0 0 24 24" aria-hidden="true">
   <path d="M12 6 3 3v16l9 2 9-2V3z"/>
   <path d="M12 6v15M6 7l3 1M6 11l3 1M15 8l3-1M15 12l3-1"/>
@@ -3974,6 +4073,36 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigato
  // Never leave the user behind a loader if a slow image or font hangs.
  setTimeout(finish,6500);
 })();
+
+
+function filterRaidRank(rank) {
+  document.querySelectorAll('#raidDungeonGrid [data-raid-rank]')
+    .forEach(card => {
+      card.style.display =
+        rank === 'ALL' || card.dataset.raidRank === rank
+          ? ''
+          : 'none';
+    });
+}
+
+function selectRaid(rank) {
+  const names = {
+    E: 'Заброшенные катакомбы',
+    D: 'Лес теней',
+    C: 'Ледяная пещера',
+    B: 'Пылающий разлом',
+    A: 'Цитадель Бездны',
+    S: 'Врата Катастрофы'
+  };
+
+  const info = document.getElementById('raidSelectionInfo');
+  if (!info) return;
+
+  info.style.display = 'block';
+  info.textContent =
+    'Выбран рейд ранга ' + rank + ': ' + names[rank] +
+    '. Следующий этап — подготовка подземелья.';
+}
 
 </script>
 </body></html>
