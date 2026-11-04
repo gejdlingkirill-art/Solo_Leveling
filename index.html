@@ -4176,18 +4176,41 @@ function renderRaidRun() {
 
   const raid = raidData[run.rank];
   const stage = run.stage;
+  const isBoss = stage === raid.stages.length - 1;
+
+  if (isBoss && !Number.isFinite(run.bossHP)) run.bossHP = 3;
+
+  const hp = isBoss ? run.bossHP : 3;
+  const hpPercent = Math.max(0, (hp / 3) * 100);
 
   info.style.display = 'block';
   info.innerHTML = `
     <h3 style="margin:0 0 8px">${raid.name}</h3>
     <p class="muted">Этап ${stage + 1} из ${raid.stages.length}</p>
-    <div class="xpbar">
-      <span style="width:${((stage + 1) / raid.stages.length) * 100}%"></span>
-    </div>
+
+    ${isBoss ? `
+      <div class="raid-head">
+        <div class="raid-icon">👹</div>
+        <div>
+          <strong>${raid.boss}</strong>
+          <p class="muted">Фаза ${4 - hp} из 3</p>
+        </div>
+      </div>
+      <div class="raid-hp">
+        <span style="width:${hpPercent}%"></span>
+      </div>
+      <p class="muted">Здоровье босса: ${hp} / 3</p>
+    ` : `
+      <div class="xpbar">
+        <span style="width:${((stage + 1) / raid.stages.length) * 100}%"></span>
+      </div>
+    `}
+
     <p style="margin:12px 0">${raid.stages[stage]}</p>
     <p class="muted">Выполняй задания в комфортном темпе. При боли или головокружении остановись.</p>
+
     <button class="primary" onclick="advanceRaid()">
-      ${stage === raid.stages.length - 1 ? 'Победить босса' : 'Завершить этап'}
+      ${isBoss ? `Атаковать босса · ${hp} HP` : 'Завершить этап'}
     </button>
     <button class="secondary" style="width:100%;margin-top:8px" onclick="exitRaid()">Выйти из рейда</button>
   `;
