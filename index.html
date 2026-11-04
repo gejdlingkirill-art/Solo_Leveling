@@ -4085,24 +4085,160 @@ function filterRaidRank(rank) {
     });
 }
 
+const raidData = {
+  E: {
+    name: 'Заброшенные катакомбы',
+    boss: 'Каменный страж',
+    xp: 100,
+    stages: [
+      'Разомнись: 2 минуты лёгкой разминки.',
+      'Выполни 2 подхода приседаний по 10 повторений.',
+      'ФИНАЛЬНЫЙ БОСС: Каменный страж. Выполни 1 подход отжиманий в комфортном темпе.'
+    ]
+  },
+  D: {
+    name: 'Лес теней',
+    boss: 'Теневой охотник',
+    xp: 150,
+    stages: [
+      'Разомнись: 2 минуты лёгкой разминки.',
+      'Выполни 2 подхода выпадов по 8 повторений на каждую ногу.',
+      'ФИНАЛЬНЫЙ БОСС: Теневой охотник. Выполни 2 подхода планки по 20 секунд.'
+    ]
+  },
+  C: {
+    name: 'Ледяная пещера',
+    boss: 'Ледяной голем',
+    xp: 200,
+    stages: [
+      'Разомнись: 3 минуты лёгкой разминки.',
+      'Выполни 3 подхода приседаний по 10 повторений.',
+      'ФИНАЛЬНЫЙ БОСС: Ледяной голем. Выполни 2 подхода отжиманий в комфортном темпе.'
+    ]
+  },
+  B: {
+    name: 'Пылающий разлом',
+    boss: 'Демон-берсерк',
+    xp: 300,
+    stages: [
+      'Разомнись: 3 минуты лёгкой разминки.',
+      'Выполни 3 подхода выпадов по 10 повторений на каждую ногу.',
+      'ФИНАЛЬНЫЙ БОСС: Демон-берсерк. Выполни 3 подхода планки по 25 секунд.'
+    ]
+  },
+  A: {
+    name: 'Цитадель Бездны',
+    boss: 'Владыка Бездны',
+    xp: 500,
+    stages: [
+      'Разомнись: 4 минуты лёгкой разминки.',
+      'Выполни 3 подхода приседаний по 12 повторений.',
+      'ФИНАЛЬНЫЙ БОСС: Владыка Бездны. Выполни 3 подхода отжиманий в комфортном темпе.'
+    ]
+  },
+  S: {
+    name: 'Врата Катастрофы',
+    boss: 'Древний дракон',
+    xp: 1000,
+    stages: [
+      'Разомнись: 5 минут лёгкой разминки.',
+      'Выполни 3 подхода выпадов по 12 повторений на каждую ногу.',
+      'ФИНАЛЬНЫЙ БОСС: Древний дракон. Выполни 3 подхода планки по 30 секунд.'
+    ]
+  }
+};
+
 function selectRaid(rank) {
-  const names = {
-    E: 'Заброшенные катакомбы',
-    D: 'Лес теней',
-    C: 'Ледяная пещера',
-    B: 'Пылающий разлом',
-    A: 'Цитадель Бездны',
-    S: 'Врата Катастрофы'
-  };
+  const info = document.getElementById('raidSelectionInfo');
+  if (!info || !raidData[rank]) return;
+
+  info.style.display = 'block';
+  info.innerHTML = `
+    <h3 style="margin:0 0 8px">Ранг ${rank} · ${raidData[rank].name}</h3>
+    <p style="margin:0 0 10px">Босс: ${raidData[rank].boss}</p>
+    <p class="muted">Награда за первое прохождение: +${raidData[rank].xp} XP</p>
+    <button class="primary" onclick="startRaid('${rank}')">Войти в подземелье</button>
+  `;
+}
+
+function startRaid(rank) {
+  if (!raidData[rank]) return;
+
+  state.raidRun = { rank, stage: 0 };
+  save();
+  renderRaidRun();
+}
+
+function renderRaidRun() {
+  const info = document.getElementById('raidSelectionInfo');
+  const run = state.raidRun;
+  if (!info || !run || !raidData[run.rank]) return;
+
+  const raid = raidData[run.rank];
+  const stage = run.stage;
+
+  info.style.display = 'block';
+  info.innerHTML = `
+    <h3 style="margin:0 0 8px">${raid.name}</h3>
+    <p class="muted">Этап ${stage + 1} из ${raid.stages.length}</p>
+    <div class="xpbar">
+      <span style="width:${((stage + 1) / raid.stages.length) * 100}%"></span>
+    </div>
+    <p style="margin:12px 0">${raid.stages[stage]}</p>
+    <p class="muted">Выполняй задания в комфортном темпе. При боли или головокружении остановись.</p>
+    <button class="primary" onclick="advanceRaid()">
+      ${stage === raid.stages.length - 1 ? 'Победить босса' : 'Завершить этап'}
+    </button>
+    <button class="secondary" style="width:100%;margin-top:8px" onclick="exitRaid()">Выйти из рейда</button>
+  `;
+}
+
+function advanceRaid() {
+  const run = state.raidRun;
+  if (!run || !raidData[run.rank]) return;
+
+  if (run.stage < raidData[run.rank].stages.length - 1) {
+    run.stage++;
+    save();
+    renderRaidRun();
+    return;
+  }
+
+  const rank = run.rank;
+  const raid = raidData[rank];
+
+  state.raidClaims = state.raidClaims || {};
+  const alreadyClaimed = !!state.raidClaims[rank];
+
+  if (!alreadyClaimed) {
+    state.xp = (Number(state.xp) || 0) + raid.xp;
+    state.raidClaims[rank] = true;
+  }
+
+  state.raidRun = null;
+  save();
 
   const info = document.getElementById('raidSelectionInfo');
   if (!info) return;
 
   info.style.display = 'block';
-  info.textContent =
-    'Выбран рейд ранга ' + rank + ': ' + names[rank] +
-    '. Следующий этап — подготовка подземелья.';
+  info.innerHTML = `
+    <h3 style="margin:0 0 8px">🏆 Рейд завершён!</h3>
+    <p>${raid.name}: босс ${raid.boss} повержен.</p>
+    <p class="muted">${alreadyClaimed ? 'Награда за этот ранг уже получена.' : `Получено: +${raid.xp} XP`}</p>
+    <button class="secondary" style="width:100%" onclick="selectRaid('${rank}')">Вернуться к рейду</button>
+  `;
 }
 
+function exitRaid() {
+  state.raidRun = null;
+  save();
+
+  const info = document.getElementById('raidSelectionInfo');
+  if (info) {
+    info.style.display = 'none';
+    info.innerHTML = '';
+  }
+}
 </script>
 </body></html>
