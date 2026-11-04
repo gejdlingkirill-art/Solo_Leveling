@@ -4220,16 +4220,26 @@ function advanceRaid() {
   const run = state.raidRun;
   if (!run || !raidData[run.rank]) return;
 
-  if (run.stage < raidData[run.rank].stages.length - 1) {
+  const raid = raidData[run.rank];
+  const isBoss = run.stage === raid.stages.length - 1;
+
+  if (!isBoss) {
     run.stage++;
+    if (run.stage === raid.stages.length - 1) run.bossHP = 3;
+    save();
+    renderRaidRun();
+    return;
+  }
+
+  run.bossHP = Math.max(0, (Number(run.bossHP) || 3) - 1);
+
+  if (run.bossHP > 0) {
     save();
     renderRaidRun();
     return;
   }
 
   const rank = run.rank;
-  const raid = raidData[rank];
-
   state.raidClaims = state.raidClaims || {};
   const alreadyClaimed = !!state.raidClaims[rank];
 
@@ -4252,7 +4262,6 @@ function advanceRaid() {
     <button class="secondary" style="width:100%" onclick="selectRaid('${rank}')">Вернуться к рейду</button>
   `;
 }
-
 function exitRaid() {
   state.raidRun = null;
   save();
