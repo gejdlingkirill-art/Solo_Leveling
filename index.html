@@ -2049,7 +2049,60 @@ button:active{transform:scale(.985)}
   <div class="muted" id="rankDisciplineDetails" style="margin-top:7px">
     Выполнено 0 из 0 тренировок за 30 дней
   </div>
-</div><div class="model-section" style="margin-top:15px">ВЫБОР АВАТАРА</div><div id="avatarPicker" class="avatar-picks"></div><label class="muted" for="playerNameInput" style="display:block;margin:14px 0 6px">Имя охотника</label><div class="row"><input id="playerNameInput" class="field" maxlength="24" placeholder="Например, Shadow Hunter"><button class="secondary" onclick="savePlayerName()">Сохранить</button></div></div><div class="card">
+</div>
+
+<div class="card" style="margin-top:12px;padding:12px">
+  <div class="row" style="justify-content:space-between">
+    <b>ПУТЬ К РАНГУ B</b>
+    <span class="tag">РАНГ C → B</span>
+  </div>
+
+  <div class="muted" style="margin:8px 0 12px">
+    Выполни все требования, чтобы получить право на экзамен охотника.
+  </div>
+
+  <div class="row" style="justify-content:space-between">
+    <span>Опыт</span>
+    <b id="rankReqXp">0 / 12000 XP</b>
+  </div>
+  <div class="xpbar"><span id="rankReqXpBar" style="width:0%"></span></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <span>Сила · STR</span>
+    <b id="rankReqStr">0 / 22</b>
+  </div>
+  <div class="xpbar"><span id="rankReqStrBar" style="width:0%"></span></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <span>Ловкость · AGI</span>
+    <b id="rankReqAgi">0 / 22</b>
+  </div>
+  <div class="xpbar"><span id="rankReqAgiBar" style="width:0%"></span></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <span>Выносливость · END</span>
+    <b id="rankReqEnd">0 / 22</b>
+  </div>
+  <div class="xpbar"><span id="rankReqEndBar" style="width:0%"></span></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <span>Полноценные тренировки</span>
+    <b id="rankReqTraining">0 / 60</b>
+  </div>
+  <div class="xpbar"><span id="rankReqTrainingBar" style="width:0%"></span></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:12px">
+    <span>Дисциплина</span>
+    <b id="rankReqDiscipline">0 / 70%</b>
+  </div>
+  <div class="xpbar"><span id="rankReqDisciplineBar" style="width:0%"></span></div>
+
+  <div class="tag" id="rankReqStatus" style="margin-top:14px">
+    ЭКЗАМЕН ЗАКРЫТ
+  </div>
+</div>
+
+<div class="model-section" style="margin-top:15px">ВЫБОР АВАТАРА</div><div id="avatarPicker" class="avatar-picks"></div><label class="muted" for="playerNameInput" style="display:block;margin:14px 0 6px">Имя охотника</label><div class="row"><input id="playerNameInput" class="field" maxlength="24" placeholder="Например, Shadow Hunter"><button class="secondary" onclick="savePlayerName()">Сохранить</button></div></div><div class="card">
   <div class="eyebrow">РАЗДЕЛЫ СИСТЕМЫ</div>
   <h3 class="section-title">Управление охотником</h3>
 
