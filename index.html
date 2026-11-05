@@ -2534,7 +2534,78 @@ function showSystemToast(message, type = "success"){
  renderAll();
 }
 function rank(){return state.rankSystem?.currentRank||"C"}
-function level(){return Math.floor(state.xp/100)+1}
+// RANK SYSTEM — дисциплина за последние 30 дней
+function calculateRankDiscipline(){
+  const rs=state.rankSystem;
+  if(!rs)return 0;
+
+  rs.trainingSessions=rs.trainingSessions||[];
+  rs.discipline=rs.discipline||{windowDays:30,score:0};
+
+  const today=hunterLocalDateKey();
+  const windowDays=30;
+  const startDate=rs.rankHistory?.[0]?.date||today;
+
+  const goal=Math.max(2,Math.min(6,
+    Number(state.personalization?.weeklyGoal)||4
+  ));
+
+  const schedule={
+    2:[1,4],
+    3:[1,3,5],
+    4:[1,2,4,6],
+    5:[1,2,3,5,6],
+    6:[1,2,3,4,5,6]
+  };
+
+  const plannedDays=schedule[goal];
+  const completed=new Set(
+    rs.trainingSessions.map(s=>s.date)
+  );
+
+  const todayDate=new Date();
+  todayDate.setHours(12,0,0,0);
+
+  const windowStart=new Date(todayDate);
+  windowStart.setDate(windowStart.getDate()-(windowDays-1));
+
+  const migrationDate=new Date(startDate+"T12:00:00");
+  const firstDate=migrationDate>windowStart
+    ?migrationDate
+    :windowStart;
+
+  let planned=0;
+  let done=0;
+
+  for(let date=new Date(firstDate);date<=todayDate;date.setDate(date.getDate()+1)){
+    const key=hunterLocalDateKey(date);
+    const isToday=key===today;
+
+    if(!plannedDays.includes(date.getDay()))continue;
+
+    // Незавершённый сегодняшний день пока не считается пропуском.
+    if(isToday&&!completed.has(key))continue;
+
+    planned++;
+
+    if(completed.has(key)){
+      done++;
+    }
+  }
+
+  const score=planned>0
+    ?Math.round(done/planned*100)
+    :0;
+
+  rs.discipline.windowDays=windowDays;
+  rs.discipline.score=score;
+  rs.discipline.completed=done;
+  rs.discipline.planned=planned;
+  rs.discipline.lastCalculatedAt=new Date().toISOString();
+
+  return score;
+}
+  function level(){return Math.floor(state.xp/100)+1}
 function go(page){
   document.querySelectorAll(".page").forEach(e=>{
     e.classList.toggle("hidden",e.id!==page);
