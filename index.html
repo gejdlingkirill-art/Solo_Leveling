@@ -1680,6 +1680,239 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:2px s
   width:13px;
   height:13px;
 }
+
+/* HUNTER SYSTEM · MISSED DAILY QUEST PENALTY */
+.missed-penalty-overlay{position:fixed;inset:0;z-index:100500;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,7,17,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .42s ease,visibility .42s ease;overflow-y:auto}
+.missed-penalty-overlay.show{opacity:1;visibility:visible}
+.missed-penalty-card{position:relative;width:min(100%,560px);max-height:min(92dvh,900px);overflow:auto;border:1px solid rgba(104,205,255,.72);border-radius:28px;padding:clamp(22px,5vw,38px);background:radial-gradient(ellipse at 50% 0%,rgba(100,23,38,.34),transparent 44%),linear-gradient(155deg,#101d31 0%,#071323 58%,#0b1728 100%);box-shadow:0 0 0 1px rgba(93,196,255,.12),0 0 48px rgba(62,175,255,.2),inset 0 0 38px rgba(37,118,174,.08);transform:translateY(22px) scale(.97);transition:transform .55s cubic-bezier(.2,.8,.2,1);text-align:center;color:#eaf6ff}
+.missed-penalty-overlay.show .missed-penalty-card{transform:translateY(0) scale(1)}
+.missed-penalty-seal{width:106px;height:106px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;border:2px solid #ff6576;color:#fff;font-size:58px;font-weight:300;line-height:1;background:radial-gradient(circle,rgba(255,64,83,.25),rgba(30,8,20,.88) 70%);box-shadow:0 0 16px rgba(255,65,82,.75),0 0 48px rgba(255,45,70,.35),inset 0 0 22px rgba(255,90,100,.22);animation:penaltyPulse 2.2s ease-in-out infinite}
+.missed-penalty-kicker{font-size:11px;letter-spacing:.24em;font-weight:800;color:#82dcff;margin-bottom:14px}
+.missed-penalty-title{font-size:clamp(25px,6vw,36px);line-height:1.1;letter-spacing:.045em;color:#ff8b91;text-shadow:0 0 16px rgba(255,55,73,.65);margin:0 0 16px}
+.missed-penalty-copy{font-size:clamp(14px,3.6vw,18px);line-height:1.55;color:#bdcddd;margin:0 auto 24px;max-width:430px}
+.missed-penalty-section{position:relative;border:1px solid rgba(255,91,108,.45);border-radius:20px;padding:24px 12px 12px;margin:22px 0 16px}
+.missed-penalty-section-label{position:absolute;left:50%;top:-12px;transform:translateX(-50%);padding:2px 16px;background:#0c192b;color:#ff9ba2;font-weight:900;letter-spacing:.18em;white-space:nowrap;font-size:12px}
+.missed-penalty-row{display:flex;align-items:center;gap:13px;text-align:left;padding:13px 14px;border-radius:15px;background:linear-gradient(110deg,rgba(15,43,66,.9),rgba(28,20,39,.82));border:1px solid rgba(89,164,212,.2);margin-bottom:9px}
+.missed-penalty-row:last-child{margin-bottom:0}
+.missed-penalty-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:50%;background:rgba(39,159,215,.12);border:1px solid rgba(99,204,255,.3);color:#81dcff;font-size:22px}
+.missed-penalty-meta{flex:1;min-width:0}.missed-penalty-meta b{display:block;color:#8bdcff;font-size:15px}.missed-penalty-meta small{display:block;color:#9bb1c7;font-size:12px;margin-top:3px}.missed-penalty-value{font-size:clamp(20px,5vw,27px);font-weight:900;color:#ff727e;text-shadow:0 0 14px rgba(255,64,81,.45);white-space:nowrap}
+.missed-penalty-debuff{display:flex;align-items:center;gap:12px;text-align:left;padding:14px;border-radius:16px;background:linear-gradient(100deg,rgba(111,27,42,.38),rgba(39,20,34,.78));border:1px solid rgba(255,85,102,.5);margin:14px 0 20px}.missed-penalty-debuff b{color:#ff8d95}.missed-penalty-debuff small{display:block;color:#b8c5d4;margin-top:4px}.missed-penalty-time{margin-left:auto;color:#ffb2b5;white-space:nowrap;font-weight:800}
+.missed-penalty-rank{font-size:12px;letter-spacing:.14em;color:#a9bfd0;margin:20px 0}.missed-penalty-rank strong{color:#ff858d}
+.missed-penalty-continue{width:100%;min-height:60px;border:1px solid rgba(143,226,255,.9);border-radius:17px;background:linear-gradient(100deg,#087fc0,#10b9dc);color:#fff;font-size:19px;font-weight:900;letter-spacing:.12em;box-shadow:0 0 24px rgba(0,177,237,.28),inset 0 1px rgba(255,255,255,.35);cursor:pointer;transition:transform .18s ease,filter .18s ease}.missed-penalty-continue:active{transform:scale(.98);filter:brightness(1.15)}
+.missed-penalty-spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#ff9da4;box-shadow:0 0 10px 3px rgba(255,80,98,.8);pointer-events:none;animation:penaltySpark 1.1s ease-out forwards}
+@keyframes penaltyPulse{0%,100%{transform:scale(1);box-shadow:0 0 16px rgba(255,65,82,.65),0 0 40px rgba(255,45,70,.25),inset 0 0 20px rgba(255,90,100,.2)}50%{transform:scale(1.045);box-shadow:0 0 24px rgba(255,65,82,.9),0 0 58px rgba(255,45,70,.48),inset 0 0 28px rgba(255,90,100,.3)}}
+@keyframes penaltySpark{to{transform:translate(var(--px),var(--py)) scale(0);opacity:0}}
+@media(max-width:420px){.missed-penalty-overlay{padding:10px}.missed-penalty-card{border-radius:22px;padding:22px 16px}.missed-penalty-seal{width:84px;height:84px;font-size:46px;margin-bottom:17px}.missed-penalty-row{gap:9px;padding:11px 9px}.missed-penalty-icon{width:36px;height:36px;flex-basis:36px}.missed-penalty-meta b{font-size:13px}.missed-penalty-meta small{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.missed-penalty-overlay,.missed-penalty-card,.missed-penalty-continue{transition:none}.missed-penalty-seal,.missed-penalty-spark{animation:none}}
+
+/* HUNTER SYSTEM · PENALTY SCREEN REDESIGN v2 */
+.missed-penalty-overlay{
+  padding:clamp(10px,3vw,24px);
+  background:radial-gradient(ellipse at 50% 42%,rgba(111,20,36,.28),transparent 48%),rgba(1,5,13,.92);
+  backdrop-filter:blur(18px) saturate(.78);-webkit-backdrop-filter:blur(18px) saturate(.78)
+}
+.missed-penalty-card{
+  width:min(100%,520px);max-height:min(94dvh,920px);overflow-x:hidden;overflow-y:auto;
+  padding:clamp(22px,5.4vw,40px) clamp(17px,4.5vw,34px) clamp(20px,4vw,30px);
+  border:1px solid rgba(117,210,255,.66);border-radius:30px;
+  background:
+    radial-gradient(ellipse at 50% 16%,rgba(255,43,66,.16),transparent 34%),
+    radial-gradient(ellipse at 0% 100%,rgba(18,119,174,.13),transparent 40%),
+    linear-gradient(150deg,#0b1a2d 0%,#071322 54%,#091a2c 100%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.035),0 0 0 5px rgba(42,150,206,.045),0 22px 90px rgba(0,0,0,.62),0 0 48px rgba(54,173,226,.16),inset 0 1px rgba(255,255,255,.08);
+  isolation:isolate
+}
+.missed-penalty-card:before{content:"";position:absolute;z-index:-1;left:14px;right:14px;top:0;height:2px;background:linear-gradient(90deg,transparent,#ff5266 22%,#8fe5ff 50%,#ff5266 78%,transparent);opacity:.9;filter:drop-shadow(0 0 7px rgba(255,73,94,.9))}
+.missed-penalty-card:after{content:"SYSTEM ALERT  /  DAILY QUEST";display:block;position:relative;margin:0 auto 18px;padding:7px 12px;width:max-content;max-width:100%;border:1px solid rgba(255,94,112,.35);border-radius:999px;background:rgba(105,20,36,.2);color:#ff9da7;font-size:9px;font-weight:900;letter-spacing:.22em;line-height:1.3}
+.missed-penalty-seal{width:94px;height:94px;margin:0 auto 18px;border-radius:27px;transform:rotate(45deg);border:1px solid rgba(255,130,143,.9);background:linear-gradient(145deg,rgba(255,61,81,.24),rgba(37,9,23,.94));box-shadow:0 0 0 6px rgba(255,64,82,.055),0 0 26px rgba(255,55,75,.55),inset 0 0 26px rgba(255,105,120,.22);font-size:0;position:relative}
+.missed-penalty-seal:before{content:"×";font-size:68px;font-weight:300;line-height:1;color:#fff;transform:rotate(-45deg);text-shadow:0 0 12px #ff5b70,0 0 30px rgba(255,67,88,.9)}
+.missed-penalty-kicker{font-size:10px;letter-spacing:.27em;color:#8fe2ff;margin:0 0 12px;text-shadow:0 0 14px rgba(84,198,255,.28)}
+.missed-penalty-title{font-size:clamp(25px,6.5vw,38px);line-height:1.05;letter-spacing:.035em;color:#ff9ba2;text-shadow:0 0 9px rgba(255,55,73,.7),0 0 28px rgba(255,55,73,.25);margin:0 0 13px}
+.missed-penalty-copy{max-width:390px;font-size:clamp(13px,3.5vw,16px);line-height:1.55;color:#b9c9d9;margin:0 auto 23px}
+.missed-penalty-section{margin:27px 0 16px;padding:25px 11px 11px;border:1px solid rgba(255,83,104,.4);border-radius:21px;background:linear-gradient(145deg,rgba(48,18,34,.32),rgba(7,20,35,.58));box-shadow:inset 0 0 24px rgba(255,48,70,.035)}
+.missed-penalty-section-label{padding:5px 15px;top:-14px;border:1px solid rgba(255,96,114,.42);border-radius:999px;background:#10182a;color:#ffadb4;font-size:10px;letter-spacing:.2em;box-shadow:0 0 18px rgba(255,54,78,.14)}
+.missed-penalty-row{position:relative;overflow:hidden;gap:12px;padding:13px 12px;margin-bottom:8px;border:1px solid rgba(91,181,226,.2);border-radius:15px;background:linear-gradient(105deg,rgba(14,47,69,.8),rgba(18,25,43,.94));box-shadow:inset 0 1px rgba(255,255,255,.035);animation:penaltyRowIn .55s both}
+.missed-penalty-row:nth-of-type(2){animation-delay:.12s}.missed-penalty-row:nth-of-type(3){animation-delay:.22s}
+.missed-penalty-row:after{content:"";position:absolute;top:0;bottom:0;left:0;width:2px;background:linear-gradient(180deg,transparent,#ff6478,transparent);opacity:.8}
+.missed-penalty-icon{width:40px;height:40px;flex:0 0 40px;border-radius:13px;background:linear-gradient(145deg,rgba(41,165,218,.18),rgba(13,39,61,.55));border:1px solid rgba(104,209,255,.36);color:#9be5ff;font-size:21px;box-shadow:0 0 16px rgba(42,169,226,.12)}
+.missed-penalty-meta b{font-size:14px;color:#a5e5ff;letter-spacing:.01em}.missed-penalty-meta small{font-size:11px;color:#a0b5c8;line-height:1.35}
+.missed-penalty-value{font-size:clamp(18px,4.8vw,25px);color:#ff858f;text-shadow:0 0 14px rgba(255,65,84,.5);letter-spacing:-.025em}
+.missed-penalty-debuff{position:relative;overflow:hidden;gap:11px;padding:13px;border-radius:16px;margin:14px 0 18px;border:1px solid rgba(255,86,106,.48);background:linear-gradient(105deg,rgba(104,25,43,.42),rgba(27,20,38,.88));box-shadow:inset 0 1px rgba(255,255,255,.04),0 0 22px rgba(255,49,71,.07);animation:penaltyRowIn .65s .28s both}
+.missed-penalty-debuff:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#ff6979;box-shadow:0 0 12px #ff596e}
+.missed-penalty-debuff b{font-size:14px;color:#ff9da5}.missed-penalty-debuff small{font-size:11px;line-height:1.4;color:#c0cbd8}.missed-penalty-time{padding:6px 8px;border-radius:9px;border:1px solid rgba(255,119,133,.25);background:rgba(20,9,20,.32);font-size:12px;color:#ffc0c5}
+.missed-penalty-rank{padding:12px 8px;margin:16px 0 17px;border-top:1px solid rgba(122,191,224,.14);border-bottom:1px solid rgba(122,191,224,.14);font-size:10px;line-height:1.6;letter-spacing:.13em;color:#9eb6c9}.missed-penalty-rank strong{color:#ff929b;text-shadow:0 0 10px rgba(255,70,88,.42)}
+.missed-penalty-continue{min-height:58px;border-radius:14px;border:1px solid rgba(151,231,255,.92);background:linear-gradient(100deg,#087db8,#10b6d6);box-shadow:0 8px 25px rgba(0,158,218,.2),inset 0 1px rgba(255,255,255,.38);font-size:17px;letter-spacing:.16em;text-shadow:0 1px 2px rgba(0,0,0,.22)}
+.missed-penalty-continue:active{transform:translateY(1px) scale(.985);filter:brightness(1.18)}
+@keyframes penaltyRowIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:420px){.missed-penalty-card{border-radius:24px;padding:20px 14px 18px}.missed-penalty-card:after{margin-bottom:15px;font-size:8px}.missed-penalty-seal{width:76px;height:76px;border-radius:22px;margin-bottom:16px}.missed-penalty-seal:before{font-size:56px}.missed-penalty-copy{margin-bottom:19px}.missed-penalty-section{padding:23px 8px 9px}.missed-penalty-row{gap:8px;padding:10px 8px}.missed-penalty-icon{width:34px;height:34px;flex-basis:34px;border-radius:11px}.missed-penalty-meta b{font-size:12px}.missed-penalty-meta small{font-size:10px}.missed-penalty-time{font-size:10px;padding:5px 6px}.missed-penalty-rank{font-size:9px;letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){.missed-penalty-row,.missed-penalty-debuff{animation:none}}
+
+
+
+/* MOBILE FIT + STRAIGHT SEAL */
+.missed-penalty-overlay{
+  align-items:center;
+  padding:10px 12px max(10px, env(safe-area-inset-bottom));
+}
+.missed-penalty-card{
+  width:min(100%,520px);
+  max-height:calc(100dvh - 20px);
+  padding:16px 20px 16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.missed-penalty-seal{
+  width:64px;height:64px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  transform:none;
+  display:grid;place-items:center;
+}
+.missed-penalty-seal:before{
+  content:"×";display:block;font-size:48px;line-height:1;
+  font-weight:300;transform:none;
+}
+.missed-penalty-card:after{margin-bottom:12px}
+.missed-penalty-kicker{margin-bottom:8px}
+.missed-penalty-title{font-size:clamp(23px,5.8vw,34px);margin-bottom:9px}
+.missed-penalty-copy{font-size:clamp(12px,3.2vw,15px);line-height:1.42;margin-bottom:12px}
+.missed-penalty-section{margin:17px 0 11px;padding:20px 9px 9px}
+.missed-penalty-row{padding:9px 9px;margin-bottom:7px}
+.missed-penalty-debuff{padding:10px 11px;margin:10px 0 12px}
+.missed-penalty-rank{padding:8px 6px;margin:10px 0 11px}
+.missed-penalty-continue{min-height:48px;font-size:15px}
+@media(max-width:420px){
+ .missed-penalty-overlay{padding:8px 10px max(8px,env(safe-area-inset-bottom))}
+ .missed-penalty-card{max-height:calc(100dvh - 16px);padding:13px 12px 13px;border-radius:21px}
+ .missed-penalty-card:after{margin-bottom:9px;font-size:7px}
+ .missed-penalty-seal{width:54px;height:54px;margin-bottom:9px}
+ .missed-penalty-seal:before{font-size:40px}
+ .missed-penalty-title{font-size:clamp(21px,6vw,28px);margin-bottom:7px}
+ .missed-penalty-copy{font-size:12px;line-height:1.38;margin-bottom:9px}
+ .missed-penalty-section{margin:14px 0 9px;padding:18px 7px 7px}
+ .missed-penalty-row{padding:8px 7px;gap:7px}
+ .missed-penalty-icon{width:30px;height:30px;flex-basis:30px}
+ .missed-penalty-meta b{font-size:11px}
+ .missed-penalty-meta small{font-size:9px}
+ .missed-penalty-value{font-size:18px}
+ .missed-penalty-debuff{padding:8px 9px;margin:8px 0 9px}
+ .missed-penalty-debuff b{font-size:12px}
+ .missed-penalty-debuff small{font-size:10px}
+ .missed-penalty-rank{font-size:8px;padding:7px 4px;margin:8px 0 9px}
+ .missed-penalty-continue{min-height:44px;font-size:14px}
+}
+@media(max-height:760px){
+ .missed-penalty-card{padding-top:10px;padding-bottom:10px}
+ .missed-penalty-seal{width:48px;height:48px;margin-bottom:7px}
+ .missed-penalty-seal:before{font-size:36px}
+ .missed-penalty-copy{margin-bottom:7px}
+ .missed-penalty-section{margin:11px 0 7px}
+ .missed-penalty-debuff{margin:7px 0}
+ .missed-penalty-rank{margin:7px 0;padding:6px}
+ .missed-penalty-continue{min-height:42px}
+}
+
+
+/* HUNTER SYSTEM · UNIFIED VISUAL LANGUAGE */
+:root{--hunter-cyan:#65d7ff;--hunter-red:#ff526d;--hunter-panel:rgba(10,22,39,.88);--hunter-line:rgba(101,215,255,.18)}
+.card{border:1px solid var(--hunter-line);border-radius:20px;background:linear-gradient(145deg,rgba(14,31,52,.94),rgba(7,15,29,.96));box-shadow:0 12px 30px rgba(0,0,0,.2);margin-bottom:14px}
+.card .section-title{letter-spacing:.055em}
+.page{gap:14px}
+button{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+button:active{transform:scale(.985)}
+.primary{box-shadow:0 8px 22px rgba(20,151,220,.2)}
+.bottom button{min-width:0}
+.bottom button span{letter-spacing:.06em}
+.onboard-emblem{overflow:visible}
+.hunter-crest{width:72%;height:72%;overflow:visible;filter:drop-shadow(0 0 10px rgba(94,216,255,.6))}
+.crest-horns{fill:none;stroke:#9beaff;stroke-width:3.2;stroke-linejoin:round}
+.crest-face{fill:#07172a;stroke:#62d7ff;stroke-width:2.4;stroke-linejoin:round}
+.crest-eye{fill:#ff5470;filter:drop-shadow(0 0 5px #ff355c)}
+.crest-mark{fill:#b9f1ff;stroke:#5bd7ff;stroke-width:1}
+.missed-penalty-seal{width:100px;height:100px;display:grid;place-items:center}.missed-penalty-seal:before{content:none!important;display:none!important}
+.missed-penalty-seal .hunter-crest{width:84%;height:84%;filter:drop-shadow(0 0 12px rgba(255,48,78,.9))}
+.missed-penalty-seal .crest-horns{stroke:#ff8292}
+.missed-penalty-seal .crest-face{fill:#210916;stroke:#ff526d}
+.missed-penalty-seal .crest-eye{fill:#fff0f2}
+.missed-penalty-seal .crest-mark{fill:#ff9ba7;stroke:#ff526d}
+.developer-tools{padding:0;overflow:hidden;border-color:rgba(255,190,90,.25)}
+.developer-tools summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;cursor:pointer;color:#e7d2a4}
+.developer-tools summary::-webkit-details-marker{display:none}
+.developer-tools summary b{display:block;font-size:12px;letter-spacing:.13em}
+.developer-tools summary small{display:block;margin-top:4px;color:#8e9cad;font-size:11px}
+.developer-tools summary i{font-style:normal;font-size:20px;transition:transform .2s}
+.developer-tools[open] summary i{transform:rotate(180deg)}
+.developer-tools-content{padding:0 16px 16px;border-top:1px solid rgba(255,190,90,.13)}
+.system-particle-burst{position:fixed;inset:0;z-index:100800;pointer-events:none;overflow:hidden}
+.system-burst-particle{position:absolute;width:var(--size);height:var(--size);border-radius:2px;box-shadow:0 0 10px currentColor;animation:systemBurst 1.12s cubic-bezier(.12,.65,.2,1) forwards}
+.burst-red .system-burst-particle{box-shadow:0 0 12px rgba(255,55,82,.9)}
+.burst-blue .system-burst-particle{box-shadow:0 0 12px rgba(73,194,255,.95)}
+.burst-awakening .system-burst-particle{box-shadow:0 0 14px rgba(105,220,255,.95)}
+@keyframes systemBurst{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(0)}12%{opacity:1}75%{opacity:.95}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.1) rotate(var(--spin))}}
+@media(max-width:600px){.card{border-radius:17px;margin-bottom:11px}.page{padding-left:12px;padding-right:12px}.developer-tools summary{padding:13px 14px}}
+@media(prefers-reduced-motion:reduce){.system-burst-particle{animation:none;display:none}}
+
+
+/* QUEST FLOW · SWIPE TO COMPLETE */
+.compact-grid{gap:10px}
+.compact-card{position:relative;min-height:92px;border:1px solid rgba(101,215,255,.18);background:linear-gradient(145deg,rgba(13,34,56,.96),rgba(5,15,28,.98));border-radius:16px;padding:13px;overflow:hidden}
+.compact-card:after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,rgba(94,211,255,.45),transparent);opacity:.7}
+.compact-card b{font-size:13px;line-height:1.35;display:block}
+.compact-card small{font-size:10px;letter-spacing:.035em;color:#82b9d7;display:block;margin-top:7px}
+.quest-swipe{--swipe-progress:0px;position:relative;height:66px;margin:18px 0 4px;border-radius:15px;border:1px solid rgba(95,205,255,.32);background:linear-gradient(100deg,rgba(15,47,73,.95),rgba(8,21,38,.98));overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.quest-swipe-fill{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,rgba(23,155,220,.55),rgba(67,211,255,.28));transition:width .08s linear;pointer-events:none}
+.quest-swipe-knob{position:absolute;z-index:2;left:6px;top:6px;width:52px;height:52px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#56cfff,#167bb8);color:#061525;font-size:30px;font-weight:900;box-shadow:0 0 18px rgba(51,185,255,.35);transition:transform .12s ease}
+.quest-swipe-label,.quest-swipe small{position:absolute;left:68px;right:10px;text-align:center;pointer-events:none}
+.quest-swipe-label{top:15px;font-size:11px;font-weight:900;letter-spacing:.12em;color:#d9f5ff}
+.quest-swipe small{top:36px;font-size:9px;color:#86a9bf}
+.quest-swipe.is-dragging{cursor:grabbing;border-color:#6de0ff;box-shadow:0 0 18px rgba(53,188,255,.2)}
+.quest-swipe.is-success{border-color:#62e4bb;background:linear-gradient(100deg,rgba(17,92,79,.95),rgba(8,31,39,.98))}
+.quest-swipe.is-success .quest-swipe-fill{width:100%!important;background:linear-gradient(90deg,rgba(29,197,147,.55),rgba(92,255,201,.25))}
+.quest-swipe.is-done{border-color:rgba(75,220,170,.45);background:linear-gradient(100deg,rgba(12,55,51,.95),rgba(8,24,34,.98))}
+.quest-swipe.is-done .quest-swipe-knob{background:linear-gradient(145deg,#71edc1,#199c7c);color:#04241d}
+.quest-swipe.is-done .quest-swipe-label{color:#9dffda}
+.quest-swipe.is-done .quest-swipe small{color:#78cbb0}
+.raid-card{padding:15px}
+.raid-head{margin:12px 0}
+.coach-panel{padding:12px;border-radius:15px;gap:11px}
+.coach-tip{font-size:12px;line-height:1.5}
+.raid-reward{display:flex;flex-wrap:wrap;gap:8px}
+.raid-reward span{flex:1 1 140px}
+@media(max-width:390px){.compact-grid{grid-template-columns:1fr!important}.compact-card{min-height:78px}.quest-swipe{height:62px}.quest-swipe-knob{width:48px;height:48px}.quest-swipe-label{font-size:10px}}
+
+
+/* OPTIONAL BONUS CHALLENGE · CORE SYNCHRONIZATION */
+.hunter-mini-overlay{position:fixed;inset:0;z-index:100900;display:grid;place-items:center;padding:18px;background:rgba(1,7,16,.84);backdrop-filter:blur(12px);opacity:0;transition:opacity .22s ease}
+.hunter-mini-overlay.show{opacity:1}
+.hunter-mini-card{width:min(100%,430px);padding:22px 19px 18px;border:1px solid rgba(91,205,255,.4);border-radius:24px;background:radial-gradient(ellipse at 50% 0,rgba(22,111,165,.28),transparent 55%),linear-gradient(155deg,#102b46,#071322 72%);box-shadow:0 0 55px rgba(34,156,230,.2),0 24px 70px #000b;text-align:center;transform:translateY(14px) scale(.98);transition:transform .25s}
+.hunter-mini-overlay.show .hunter-mini-card{transform:none}
+.hunter-mini-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#8cc9e8;font-size:9px;font-weight:900;letter-spacing:.12em}
+.hunter-mini-top b{color:#77e2ff;border:1px solid #4bbce866;border-radius:20px;padding:6px 9px;white-space:nowrap}
+.hunter-mini-orb{width:74px;height:74px;margin:20px auto 13px;display:grid;place-items:center;border-radius:50%;font-size:38px;color:#b8f1ff;border:1px solid #72dfff88;background:radial-gradient(circle,#3acaff44,#102b46 70%);box-shadow:0 0 28px #3cbfff55,inset 0 0 20px #42caff33;animation:corePulse 1.25s ease-in-out infinite}
+@keyframes corePulse{50%{transform:scale(1.08);box-shadow:0 0 42px #3cbfff88,inset 0 0 28px #42caff55}}
+.hunter-mini-card h2{margin:8px 0;color:#eaf8ff;font-size:21px;letter-spacing:.09em}
+.hunter-mini-card p{margin:0 auto 20px;max-width:330px;color:#9fb7ca;font-size:12px;line-height:1.55}
+.hunter-timing-track{height:20px;position:relative;border-radius:20px;background:linear-gradient(90deg,#462333,#263b55 50%,#462333);border:1px solid #7bbbd655;overflow:hidden}
+.hunter-timing-zone{position:absolute;left:45%;width:10%;top:0;bottom:0;background:linear-gradient(90deg,#8fffd4,#eafff8);box-shadow:0 0 18px #65ffcf;opacity:.9}
+.hunter-timing-marker{position:absolute;top:-5px;left:5%;width:4px;height:28px;border-radius:5px;background:#fff;box-shadow:0 0 12px #fff,0 0 22px #55d9ff;transform:translateX(-50%)}
+.hunter-timing-labels{display:flex;justify-content:space-between;margin:7px 1px 0;color:#7895aa;font-size:8px;letter-spacing:.1em}
+.hunter-mini-result{min-height:34px;margin:19px 0 10px;color:#b9eaff;font-size:10px;font-weight:900;letter-spacing:.07em;display:grid;place-items:center}
+.hunter-mini-stop{width:100%;min-height:52px;border:1px solid #7fe4ff;border-radius:14px;background:linear-gradient(100deg,#167bb9,#36c6ee);color:#031522;font-size:13px;font-weight:1000;letter-spacing:.12em;box-shadow:0 8px 25px #21a9e844}
+.hunter-mini-stop:disabled{opacity:.65}
+.hunter-mini-skip{display:block;width:100%;margin-top:12px;padding:10px;border:0;background:transparent;color:#8ea8bb;font-size:11px;text-decoration:underline;text-underline-offset:3px}
+.hunter-mini-overlay.is-result .hunter-mini-orb{animation:none;color:#a6ffe0;border-color:#70ffd0;box-shadow:0 0 32px #47ffc477}
+@media(max-width:380px){.hunter-mini-card{padding:18px 14px 14px}.hunter-mini-card h2{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.hunter-mini-overlay,.hunter-mini-card{transition:none}.hunter-mini-orb{animation:none}}
+
+
+/* PRECISION INPUT + INSTANT QUEST DISMISSAL */
+.hunter-mini-stop{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.hunter-mini-stop.is-ready{background:linear-gradient(100deg,#1a9c78,#5be5b6);border-color:#9bffdf;color:#032219}
+.quest-task-enter{animation:questTaskIn .2s ease-out both}
+@keyframes questTaskIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.quest-all-done{grid-column:1/-1;padding:22px 14px;text-align:center;border:1px solid rgba(89,239,190,.32);border-radius:15px;background:linear-gradient(120deg,rgba(15,89,73,.26),rgba(7,27,35,.8));color:#8fffd0;font-size:11px;font-weight:900;letter-spacing:.1em}
+
 </style>
 </head>
 <body>
@@ -1700,7 +1933,7 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:2px s
  <div class="onboard-progress" aria-hidden="true"><span id="onboardProgressFill"></span></div>
  <div class="onboard-track" id="onboardTrack">
   <article class="onboard-slide">
-   <div class="onboard-emblem">影</div><div class="onboard-kicker">СИСТЕМА ОБНАРУЖЕНА</div><h1 class="onboard-title">ТВОЁ ПРОБУЖДЕНИЕ<br><span style="color:#73d7ff">НАЧИНАЕТСЯ</span></h1><p class="onboard-copy">Ты получил доступ к системе охотника. Здесь обычные тренировки превращаются в квесты, а последовательность — в прогресс.</p>
+   <div class="onboard-emblem"><svg class="hunter-crest" viewBox="0 0 100 100" aria-hidden="true"><path class="crest-horns" d="M23 42 8 13l25 16 17-17 17 17 25-16-15 29 7 27-17 18H33L16 69Z"/><path class="crest-face" d="M23 43 50 27l27 16-5 29-22 17-22-17Z"/><path class="crest-eye" d="m31 51 16 5-12 8Zm38 0-16 5 12 8Z"/><path class="crest-mark" d="m43 70 7-8 7 8-7 10Z"/></svg></div><div class="onboard-kicker">СИСТЕМА ОБНАРУЖЕНА</div><h1 class="onboard-title">ТВОЁ ПРОБУЖДЕНИЕ<br><span style="color:#73d7ff">НАЧИНАЕТСЯ</span></h1><p class="onboard-copy">Ты получил доступ к системе охотника. Здесь обычные тренировки превращаются в квесты, а последовательность — в прогресс.</p>
   </article>
   <article class="onboard-slide">
    <div class="onboard-emblem">⚔</div><div class="onboard-kicker">ПРОКАЧИВАЙ СВОЕГО ПЕРСОНАЖА</div><h2 class="onboard-title">КАЖДОЕ ДЕЙСТВИЕ<br>ИМЕЕТ ЗНАЧЕНИЕ</h2><p class="onboard-copy">Выполняй задания, получай опыт и повышай ранг. Отслеживай силу, выносливость и историю тренировок.</p>
@@ -1830,9 +2063,12 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:2px s
 Резервная копия и восстановление
   </button>
 </div>
+
  <div class="card"><h3 class="section-title">ЭКИПИРОВКА ПЕРСОНАЖА</h3><p class="muted">Текущие предметы, надетые на охотника. Чтобы сменить предмет, открой инвентарь.</p><div id="profileGearSlots" class="profile-slots"></div><button class="primary" style="margin-top:10px" onclick="go('inventory')">Открыть инвентарь →</button><div id="gearSetBonus" class="set-bonus"></div></div>
  <div class="card"><h3 class="section-title">АКТИВНЫЙ ТИТУЛ</h3><p class="muted">Титулы открываются за игровые достижения. Выбери один — он будет отображаться в профиле.</p><div id="profileTitles"></div></div>
  <div class="card"><h3 class="section-title">СВОДКА ПЕРСОНАЖА</h3><div class="stats"><div class="stat"><small>СИЛА</small><strong id="profileStrength">0</strong></div><div class="stat"><small>ЛОВКОСТЬ</small><strong id="profileAgility">0</strong></div><div class="stat"><small>ВЫНОСЛИВОСТЬ</small><strong id="profileEndurance">0</strong></div><div class="stat"><small>ЗАВЕРШЕНО КВЕСТОВ</small><strong id="profileQuests">0</strong></div></div><div class="row" style="margin-top:12px"><span class="muted">Серия тренировок</span><strong id="profileStreak" style="color:var(--blue)">0 дней</strong></div><div class="row" style="margin-top:8px"><span class="muted">Материалы</span><strong id="profileMaterials" style="color:var(--blue)">0 / 0 / 0</strong></div></div>
+
+ 
 </section>
 <section id="quests" class="page hidden">
  <div class="card"><div class="eyebrow">ЕЖЕДНЕВНАЯ МИССИЯ</div><h2 id="questtitle" style="margin:8px 0">Понедельник — Верх A</h2><p class="muted" id="questdesc">Отметь каждый выполненный элемент. Прогресс сохраняется на этом устройстве.</p><div class="row"><span class="tag" id="questtag">СИЛА</span><strong style="color:var(--green)" id="questreward">НАГРАДА: +100 XP</strong></div><div class="row" style="margin-top:8px"><span class="muted">Заработано</span><strong style="color:var(--blue)" id="earned">0 XP</strong></div><div class="xpbar"><span id="questfill" style="width:0%"></span></div></div>
@@ -2206,6 +2442,23 @@ let selectedDay=new Date().getDay(); // Sunday=0
 let idx=selectedDay===0?6:selectedDay-1;
 let toastTimer;
 
+
+function triggerParticleBurst(kind='blue',count=46){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const palette=kind==='red'?['#ff334f','#ff6576','#ff9aa5','#b90e35']:kind==='blue'?['#2c9cff','#55d8ff','#9beaff','#e8fbff']:['#55d8ff','#9beaff','#d5f7ff','#ffffff'];
+  const layer=document.createElement('div');layer.className='system-particle-burst '+(kind==='red'?'burst-red':kind==='blue'?'burst-blue':'burst-awakening');
+  layer.setAttribute('aria-hidden','true');document.body.appendChild(layer);
+  const cx=window.innerWidth/2,cy=window.innerHeight*.46;
+  for(let i=0;i<count;i++){
+    const p=document.createElement('i');p.className='system-burst-particle';
+    const angle=Math.PI*2*i/count+(Math.random()-.5)*.18,dist=65+Math.random()*Math.min(210,window.innerWidth*.34);
+    p.style.left=cx+'px';p.style.top=cy+'px';p.style.setProperty('--dx',(Math.cos(angle)*dist)+'px');p.style.setProperty('--dy',(Math.sin(angle)*dist)+'px');
+    p.style.setProperty('--spin',(Math.random()*720-360)+'deg');p.style.setProperty('--size',(2+Math.random()*5)+'px');p.style.background=palette[i%palette.length];
+    layer.appendChild(p);
+  }
+  setTimeout(()=>layer.remove(),1350);
+}
+
 function showSystemToast(message, type = "success"){
   let toast = document.getElementById("systemToast");
 
@@ -2272,7 +2525,7 @@ function closeNavMenu(){
     menu.classList.remove("open");
   }
 }
-function dayKey(i){return "d"+i}
+function dayKey(i){return "d"+i+"_"+hunterLocalDateKey()}
 function renderPersonalSettings(){let p=state.personalization||(state.personalization={goal:"Сила + масса",weight:"",targetWeight:"",height:"",weeklyGoal:4,trainingLevel:"Начинающий",gear:["Гантели","Турник"],notes:""});const fields={personalGoal:p.goal||"Сила + масса",personalWeight:p.weight??"",targetWeight:p.targetWeight??"",personalHeight:p.height??"",weeklyGoal:String(p.weeklyGoal||4),trainingLevel:p.trainingLevel||"Начинающий",personalNotes:p.notes||""};Object.entries(fields).forEach(([id,v])=>{let el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=v});document.querySelectorAll('input[name="personalGear"]').forEach(el=>el.checked=(p.gear||[]).includes(el.value));let summary=[];if(p.weight)summary.push("вес "+p.weight+" кг");if(p.targetWeight)summary.push("цель "+p.targetWeight+" кг");if(p.height)summary.push("рост "+p.height+" см");summary.push((p.weeklyGoal||4)+" тренировок/нед.");document.getElementById("personalSummary").textContent=summary.length?"Профиль: "+summary.join(" · ")+". Уровень: "+(p.trainingLevel||"Начинающий")+".":"Заполни профиль, чтобы видеть свою цель."}
 function savePersonalSettings(){
   let val=id=>document.getElementById(id).value.trim(),
@@ -2355,6 +2608,57 @@ function adaptiveTask(task){
  if(p.trainingLevel==='Продвинутый' && /2 ×/.test(t[1]) && /сил|тяга|присед|отжиман|выпад|жим/i.test(t[0])) t[1]=t[1].replace('2 ×','3 ×');
  if(p.goal==='Выносливость' && /сил|тяга|присед|отжиман|выпад|жим/i.test(t[0])) t[1]=t[1].replace(/3 × (\d+–\d+)/,'2–3 × $1');
  if(p.goal==='Похудение' || p.goal==='Рельеф') { if(/кардио|скакалка|ходьба/i.test(t[0])) t[1]=t[1].replace(/8–20 мин/,'12–20 мин'); }
+
+ // Final equipment safety pass: never prescribe unavailable weighted gear.
+ const originalName=String(task[0]||"");
+ const hasDumbbells=has("Гантели"), hasBar=has("Штанга"), hasMachine=has("Тренажёры");
+ const hasResistance=has("Резинки"), hasPullup=has("Турник");
+ const noExternalLoad=!hasDumbbells&&!hasBar&&!hasMachine;
+ const replaceTask=(n,sets,tech,muscles,warning)=>{
+   t=[n,sets,tech,muscles,warning];
+   note="Упражнение автоматически заменено под выбранный инвентарь.";
+ };
+ if(!hasDumbbells && /гантел/i.test(originalName)){
+   if(/тяга гантели одной рукой|тяга двух гантелей/i.test(originalName)){
+     replaceTask(hasResistance?"Тяга резинки к корпусу":"Подъём рук Y–T лёжа","3 × 10–15",
+       hasResistance?"Закрепи резинку безопасно, тяни локти назад и своди лопатки.":"Ляг на живот и поднимай руки поочерёдно в форме Y и T, сводя лопатки.",
+       "Верх спины, задняя дельта","Не дёргать корпусом и не переразгибать поясницу.");
+   } else if(/сгибания рук|молотковые/i.test(originalName)){
+     replaceTask(hasResistance?"Сгибание рук с резинкой":"Изометрическое сгибание рук","3 × 10–15",
+       hasResistance?"Наступи на резинку и сгибай руки без раскачивания корпуса.":"Упрись ладонью в другую руку и создай умеренное сопротивление.",
+       "Бицепс","Не задерживай дыхание и не работай через боль.");
+   } else if(/жим гантелей над головой/i.test(originalName)){
+     replaceTask("Отжимания уголком (лёгкий вариант)","2–3 × 6–10",
+       "Из положения домиком сгибай локти и опускай голову между ладонями; при необходимости поставь руки на устойчивую опору.",
+       "Плечи, трицепс","Остановись при боли в плечах или запястьях.");
+   } else if(/жим гантелей лёжа|разводка гантелей/i.test(originalName)){
+     replaceTask("Отжимания от стены или устойчивой опоры","3 × 8–15",
+       "Держи корпус ровно, опускайся контролируемо и выбери удобную ширину постановки рук.",
+       "Грудь, трицепс","Проверь устойчивость опоры.");
+   } else if(/подъёмы гантелей в стороны|разведения гантелей/i.test(originalName)){
+     replaceTask("Подъёмы рук в стороны без веса","2–3 × 12–15",
+       "Поднимай слегка согнутые руки до комфортной высоты, медленно опускай.",
+       "Средняя и задняя дельта","Не раскачивай корпус и не поднимай плечи к ушам.");
+   } else if(/гоблет-приседания|выпады назад с гантелями/i.test(originalName)){
+     replaceTask(/выпады/i.test(originalName)?"Выпады назад без веса":"Приседания с собственным весом","3 × 10–15",
+       "Держи стопы устойчиво, колени направляй по линии носков, двигайся без рывков.",
+       "Ноги, ягодицы","Используй комфортную глубину и опору при необходимости.");
+   } else if(/румынская тяга/i.test(originalName)){
+     replaceTask("Наклон таза назад без веса","3 × 10–12",
+       "Отводи таз назад с ровной спиной и слегка согнутыми коленями.",
+       "Ягодицы, задняя поверхность бедра","Не округляй поясницу.");
+   }
+ }
+ if(!hasDumbbells && /гоблет-приседания/i.test(originalName)){
+   replaceTask("Приседания с собственным весом","3 × 10–15",
+     "Опускайся в комфортную глубину, держи стопы полностью на полу и колени по линии носков.",
+     "Квадрицепсы, ягодицы","Не используй дополнительный вес.");
+ }
+ if(noExternalLoad && /гантел|штанг|тренажёр|тренажер/i.test(t[0])){
+   replaceTask("Упражнение с собственным весом","2–3 × 10–12",
+     "Выполняй контролируемые повторения без дополнительного веса, сохраняя комфортную амплитуду.",
+     "Основные мышечные группы","Не используй предметы вместо оборудования.");
+ }
  return {task:t,note};
 }
 let coachTipIndex=0;
@@ -2369,6 +2673,55 @@ function renderWorkoutRaid(d,key,checked){let el=document.getElementById("workou
   <span><svg class="system-icon" viewBox="0 0 24 24"><path d="m12 2 9 10-9 10L3 12z"/><path d="m12 2 3 10-3 10-3-10z"/></svg> Кристалл за полный квест</span>
   <span><svg class="system-icon" viewBox="0 0 24 24"><path d="m5 19 3-3M7 17l-2-2M7 17l10-10 2-3 2 2-3 3L8 19z"/></svg> Урон: ${Math.round(100/Math.max(1,total))} за упражнение</span>
 </div>`}
+
+let questSwipeState=null;
+function questSwipeStart(e){
+ const root=e.currentTarget;
+ if(root.dataset.done==='1')return;
+ if(e.pointerType==='mouse'&&e.button!==0)return;
+ const knob=root.querySelector('.quest-swipe-knob');
+ questSwipeState={root,pointerId:e.pointerId,startX:e.clientX,lastX:e.clientX,max:Math.max(1,root.clientWidth-knob.offsetWidth-14),moved:false};
+ try{root.setPointerCapture(e.pointerId)}catch(_){}
+}
+function questSwipeMove(e){
+ const s=questSwipeState;if(!s||s.pointerId!==e.pointerId)return;
+ const dx=Math.max(0,Math.min(s.max,e.clientX-s.startX));s.lastX=e.clientX;s.moved=dx>4;
+ s.root.style.setProperty('--swipe-progress',dx+'px');
+ s.root.classList.toggle('is-dragging',s.moved);
+ const knob=s.root.querySelector('.quest-swipe-knob');if(knob)knob.style.transform=`translateX(${dx}px)`;
+ const fill=s.root.querySelector('.quest-swipe-fill');if(fill)fill.style.width=`${Math.min(100,dx/s.max*100)}%`;
+}
+function questSwipeEnd(e,index){
+ const s=questSwipeState;if(!s||s.pointerId!==e.pointerId)return;
+ const knob=s.root.querySelector('.quest-swipe-knob');
+ const dx=Math.max(0,Math.min(s.max,s.lastX-s.startX));
+ questSwipeState=null;
+ s.root.classList.remove('is-dragging');
+ if(dx>=s.max*.78){
+  s.root.classList.add('is-success');
+  s.root.querySelector('.quest-swipe-label').textContent='ПОДТВЕРЖДЕНО';
+  toggleTask(idx,index,true);
+  triggerParticleBurst('blue',22);
+  closeDetail();
+  renderQuests();
+  const raidKey=dayKey(idx);
+  const raidData=plan[idx];
+  renderWorkoutRaid(raidData,raidKey,state.done[raidKey]||[]);
+  showSystemToast('ЗАДАНИЕ ЗАСЧИТАНО · + ПРОГРЕСС РЕЙДА','success');
+ }else{
+  if(knob)knob.style.transform='';
+  s.root.style.removeProperty('--swipe-progress');
+  const fill=s.root.querySelector('.quest-swipe-fill');if(fill)fill.style.width='0';
+ }
+}
+function questSwipeCancel(e){
+ const s=questSwipeState;if(!s||s.pointerId!==e.pointerId)return;
+ questSwipeState=null;s.root.classList.remove('is-dragging');
+ const knob=s.root.querySelector('.quest-swipe-knob');if(knob)knob.style.transform='';
+ s.root.style.removeProperty('--swipe-progress');
+ const fill=s.root.querySelector('.quest-swipe-fill');if(fill)fill.style.width='0';
+}
+
 function openQuestDetails(i){
  const d=plan[idx];
  if(!d||!d.tasks[i])return;
@@ -2400,28 +2753,31 @@ function openQuestDetails(i){
    <p>${t[4]}</p>
   </div>
 
-  <label class="checkline">
-   <input type="checkbox" ${done?'checked':''}
-    onchange="toggleTask(idx,${i},this.checked);renderQuests();openQuestDetails(${i})">
-   <span>Отметить выполнение</span>
-  </label>
+  <div class="quest-swipe ${done?'is-done':''}" id="questSwipeControl" data-done="${done?'1':'0'}"
+       onpointerdown="questSwipeStart(event)" onpointermove="questSwipeMove(event)"
+       onpointerup="questSwipeEnd(event,${i})" onpointercancel="questSwipeCancel(event)">
+   <div class="quest-swipe-fill"></div>
+   <div class="quest-swipe-knob" id="questSwipeKnob">${done?'✓':'»'}</div>
+   <span class="quest-swipe-label">${done?'ЗАДАНИЕ ВЫПОЛНЕНО':'СВАЙПНИ ДЛЯ ВЫПОЛНЕНИЯ'}</span>
+   <small>${done?'Прогресс сохранён':'Проведи вправо до конца'}</small>
+  </div>
  `);
 }
   function renderQuests(){let d=plan[idx],key=dayKey(idx), checked=state.done[key]||[],p=state.personalization||{},gear=p.gear||[];document.getElementById("tasklist").innerHTML=`
  <div class="compact-grid">
   ${d.tasks.map((raw,i)=>{
    const {task:t}=adaptiveTask(raw);
-   const done=checked.includes(i);
-
+   if(checked.includes(i))return '';
    return `
-    <div class="compact-card" onclick="openQuestDetails(${i})">
+    <div class="compact-card quest-task-enter" onclick="openQuestDetails(${i})">
      <div class="compact-info">
       <b>${String(i+1).padStart(2,'0')} · ${t[0]}</b>
       <small>${t[1]}</small>
-      <small>${done?'✓ ВЫПОЛНЕНО':'Нажми для подробностей'}</small>
+      <small>ОТКРОЙ И СВАЙПНИ ДЛЯ ЗАЧЁТА</small>
      </div>
     </div>`;
   }).join('')}
+  ${checked.length===d.tasks.length?'<div class="quest-all-done">✦ ВСЕ ЗАДАНИЯ ВЫПОЛНЕНЫ · БОСС ПОВЕРЖЕН</div>':''}
  </div>`;document.getElementById("complete").textContent=state.history.some(h=>h.key===key)?"Квест уже завершён":"Завершить квест"}
 function toggleTask(di,ti,on){let key=dayKey(di);state.done[key]=state.done[key]||[];state.done[key]=on?[...new Set([...state.done[key],ti])]:state.done[key].filter(n=>n!==ti);save()}
 
@@ -2437,14 +2793,83 @@ function showQuestVictory({full,earned,gained,rankName,levelNumber}){
   overlay.querySelector('#questVictoryClose').addEventListener('click',close);
   requestAnimationFrame(()=>overlay.classList.add('show'));
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    const card=overlay.querySelector('.quest-victory-card');
-    for(let i=0;i<22;i++){const spark=document.createElement('i');spark.className='victory-spark';const a=Math.random()*Math.PI*2,d=55+Math.random()*155;spark.style.left=(50+Math.cos(a)*8)+'%';spark.style.top=(42+Math.sin(a)*8)+'%';spark.style.setProperty('--sx',(Math.cos(a)*d)+'px');spark.style.setProperty('--sy',(Math.sin(a)*d)+'px');overlay.appendChild(spark);setTimeout(()=>spark.remove(),1200)}
+    triggerParticleBurst('blue',52);
     if(window.playSystemEffect)window.playSystemEffect('reward',full?'QUEST CLEAR':'QUEST COMPLETE');
   }
   setTimeout(()=>overlay.querySelector('#questVictoryClose')?.focus(),250);
 }
 
+
+let hunterMiniGameActive=false;
 function completeDay(){
+ const key=dayKey(idx),d=plan[idx],checked=state.done[key]||[];
+ if(state.history.some(h=>h.key===key)){showSystemToast("Этот квест уже засчитан.","error");return;}
+ if(checked.length===0){showSystemToast("Отметь хотя бы одно выполненное задание.","error");return;}
+ if(checked.length<d.tasks.length&&!confirm("Не все задания отмечены. Завершить квест частично? XP будет начислен пропорционально. Бонус рейда выдаётся только за полный квест."))return;
+ openHunterBonusGame();
+}
+function openHunterBonusGame(){
+ if(hunterMiniGameActive)return;
+ hunterMiniGameActive=true;
+ const old=document.getElementById('hunterBonusGame');if(old)old.remove();
+ const overlay=document.createElement('div');overlay.id='hunterBonusGame';overlay.className='hunter-mini-overlay';
+ overlay.innerHTML=`<div class="hunter-mini-card" role="dialog" aria-modal="true" aria-labelledby="hunterMiniTitle">
+  <div class="hunter-mini-top"><span>HUNTER SYSTEM · BONUS CHALLENGE</span><b>+30 XP MAX</b></div>
+  <div class="hunter-mini-orb">✦</div>
+  <h2 id="hunterMiniTitle">СИНХРОНИЗАЦИЯ ЯДРА</h2>
+  <p>Зафиксируй импульс, когда маркер окажется в светящейся зоне. Нажатие засчитывается по фактическому положению маркера на экране.</p>
+  <div class="hunter-timing-wrap"><div class="hunter-timing-track"><div class="hunter-timing-zone"></div><div class="hunter-timing-marker" id="hunterTimingMarker"></div></div><div class="hunter-timing-labels"><span>РАНО</span><span>ТОЧНО</span><span>ПОЗДНО</span></div></div>
+  <div class="hunter-mini-result" id="hunterMiniResult">ЛОВИ МОМЕНТ · МАРКЕР ДВИЖЕТСЯ НЕПРЕРЫВНО</div>
+  <button class="hunter-mini-stop" id="hunterMiniStop" type="button">ЗАФИКСИРОВАТЬ ИМПУЛЬС</button>
+  <button class="hunter-mini-skip" id="hunterMiniSkip" type="button">Пропустить и забрать обычную награду</button>
+ </div>`;
+ document.body.appendChild(overlay);
+ const marker=overlay.querySelector('#hunterTimingMarker');
+ const track=overlay.querySelector('.hunter-timing-track');
+ const stop=overlay.querySelector('#hunterMiniStop');
+ const result=overlay.querySelector('#hunterMiniResult');
+ let stopped=false,raf=0,animationStart=performance.now(),bonusAward=0;
+ const close=()=>{
+  cancelAnimationFrame(raf);
+  overlay.classList.remove('show');
+  setTimeout(()=>overlay.remove(),180);
+  hunterMiniGameActive=false;
+ };
+ const animate=now=>{
+  if(stopped||!overlay.isConnected)return;
+  const phase=((now-animationStart)%2200)/2200;
+  const triangle=phase<.5?phase*2:2-phase*2;
+  marker.style.left=(5+triangle*90)+'%';
+  raf=requestAnimationFrame(animate);
+ };
+ const finish=bonus=>{
+  if(stopped)return;
+  stopped=true;bonusAward=bonus;cancelAnimationFrame(raf);
+  stop.textContent='ПОЛУЧИТЬ НАГРАДУ';
+  stop.classList.add('is-ready');
+  result.textContent=bonus>=30?'ИДЕАЛЬНО! +30 XP':bonus>=20?'ОТЛИЧНО! +20 XP':bonus>0?'ИМПУЛЬС ПОЙМАН! +'+bonus+' XP':'СИНХРОНИЗАЦИЯ НЕ УДАЛАСЬ · +0 XP';
+  overlay.classList.add('is-result');
+  overlay.querySelector('.hunter-mini-orb').textContent=bonus>=20?'✦':'◈';
+  triggerParticleBurst('blue',bonus>=20?34:16);
+ };
+ const lockImpulse=e=>{
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(stopped){close();finalizeQuest(bonusAward);return;}
+  const tr=track.getBoundingClientRect(),mr=marker.getBoundingClientRect();
+  const markerCenter=mr.left+mr.width/2-tr.left;
+  const targetCenter=tr.width*.5;
+  const distance=Math.abs(markerCenter-targetCenter);
+  const normalized=distance/Math.max(1,tr.width);
+  const bonus=normalized<=.035?30:normalized<=.075?20:normalized<=.14?10:0;
+  finish(bonus);
+ };
+ stop.addEventListener('pointerdown',lockImpulse,{passive:false});
+ stop.addEventListener('click',e=>{if(e.detail===0)lockImpulse(e)});
+ overlay.querySelector('#hunterMiniSkip').addEventListener('click',()=>{close();finalizeQuest(0)});
+ requestAnimationFrame(()=>overlay.classList.add('show'));
+ raf=requestAnimationFrame(animate);
+}
+function finalizeQuest(bonusXp=0){
   let key=dayKey(idx),d=plan[idx];
 
   if(state.history.some(h=>h.key===key)){
@@ -2453,10 +2878,6 @@ function completeDay(){
   }
 
   let checked=state.done[key]||[];
-
-  if(checked.length<d.tasks.length){
-    if(!confirm("Не все задания отмечены. Завершить квест частично? XP будет начислен пропорционально. Бонус рейда выдаётся только за полный квест."))return;
-  }
 
   let full=checked.length===d.tasks.length;
 
@@ -2479,11 +2900,17 @@ function completeDay(){
   }
 
   earned=Math.round(earned*(1+currentGearXpBonus()/100));
+  if(Number(state.dailyDebuffUntil)>Date.now()) earned=Math.max(1,Math.round(earned*0.9));
+  earned += Math.max(0,Math.min(30,Math.round(Number(bonusXp)||0)));
 
   let oldLevel=level();
   state.xp+=earned;
   let gained=level()-oldLevel;
   if(gained>0)state.stats.points+=gained*2;
+
+  const completionDate = hunterLocalDateKey();
+  state.dailyQuestCompletions = state.dailyQuestCompletions || {};
+  state.dailyQuestCompletions[completionDate] = true;
 
   state.history.unshift({
     key,
@@ -3770,6 +4197,7 @@ function completeOnboarding(){
    document.body.classList.remove('onboarding');document.getElementById('awakening-onboarding').style.display='none';window.scrollTo({top:0,behavior:'instant'});
    scene.style.transition='opacity .65s ease';scene.style.opacity='0';
    setTimeout(()=>scene.remove(),700);
+   triggerParticleBurst('awakening',64);
    showSystemToast('Профиль охотника создан. Охота начинается!');
   },720);
  }
@@ -3817,6 +4245,71 @@ function completeOnboarding(){
  onboardUpdate();
 })();
 
+
+// Daily discipline: check only dates after this feature was first installed.
+function hunterLocalDateKey(date=new Date()){
+  return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+}
+function hunterDateFromKey(key){const [y,m,d]=String(key).split('-').map(Number);return new Date(y,m-1,d,12,0,0,0)}
+function applyMissedDailyQuestPenalties(){
+  const today=hunterLocalDateKey();
+  state.dailyQuestCompletions=state.dailyQuestCompletions||{};
+  state.dailyPenaltyLog=state.dailyPenaltyLog||[];
+  if(!state.dailyQuestMeta||!state.dailyQuestMeta.lastCheckedDate){
+    state.dailyQuestMeta={lastCheckedDate:today};
+    try{localStorage.setItem('hunterState',JSON.stringify(state));}catch(e){}
+    return null;
+  }
+  let cursor=hunterDateFromKey(state.dailyQuestMeta.lastCheckedDate);
+  const end=hunterDateFromKey(today);
+  const missed=[];
+  while(cursor<end){
+    const key=hunterLocalDateKey(cursor);
+    if(!state.dailyQuestCompletions[key]&&!state.dailyPenaltyLog.includes(key))missed.push(key);
+    cursor.setDate(cursor.getDate()+1);
+    if(missed.length>366)break;
+  }
+  state.dailyQuestMeta.lastCheckedDate=today;
+  if(!missed.length){try{localStorage.setItem('hunterState',JSON.stringify(state));}catch(e){}return null;}
+  const count=missed.length, xpLoss=115*count, beforeXP=Math.max(0,Number(state.xp)||0);
+  state.xp=Math.max(0,beforeXP-xpLoss);
+  // Remove one actually invested attribute point per missed day, never below zero.
+  const statNames={strength:'Сила',agility:'Ловкость',endurance:'Выносливость'};
+  let removed=0,removedNames=[];
+  for(let n=0;n<count;n++){
+    const key=['strength','agility','endurance'].sort((a,b)=>(Number(state.stats[b])||0)-(Number(state.stats[a])||0))[0];
+    if((Number(state.stats[key])||0)>0){state.stats[key]--;removed++;removedNames.push(statNames[key]);}
+    else if((Number(state.stats.points)||0)>0){state.stats.points--;removed++;removedNames.push('свободное очко');}
+  }
+  const now=Date.now(),base=Math.max(now,Number(state.dailyDebuffUntil)||0);
+  state.dailyDebuffUntil=base+count*24*60*60*1000;
+  state.dailyDebuffReason='Пропуск ежедневного квеста';
+  state.dailyPenaltyLog.push(...missed);
+  state.dailyPenaltyLog=state.dailyPenaltyLog.slice(-400);
+  state.lastMissedQuestReport={dates:missed,xpLost:Math.min(beforeXP,xpLoss),statPointsLost:removed,statNames:removedNames,debuffUntil:state.dailyDebuffUntil,shown:false};
+  try{localStorage.setItem('hunterStateBackup',localStorage.getItem('hunterState')||'');localStorage.setItem('hunterState',JSON.stringify(state));}catch(e){}
+  return state.lastMissedQuestReport;
+}
+function showMissedQuestPenalty(report){
+  if(!report||report.shown)return;
+  const old=document.getElementById('missedQuestPenalty');if(old)old.remove();
+  const days=report.dates.length, hours=Math.max(1,Math.ceil((Number(report.debuffUntil)-Date.now())/3600000));
+  const overlay=document.createElement('div');overlay.id='missedQuestPenalty';overlay.className='missed-penalty-overlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-labelledby','missedPenaltyTitle');
+  overlay.innerHTML=`<section class="missed-penalty-card"><div class="missed-penalty-seal" aria-hidden="true"><svg class="hunter-crest" viewBox="0 0 100 100" aria-hidden="true"><path class="crest-horns" d="M23 42 8 13l25 16 17-17 17 17 25-16-15 29 7 27-17 18H33L16 69Z"/><path class="crest-face" d="M23 43 50 27l27 16-5 29-22 17-22-17Z"/><path class="crest-eye" d="m31 51 16 5-12 8Zm38 0-16 5 12 8Z"/><path class="crest-mark" d="m43 70 7-8 7 8-7 10Z"/></svg></div><div class="missed-penalty-kicker">HUNTER SYSTEM · MISSION REPORT</div><h2 class="missed-penalty-title" id="missedPenaltyTitle">КВЕСТ НЕ ВЫПОЛНЕН</h2><p class="missed-penalty-copy">Ты пропустил ${days===1?'ежедневный квест':days+' ежедневных квеста'}. Система зафиксировала нарушение дисциплины и применила штраф. Вернись к плану без попыток компенсировать пропуск двойной нагрузкой.</p><div class="missed-penalty-section"><div class="missed-penalty-section-label">НАЛОЖЕН ДЕБАФ</div><div class="missed-penalty-row"><span class="missed-penalty-icon">◇</span><div class="missed-penalty-meta"><b>Потеря опыта</b><small>Снижение накопленного XP</small></div><strong class="missed-penalty-value">−${report.xpLost} XP</strong></div><div class="missed-penalty-row"><span class="missed-penalty-icon">▥</span><div class="missed-penalty-meta"><b>Потеря характеристики</b><small>${report.statPointsLost?`Снято ${report.statPointsLost} влож. ${report.statPointsLost===1?'очко':'очка'}`:'Нет доступных очков для снятия'}</small></div><strong class="missed-penalty-value">−${report.statPointsLost} ✦</strong></div></div><div class="missed-penalty-debuff"><span style="font-size:27px;color:#ff8992">⛓</span><div style="flex:1;min-width:0"><b>Дебаф: Потеря формы</b><small>Награда XP за квесты снижена на 10%.</small></div><span class="missed-penalty-time">⌛ ${hours} ч</span></div><p class="missed-penalty-rank">РАНГ ${rank()}　·　УРОВЕНЬ ${level()}　·　СТАТУС: <strong>ОСЛАБЛЕН</strong></p><button type="button" class="missed-penalty-continue" id="missedPenaltyContinue">ПРОДОЛЖИТЬ</button></section>`;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(()=>overlay.classList.add('show'));
+  triggerParticleBurst('red',58);
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const card=overlay.querySelector('.missed-penalty-card');
+    for(let i=0;i<24;i++){const spark=document.createElement('i');spark.className='missed-penalty-spark';const a=Math.random()*Math.PI*2,d=70+Math.random()*190;spark.style.left=(50+Math.cos(a)*12)+'%';spark.style.top=(27+Math.sin(a)*10)+'%';spark.style.setProperty('--px',(Math.cos(a)*d)+'px');spark.style.setProperty('--py',(Math.sin(a)*d)+'px');card.appendChild(spark);setTimeout(()=>spark.remove(),1200)}
+    if(window.playSystemEffect)window.playSystemEffect('error','DAILY QUEST FAILED');
+  }
+  const close=()=>{overlay.classList.remove('show');setTimeout(()=>overlay.remove(),420);if(!report.isTestPreview){report.shown=true;state.lastMissedQuestReport=report;try{localStorage.setItem('hunterState',JSON.stringify(state));}catch(e){};renderAll();}};
+  overlay.querySelector('#missedPenaltyContinue').addEventListener('click',close);
+  overlay.querySelector('#missedPenaltyContinue').focus();
+}
+function checkMissedDailyQuest(){const report=applyMissedDailyQuestPenalties();if(report)showMissedQuestPenalty(report);else if(state.lastMissedQuestReport&&!state.lastMissedQuestReport.shown)showMissedQuestPenalty(state.lastMissedQuestReport);}
+
   function renderAll(){
  if(recoverPlayerResources()){
   try{localStorage.setItem("hunterState",JSON.stringify(state))}catch(e){}
@@ -3824,6 +4317,9 @@ function completeOnboarding(){
  renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile()
 }
 renderAll();
+setTimeout(checkMissedDailyQuest,700);
+window.addEventListener('focus',checkMissedDailyQuest);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkMissedDailyQuest()});
 if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 /* SYSTEM FX controller — performance-optimized decorative layer. */
@@ -4275,3 +4771,264 @@ function exitRaid() {
 if (state.raidRun) renderRaidRun();
 </script>
 </body></html>
+
+<style>
+
+
+/* HUNTER SYSTEM — PENALTY CINEMATIC REDESIGN */
+.missed-penalty-overlay{
+  padding:12px!important;
+  background:
+    radial-gradient(ellipse at 50% 18%,rgba(255,24,58,.22),transparent 38%),
+    radial-gradient(ellipse at 50% 85%,rgba(14,113,183,.16),transparent 42%),
+    rgba(1,4,12,.96)!important;
+  backdrop-filter:blur(22px) brightness(.62)!important;
+}
+.missed-penalty-card{
+  width:min(100%,500px)!important;
+  padding:0 0 22px!important;
+  border:1px solid rgba(255,83,106,.5)!important;
+  border-radius:24px!important;
+  overflow:hidden!important;
+  background:
+    linear-gradient(180deg,rgba(27,12,27,.99) 0%,rgba(9,18,33,.99) 43%,rgba(5,14,27,.99) 100%)!important;
+  box-shadow:0 0 0 1px rgba(255,82,105,.12),0 0 55px rgba(255,29,60,.19),0 28px 100px rgba(0,0,0,.78),inset 0 1px rgba(255,255,255,.08)!important;
+  text-align:center!important;
+}
+.missed-penalty-card:before{
+  content:"";position:absolute;z-index:0;left:0;right:0;top:0;height:190px;
+  background:linear-gradient(180deg,rgba(255,37,67,.15),transparent);
+  pointer-events:none;
+}
+.missed-penalty-card:after{
+  content:"";display:block;position:absolute;top:0;left:0;right:0;height:3px;width:auto;max-width:none;margin:0;padding:0;border:0;border-radius:0;
+  background:linear-gradient(90deg,transparent,#ff334f 18%,#ff9aa6 50%,#ff334f 82%,transparent);
+  box-shadow:0 0 18px rgba(255,49,76,.9);pointer-events:none;
+}
+.missed-penalty-card > *{position:relative;z-index:1}
+.missed-penalty-kicker{
+  display:inline-flex;align-items:center;gap:8px;margin:24px auto 17px!important;
+  padding:7px 13px;border:1px solid rgba(255,103,123,.32);border-radius:999px;
+  background:rgba(113,22,43,.25);color:#ff9eaa!important;
+  font-size:9px!important;letter-spacing:.24em!important;
+}
+.missed-penalty-seal{
+  width:112px!important;height:112px!important;margin:0 auto 23px!important;
+  border-radius:30px!important;transform:rotate(45deg)!important;
+  border:1px solid rgba(255,147,158,.9)!important;
+  background:linear-gradient(145deg,rgba(255,52,78,.28),rgba(34,7,22,.96))!important;
+  box-shadow:0 0 0 8px rgba(255,60,83,.055),0 0 35px rgba(255,40,68,.65),0 0 90px rgba(255,35,62,.2),inset 0 0 32px rgba(255,113,132,.2)!important;
+  animation:penaltyCore 2.8s ease-in-out infinite!important;
+}
+.missed-penalty-seal:before{font-size:76px!important;transform:rotate(-45deg)!important}
+.missed-penalty-title{
+  margin:0 18px 12px!important;color:#fff0f2!important;
+  font-size:clamp(27px,7vw,39px)!important;letter-spacing:.055em!important;
+  text-shadow:0 0 12px rgba(255,64,88,.8),0 0 36px rgba(255,35,64,.35)!important;
+}
+.missed-penalty-copy{margin:0 auto 22px!important;padding:0 24px;color:#b8c8d9!important}
+.missed-penalty-section{
+  margin:27px 18px 17px!important;padding:27px 12px 12px!important;
+  border:1px solid rgba(255,78,101,.32)!important;border-radius:18px!important;
+  background:linear-gradient(145deg,rgba(48,16,34,.55),rgba(7,21,37,.75))!important;
+  box-shadow:inset 0 0 24px rgba(255,46,72,.055),0 10px 28px rgba(0,0,0,.2)
+}
+.missed-penalty-section-label{
+  background:#170f20!important;color:#ff9ba7!important;
+  border:1px solid rgba(255,96,117,.32);border-radius:999px;
+  padding:5px 14px!important;font-size:9px!important;letter-spacing:.2em!important;
+}
+.missed-penalty-row{
+  padding:13px!important;margin-bottom:9px!important;border-radius:13px!important;
+  background:linear-gradient(105deg,rgba(25,39,60,.95),rgba(38,18,38,.9))!important;
+  border:1px solid rgba(137,173,207,.16)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.035)
+}
+.missed-penalty-icon{
+  width:40px!important;height:40px!important;flex-basis:40px!important;
+  border-radius:12px!important;background:rgba(255,62,87,.12)!important;
+  border:1px solid rgba(255,105,124,.3)!important;color:#ff9aa6!important;
+}
+.missed-penalty-meta b{color:#e8f3ff!important;font-size:14px!important}
+.missed-penalty-meta small{color:#91a7bd!important}
+.missed-penalty-value{color:#ff8493!important;text-shadow:0 0 16px rgba(255,52,79,.55)!important}
+.missed-penalty-debuff{
+  margin:14px 18px 18px!important;padding:15px!important;
+  border:1px solid rgba(255,79,101,.48)!important;border-radius:14px!important;
+  background:linear-gradient(110deg,rgba(116,19,42,.42),rgba(35,14,32,.7))!important;
+  box-shadow:0 0 24px rgba(255,34,64,.08),inset 0 0 20px rgba(255,58,80,.06)
+}
+.missed-penalty-debuff b{color:#ff9ba6!important}
+.missed-penalty-time{color:#ffd0d4!important}
+.missed-penalty-rank{margin:18px 18px!important;padding:12px;border-top:1px solid rgba(130,174,211,.15);border-bottom:1px solid rgba(130,174,211,.15)}
+.missed-penalty-continue{
+  width:calc(100% - 36px)!important;margin:0 18px!important;min-height:58px!important;
+  border:1px solid rgba(255,151,164,.65)!important;border-radius:14px!important;
+  background:linear-gradient(105deg,#a91e3d,#e13b56 48%,#9e1d40)!important;
+  box-shadow:0 0 25px rgba(255,42,72,.25),inset 0 1px rgba(255,255,255,.24)!important;
+  letter-spacing:.16em!important;font-size:15px!important;
+}
+.missed-penalty-continue:active{transform:translateY(2px) scale(.985)!important;filter:brightness(1.2)!important}
+@keyframes penaltyCore{0%,100%{box-shadow:0 0 0 8px rgba(255,60,83,.045),0 0 30px rgba(255,40,68,.5),0 0 70px rgba(255,35,62,.14),inset 0 0 26px rgba(255,113,132,.17)}50%{box-shadow:0 0 0 13px rgba(255,60,83,.075),0 0 48px rgba(255,40,68,.78),0 0 105px rgba(255,35,62,.28),inset 0 0 38px rgba(255,113,132,.28)}}
+@media(max-width:420px){
+ .missed-penalty-card{border-radius:20px!important}
+ .missed-penalty-seal{width:88px!important;height:88px!important;border-radius:24px!important}
+ .missed-penalty-seal:before{font-size:60px!important}
+ .missed-penalty-section{margin-left:12px!important;margin-right:12px!important}
+ .missed-penalty-debuff{margin-left:12px!important;margin-right:12px!important}
+ .missed-penalty-continue{width:calc(100% - 24px)!important;margin-left:12px!important;margin-right:12px!important}
+}
+
+
+/* MOBILE FIT + STRAIGHT SEAL */
+.missed-penalty-overlay{
+  align-items:center;
+  padding:10px 12px max(10px, env(safe-area-inset-bottom));
+}
+.missed-penalty-card{
+  width:min(100%,520px);
+  max-height:calc(100dvh - 20px);
+  padding:16px 20px 16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.missed-penalty-seal{
+  width:64px;height:64px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  transform:none;
+  display:grid;place-items:center;
+}
+.missed-penalty-seal:before{
+  content:"×";display:block;font-size:48px;line-height:1;
+  font-weight:300;transform:none;
+}
+.missed-penalty-card:after{margin-bottom:12px}
+.missed-penalty-kicker{margin-bottom:8px}
+.missed-penalty-title{font-size:clamp(23px,5.8vw,34px);margin-bottom:9px}
+.missed-penalty-copy{font-size:clamp(12px,3.2vw,15px);line-height:1.42;margin-bottom:12px}
+.missed-penalty-section{margin:17px 0 11px;padding:20px 9px 9px}
+.missed-penalty-row{padding:9px 9px;margin-bottom:7px}
+.missed-penalty-debuff{padding:10px 11px;margin:10px 0 12px}
+.missed-penalty-rank{padding:8px 6px;margin:10px 0 11px}
+.missed-penalty-continue{min-height:48px;font-size:15px}
+@media(max-width:420px){
+ .missed-penalty-overlay{padding:8px 10px max(8px,env(safe-area-inset-bottom))}
+ .missed-penalty-card{max-height:calc(100dvh - 16px);padding:13px 12px 13px;border-radius:21px}
+ .missed-penalty-card:after{margin-bottom:9px;font-size:7px}
+ .missed-penalty-seal{width:54px;height:54px;margin-bottom:9px}
+ .missed-penalty-seal:before{font-size:40px}
+ .missed-penalty-title{font-size:clamp(21px,6vw,28px);margin-bottom:7px}
+ .missed-penalty-copy{font-size:12px;line-height:1.38;margin-bottom:9px}
+ .missed-penalty-section{margin:14px 0 9px;padding:18px 7px 7px}
+ .missed-penalty-row{padding:8px 7px;gap:7px}
+ .missed-penalty-icon{width:30px;height:30px;flex-basis:30px}
+ .missed-penalty-meta b{font-size:11px}
+ .missed-penalty-meta small{font-size:9px}
+ .missed-penalty-value{font-size:18px}
+ .missed-penalty-debuff{padding:8px 9px;margin:8px 0 9px}
+ .missed-penalty-debuff b{font-size:12px}
+ .missed-penalty-debuff small{font-size:10px}
+ .missed-penalty-rank{font-size:8px;padding:7px 4px;margin:8px 0 9px}
+ .missed-penalty-continue{min-height:44px;font-size:14px}
+}
+@media(max-height:760px){
+ .missed-penalty-card{padding-top:10px;padding-bottom:10px}
+ .missed-penalty-seal{width:48px;height:48px;margin-bottom:7px}
+ .missed-penalty-seal:before{font-size:36px}
+ .missed-penalty-copy{margin-bottom:7px}
+ .missed-penalty-section{margin:11px 0 7px}
+ .missed-penalty-debuff{margin:7px 0}
+ .missed-penalty-rank{margin:7px 0;padding:6px}
+ .missed-penalty-continue{min-height:42px}
+}
+
+</style>
+
+<style>
+
+/* RESPONSIVE POLISH v91 */
+@media(max-width:600px){
+  .page,.page.active{min-width:0!important;width:100%!important}
+  .card,.panel,.section-card{min-width:0;max-width:100%;box-sizing:border-box}
+  .grid,.stats,.compact-grid,.settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card img,.page img{max-width:100%;height:auto}
+  input,select,textarea,button{max-width:100%;box-sizing:border-box}
+  .card h2,.card h3,.section-title{overflow-wrap:anywhere}
+}
+@media(max-width:390px){
+  .grid,.stats,.settings-grid{grid-template-columns:minmax(0,1fr)!important}
+  .compact-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .card{padding:14px!important;border-radius:16px!important}
+  .page{padding-left:12px!important;padding-right:12px!important}
+  button{min-height:42px}
+}
+.page,.card,.tab,.primary,.secondary{box-sizing:border-box}
+
+
+/* MOBILE FIT + STRAIGHT SEAL */
+.missed-penalty-overlay{
+  align-items:center;
+  padding:10px 12px max(10px, env(safe-area-inset-bottom));
+}
+.missed-penalty-card{
+  width:min(100%,520px);
+  max-height:calc(100dvh - 20px);
+  padding:16px 20px 16px;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.missed-penalty-seal{
+  width:64px;height:64px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  transform:none;
+  display:grid;place-items:center;
+}
+.missed-penalty-seal:before{
+  content:"×";display:block;font-size:48px;line-height:1;
+  font-weight:300;transform:none;
+}
+.missed-penalty-card:after{margin-bottom:12px}
+.missed-penalty-kicker{margin-bottom:8px}
+.missed-penalty-title{font-size:clamp(23px,5.8vw,34px);margin-bottom:9px}
+.missed-penalty-copy{font-size:clamp(12px,3.2vw,15px);line-height:1.42;margin-bottom:12px}
+.missed-penalty-section{margin:17px 0 11px;padding:20px 9px 9px}
+.missed-penalty-row{padding:9px 9px;margin-bottom:7px}
+.missed-penalty-debuff{padding:10px 11px;margin:10px 0 12px}
+.missed-penalty-rank{padding:8px 6px;margin:10px 0 11px}
+.missed-penalty-continue{min-height:48px;font-size:15px}
+@media(max-width:420px){
+ .missed-penalty-overlay{padding:8px 10px max(8px,env(safe-area-inset-bottom))}
+ .missed-penalty-card{max-height:calc(100dvh - 16px);padding:13px 12px 13px;border-radius:21px}
+ .missed-penalty-card:after{margin-bottom:9px;font-size:7px}
+ .missed-penalty-seal{width:54px;height:54px;margin-bottom:9px}
+ .missed-penalty-seal:before{font-size:40px}
+ .missed-penalty-title{font-size:clamp(21px,6vw,28px);margin-bottom:7px}
+ .missed-penalty-copy{font-size:12px;line-height:1.38;margin-bottom:9px}
+ .missed-penalty-section{margin:14px 0 9px;padding:18px 7px 7px}
+ .missed-penalty-row{padding:8px 7px;gap:7px}
+ .missed-penalty-icon{width:30px;height:30px;flex-basis:30px}
+ .missed-penalty-meta b{font-size:11px}
+ .missed-penalty-meta small{font-size:9px}
+ .missed-penalty-value{font-size:18px}
+ .missed-penalty-debuff{padding:8px 9px;margin:8px 0 9px}
+ .missed-penalty-debuff b{font-size:12px}
+ .missed-penalty-debuff small{font-size:10px}
+ .missed-penalty-rank{font-size:8px;padding:7px 4px;margin:8px 0 9px}
+ .missed-penalty-continue{min-height:44px;font-size:14px}
+}
+@media(max-height:760px){
+ .missed-penalty-card{padding-top:10px;padding-bottom:10px}
+ .missed-penalty-seal{width:48px;height:48px;margin-bottom:7px}
+ .missed-penalty-seal:before{font-size:36px}
+ .missed-penalty-copy{margin-bottom:7px}
+ .missed-penalty-section{margin:11px 0 7px}
+ .missed-penalty-debuff{margin:7px 0}
+ .missed-penalty-rank{margin:7px 0;padding:6px}
+ .missed-penalty-continue{min-height:42px}
+}
+
+</style>

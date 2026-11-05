@@ -1,5 +1,5 @@
 
-const CACHE = "hunter-app-v86-compact-rarity";
+const CACHE = "hunter-app-v96-precision-bonus-quest-dismiss";
 const FILES = [
   "./",
   "./index.html",
