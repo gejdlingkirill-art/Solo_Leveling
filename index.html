@@ -2967,6 +2967,26 @@ function finalizeQuest(bonusXp=0){
     raid:full
   });
 
+    // RANK SYSTEM — учёт полноценных тренировок
+  if(full&&(d.kind==="СИЛА"||d.kind==="ВЫНОСЛИВОСТЬ")){
+    state.rankSystem=state.rankSystem||{};
+    state.rankSystem.trainingSessions=state.rankSystem.trainingSessions||[];
+
+    const sessionDate=hunterLocalDateKey();
+    const sessionExists=state.rankSystem.trainingSessions.some(
+      s=>s.date===sessionDate
+    );
+
+    if(!sessionExists){
+      state.rankSystem.trainingSessions.push({
+        id:key,
+        date:sessionDate,
+        type:d.kind,
+        name:d.name,
+        completedAt:new Date().toISOString()
+      });
+    }
+  }
   state.materials=state.materials||{shards:0,crystals:0,runes:0};
   state.materials.shards+=1+(full?1:0);
   if(full)state.materials.crystals+=1;
