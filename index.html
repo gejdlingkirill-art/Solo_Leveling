@@ -4528,7 +4528,60 @@ function confirmRankBTechniqueTest(){
   showSystemToast("Испытание техники пройдено!");
 }
   // RANK B EXAM — обновление статусов карточки
-function renderRankBExamCard(){
+// RANK B EXAM — запуск отдельного боя
+function startRankBExamFight(){
+  const exam=state.rankSystem?.exams?.B;
+
+  if(!exam){
+    showSystemToast("Данные экзамена не найдены.","error");
+    return;
+  }
+
+  const strengthPassed=exam.physicalTests?.strength?.passed===true;
+  const endurancePassed=exam.physicalTests?.endurance?.passed===true;
+  const techniquePassed=exam.physicalTests?.technique?.passed===true;
+
+  if(!strengthPassed||!endurancePassed||!techniquePassed){
+    showSystemToast("Для входа необходимо пройти все три испытания.","error");
+    renderRankBExamCard();
+    return;
+  }
+
+  if(exam.battle?.active){
+    showSystemToast("Экзамен уже начат. Продолжай с текущего этапа.","error");
+    return;
+  }
+
+  initPlayerResources();
+  recoverPlayerResources();
+
+  if((Number(state.resources?.hp)||0)<=0){
+    showSystemToast("Недостаточно HP. Восстановись перед экзаменом.","error");
+    return;
+  }
+
+  exam.battle={
+    active:true,
+    status:"in_progress",
+    phase:1,
+    bossHp:100,
+    playerHp:state.resources.hp,
+    playerMp:state.resources.mp,
+    turn:1,
+    log:["Врата Бездны открыты. Страж Бездны вступает в бой."],
+    completedPhases:[],
+    startedAt:new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  };
+
+  exam.status="in_progress";
+  exam.startedAt=exam.startedAt||new Date().toISOString();
+  exam.updatedAt=new Date().toISOString();
+
+  save();
+  showSystemToast("Экзамен начат! Страж Бездны ждёт тебя.");
+}
+  function renderRankBExamCard(){
   const exam=state.rankSystem?.exams?.B;
   if(!exam)return;
 
