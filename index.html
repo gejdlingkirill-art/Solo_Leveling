@@ -2278,7 +2278,16 @@ button:active{transform:scale(.985)}
       Пройди все три физических испытания, чтобы открыть врата.
     </div>
   </div>
-<!-- /RANK B EXAM -->
+  <button
+    class="primary"
+    id="rankBBossStartButton"
+    style="width:100%;margin-top:12px;opacity:.5"
+    disabled
+    onclick="startRankBExamFight()"
+  >
+    ⚔ ВЫЗВАТЬ СТРАЖА БЕЗДНЫ
+  </button>
+  <!-- /RANK B EXAM -->
 <div class="model-section" style="margin-top:15px">ВЫБОР АВАТАРА</div><div id="avatarPicker" class="avatar-picks"></div><label class="muted" for="playerNameInput" style="display:block;margin:14px 0 6px">Имя охотника</label><div class="row"><input id="playerNameInput" class="field" maxlength="24" placeholder="Например, Shadow Hunter"><button class="secondary" onclick="savePlayerName()">Сохранить</button></div></div><div class="card">
   <div class="eyebrow">РАЗДЕЛЫ СИСТЕМЫ</div>
   <h3 class="section-title">Управление охотником</h3>
