@@ -5232,7 +5232,7 @@ function checkMissedDailyQuest(){const report=applyMissedDailyQuestPenalties();i
  if(recoverPlayerResources()){
   try{localStorage.setItem("hunterState",JSON.stringify(state))}catch(e){}
  }
- renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile();renderRankBExamCard()
+ renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile();renderRankBExamCard();renderRankBExamBattle()
 }
 renderAll();
 setTimeout(checkMissedDailyQuest,700);
