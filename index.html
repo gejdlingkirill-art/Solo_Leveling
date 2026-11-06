@@ -4592,6 +4592,24 @@ function renderRankBExamCard(){
       enduranceButton.textContent="ИСПЫТАНИЕ ПРОЙДЕНО";
     }
   }
+   const techniquePassed=
+    exam.physicalTests?.technique===true||
+    exam.physicalTests?.technique?.completed===true||
+    exam.physicalTests?.technique?.passed===true;
+
+  const techniqueConfirm=document.getElementById("rankBTechniqueConfirm");
+  const techniqueButton=document.getElementById("rankBTechniqueSubmit");
+
+  if(techniquePassed){
+    if(techniqueConfirm){
+      techniqueConfirm.checked=true;
+      techniqueConfirm.disabled=true;
+    }
+    if(techniqueButton){
+      techniqueButton.disabled=true;
+      techniqueButton.textContent="ИСПЫТАНИЕ ПРОЙДЕНО";
+    }
+  }
   const phases=Array.isArray(exam.completedPhases)?exam.completedPhases.length:0;
   const progress=Math.min(100,Math.round(phases/3*100));
 
