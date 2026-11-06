@@ -2101,7 +2101,66 @@ button:active{transform:scale(.985)}
     ЭКЗАМЕН ЗАКРЫТ
   </div>
 </div>
+<!-- RANK B EXAM — карточка экзамена -->
+<div class="card" id="rankBExamCard" style="margin-top:14px;border:1px solid rgba(60,160,255,.35)">
+  <div class="eyebrow">ЭКЗАМЕН ОХОТНИКА · РАНГ B</div>
 
+  <div class="row" style="justify-content:space-between;align-items:center;margin-top:7px">
+    <h3 class="section-title" style="margin:0">Врата Бездны</h3>
+    <span class="tag">УРОВЕНЬ B</span>
+  </div>
+
+  <div class="muted" style="margin-top:8px">
+    Трёхэтапное испытание на право стать охотником ранга B.
+    Пройди физические проверки и одолей Стража Бездны.
+  </div>
+
+  <div class="card" style="margin-top:12px;padding:11px;background:rgba(30,100,180,.08)">
+    <div class="row" style="justify-content:space-between">
+      <b>СТАТУС ЭКЗАМЕНА</b>
+      <span class="tag" id="rankBExamStatus">ОЖИДАЕТ ДОПУСКА</span>
+    </div>
+    <div class="muted" style="margin-top:6px">
+      Экзамен откроется после выполнения всех требований ранга B.
+    </div>
+  </div>
+
+  <div class="model-section" style="margin-top:15px">ФИЗИЧЕСКИЕ ИСПЫТАНИЯ</div>
+
+  <div class="row" style="justify-content:space-between;margin-top:10px">
+    <span>Ⅰ · Сила</span>
+    <span class="tag" id="rankBTestStrength">НЕ ПРОЙДЕНО</span>
+  </div>
+
+  <div class="row" style="justify-content:space-between;margin-top:9px">
+    <span>Ⅱ · Выносливость</span>
+    <span class="tag" id="rankBTestEndurance">НЕ ПРОЙДЕНО</span>
+  </div>
+
+  <div class="row" style="justify-content:space-between;margin-top:9px">
+    <span>Ⅲ · Техника и контроль</span>
+    <span class="tag" id="rankBTestTechnique">НЕ ПРОЙДЕНО</span>
+  </div>
+
+  <div class="model-section" style="margin-top:16px">ФИНАЛЬНОЕ СРАЖЕНИЕ</div>
+
+  <div class="row" style="justify-content:space-between;margin-top:10px">
+    <b>Страж Бездны</b>
+    <span class="tag">3 ФАЗЫ</span>
+  </div>
+
+  <div class="muted" style="margin-top:6px">
+    Гибридный бой · Полуавтоматическая теневая армия · Ограниченное восстановление HP/MP.
+  </div>
+
+  <div class="xpbar" style="margin-top:12px">
+    <span id="rankBBossProgress" style="width:0%"></span>
+  </div>
+  <div class="muted" id="rankBBossPhase" style="margin-top:6px">
+    Фазы босса: 0 / 3
+  </div>
+</div>
+<!-- /RANK B EXAM -->
 <div class="model-section" style="margin-top:15px">ВЫБОР АВАТАРА</div><div id="avatarPicker" class="avatar-picks"></div><label class="muted" for="playerNameInput" style="display:block;margin:14px 0 6px">Имя охотника</label><div class="row"><input id="playerNameInput" class="field" maxlength="24" placeholder="Например, Shadow Hunter"><button class="secondary" onclick="savePlayerName()">Сохранить</button></div></div><div class="card">
   <div class="eyebrow">РАЗДЕЛЫ СИСТЕМЫ</div>
   <h3 class="section-title">Управление охотником</h3>
