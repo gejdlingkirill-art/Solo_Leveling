@@ -4258,7 +4258,61 @@ function chooseAvatar(path){
   save();
   showSystemToast('Аватар охотника обновлён!');
 }
-// RANK B EXAM — обновление статусов карточки
+// RANK B EXAM — подтверждение испытания силы
+function confirmRankBStrengthTest(){
+  const exam=state.rankSystem?.exams?.B;
+  if(!exam)return;
+
+  const discipline=calculateRankDiscipline();
+  const stats=state.stats||{};
+  const trainingCount=state.rankSystem?.trainingSessions?.length||0;
+
+  const admitted=
+    (Number(state.xp)||0)>=12000 &&
+    (Number(stats.strength)||0)>=22 &&
+    (Number(stats.agility)||0)>=22 &&
+    (Number(stats.endurance)||0)>=22 &&
+    trainingCount>=60 &&
+    discipline>=70;
+
+  if(!admitted){
+    showSystemToast("Сначала выполни все требования для допуска к экзамену.","error");
+    return;
+  }
+
+  const result=exam.physicalTests?.strength;
+
+  if(result===true||result?.completed===true||result?.passed===true){
+    showSystemToast("Испытание силы уже пройдено.","error");
+    return;
+  }
+
+  const confirm=document.getElementById("rankBStrengthConfirm");
+
+  if(!confirm||!confirm.checked){
+    showSystemToast("Подтверди выполнение всех трёх кругов.","error");
+    return;
+  }
+
+  exam.physicalTests=exam.physicalTests||{};
+  exam.physicalTests.strength={
+    completed:true,
+    passed:true,
+    rounds:3,
+    pullUps:15,
+    pushUps:30,
+    date:hunterLocalDateKey()
+  };
+
+  exam.status="in_progress";
+  exam.startedAt=exam.startedAt||new Date().toISOString();
+  exam.updatedAt=new Date().toISOString();
+
+  save();
+
+  showSystemToast("Испытание силы пройдено!");
+}
+  // RANK B EXAM — обновление статусов карточки
 function renderRankBExamCard(){
   const exam=state.rankSystem?.exams?.B;
   if(!exam)return;
