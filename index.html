@@ -4645,6 +4645,15 @@ function renderRankBExamCard(){
       ?"Все три физических испытания пройдены. Врата Бездны открыты."
       :"Для допуска необходимо пройти все три физических испытания.";
   }
+   const bossStartButton=document.getElementById("rankBBossStartButton");
+
+  if(bossStartButton){
+    bossStartButton.disabled=!physicalTestsPassed;
+    bossStartButton.style.opacity=physicalTestsPassed?"1":".5";
+    bossStartButton.textContent=physicalTestsPassed
+      ?"⚔ ВЫЗВАТЬ СТРАЖА БЕЗДНЫ"
+      :"🔒 СНАЧАЛА ПРОЙДИ 3 ИСПЫТАНИЯ";
+  }
   const phases=Array.isArray(exam.completedPhases)?exam.completedPhases.length:0;
   const progress=Math.min(100,Math.round(phases/3*100));
 
