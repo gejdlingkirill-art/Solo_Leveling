@@ -4473,6 +4473,24 @@ function renderRankBExamCard(){
       strengthButton.textContent="ИСПЫТАНИЕ ПРОЙДЕНО";
     }
   }
+    const endurancePassed=
+    exam.physicalTests?.endurance===true||
+    exam.physicalTests?.endurance?.completed===true||
+    exam.physicalTests?.endurance?.passed===true;
+
+  const enduranceConfirm=document.getElementById("rankBEnduranceConfirm");
+  const enduranceButton=document.getElementById("rankBEnduranceSubmit");
+
+  if(endurancePassed){
+    if(enduranceConfirm){
+      enduranceConfirm.checked=true;
+      enduranceConfirm.disabled=true;
+    }
+    if(enduranceButton){
+      enduranceButton.disabled=true;
+      enduranceButton.textContent="ИСПЫТАНИЕ ПРОЙДЕНО";
+    }
+  }
   const phases=Array.isArray(exam.completedPhases)?exam.completedPhases.length:0;
   const progress=Math.min(100,Math.round(phases/3*100));
 
