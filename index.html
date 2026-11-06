@@ -2162,6 +2162,46 @@ button:active{transform:scale(.985)}
     <span class="tag" id="rankBTestEndurance">НЕ ПРОЙДЕНО</span>
   </div>
 
+  <div class="card" id="rankBEndurancePanel" style="margin-top:10px;padding:12px;background:rgba(30,100,180,.08)">
+  <b>ИСПЫТАНИЕ СТАЛЬНОГО СЕРДЦА</b>
+  <p class="muted" style="margin:8px 0">
+    Выполни 3 круга:
+  </p>
+
+  <div class="row" style="justify-content:space-between">
+    <span>Приседания</span>
+    <b>20 повторений</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Отжимания</span>
+    <b>12 повторений</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Выпады назад</span>
+    <b>10 на каждую ногу</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Альпинист</span>
+    <b>30 секунд</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Планка</span>
+    <b>30 секунд</b>
+  </div>
+
+  <div class="muted" style="margin-top:9px">
+    Отдых между кругами — 2 минуты. Сохраняй правильную технику и небольшой запас сил.
+  </div>
+
+  <label style="display:flex;gap:9px;align-items:flex-start;margin-top:12px">
+    <input type="checkbox" id="rankBEnduranceConfirm" style="margin-top:3px">
+    <span class="muted">Я выполнил все 3 круга без боли, с правильной техникой.</span>
+  </label>
+
+  <button class="primary" id="rankBEnduranceSubmit" style="width:100%;margin-top:12px" onclick="confirmRankBEnduranceTest()">
+    Подтвердить испытание
+  </button>
+</div>
   <div class="row" style="justify-content:space-between;margin-top:9px">
     <span>Ⅲ · Техника и контроль</span>
     <span class="tag" id="rankBTestTechnique">НЕ ПРОЙДЕНО</span>
