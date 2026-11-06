@@ -4233,7 +4233,61 @@ function chooseAvatar(path){
   save();
   showSystemToast('Аватар охотника обновлён!');
 }
-function renderProfile(){let name=state.playerProfile?.name||'Охотник';let active=playerTitles.find(t=>t.id===(state.activeTitle||'Новичок'))||playerTitles[0];if(!active.unlock())active=playerTitles[0];document.getElementById('profileNameHeading').textContent=name;document.getElementById('playerNameInput').value=name;let hero=document.querySelector('.profile-hero'),rnk=rank(),avatar=state.playerProfile?.avatar||'assets/shadow-knight.webp';hero.className='card profile-hero rank-'+rnk;let avatarEl=hero.querySelector('.profile-avatar');avatarEl.src=avatar;document.getElementById('rankAura').textContent='✦ АУРА РАНГА '+rnk+' · '+({E:'ПРОБУЖДЕНИЕ',D:'ОХОТНИК',C:'ЗАКАЛЁННЫЙ',B:'ЭЛИТНЫЙ',A:'МАСТЕР',S:'МОНАРХ'}[rnk]||'ОХОТНИК');let avatarOptions=[['assets/shadow-knight.webp','Рыцарь'],['assets/shadow-assassin.webp','Ассасин'],['assets/shadow-mage.webp','Маг'],['assets/shadow-paladin.webp','Паладин'],['assets/shadow-wolf.webp','Гончий'],['assets/shadow-archer.webp','Лучник'],['assets/shadow-elf.webp','Эльф'],['assets/shadow-golem.webp','Голем']];document.getElementById('avatarPicker').innerHTML=avatarOptions.map(([src,label])=>`<button class="avatar-pick ${src===avatar?'selected':''}" onclick="chooseAvatar('${src}')"><img src="${src}" alt="${label}"><span>${label}</span></button>`).join('');document.getElementById('profileRankTitle').textContent='Ранг '+rnk+' · Уровень '+level();document.getElementById('activeTitleBadge').textContent='✦ Титул: '+active.id;document.getElementById('profileXpBar').style.width=(state.xp%100)+'%';document.getElementById('profileXpText').textContent=state.xp+' XP · '+(100-state.xp%100)+' до следующего уровня';let st=totalStats();document.getElementById('profilePowerText').textContent='Боевая мощь: '+(st.strength*3+st.agility*2+st.endurance*2+level());let discipline=calculateRankDiscipline();
+// RANK B EXAM — обновление статусов карточки
+function renderRankBExamCard(){
+  const exam=state.rankSystem?.exams?.B;
+  if(!exam)return;
+
+  const discipline=calculateRankDiscipline();
+  const stats=state.stats||{};
+  const trainingCount=state.rankSystem?.trainingSessions?.length||0;
+
+  const admitted=
+    (Number(state.xp)||0)>=12000 &&
+    (Number(stats.strength)||0)>=22 &&
+    (Number(stats.agility)||0)>=22 &&
+    (Number(stats.endurance)||0)>=22 &&
+    trainingCount>=60 &&
+    discipline>=70;
+
+  const status=document.getElementById("rankBExamStatus");
+
+  if(status){
+    if(exam.status==="completed"){
+      status.textContent="ЭКЗАМЕН ПРОЙДЕН";
+    }else if(exam.status==="in_progress"){
+      status.textContent="ЭКЗАМЕН НАЧАТ";
+    }else{
+      status.textContent=admitted?"ДОПУСК ПОЛУЧЕН":"ОЖИДАЕТ ДОПУСКА";
+    }
+  }
+
+  const tests=[
+    ["rankBTestStrength","strength"],
+    ["rankBTestEndurance","endurance"],
+    ["rankBTestTechnique","technique"]
+  ];
+
+  tests.forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+
+    const result=exam.physicalTests?.[key];
+    const passed=result===true||result?.completed===true||result?.passed===true;
+
+    el.textContent=passed?"ПРОЙДЕНО":"НЕ ПРОЙДЕНО";
+  });
+
+  const phases=Array.isArray(exam.completedPhases)?exam.completedPhases.length:0;
+  const progress=Math.min(100,Math.round(phases/3*100));
+
+  const bar=document.getElementById("rankBBossProgress");
+  const phaseText=document.getElementById("rankBBossPhase");
+
+  if(bar)bar.style.width=progress+"%";
+  if(phaseText)phaseText.textContent="Фазы босса: "+phases+" / 3";
+}
+  function renderProfile(){let name=state.playerProfile?.name||'Охотник';let active=playerTitles.find(t=>t.id===(state.activeTitle||'Новичок'))||playerTitles[0];if(!active.unlock())active=playerTitles[0];document.getElementById('profileNameHeading').textContent=name;document.getElementById('playerNameInput').value=name;let hero=document.querySelector('.profile-hero'),rnk=rank(),avatar=state.playerProfile?.avatar||'assets/shadow-knight.webp';hero.className='card profile-hero rank-'+rnk;let avatarEl=hero.querySelector('.profile-avatar');avatarEl.src=avatar;document.getElementById('rankAura').textContent='✦ АУРА РАНГА '+rnk+' · '+({E:'ПРОБУЖДЕНИЕ',D:'ОХОТНИК',C:'ЗАКАЛЁННЫЙ',B:'ЭЛИТНЫЙ',A:'МАСТЕР',S:'МОНАРХ'}[rnk]||'ОХОТНИК');let avatarOptions=[['assets/shadow-knight.webp','Рыцарь'],['assets/shadow-assassin.webp','Ассасин'],['assets/shadow-mage.webp','Маг'],['assets/shadow-paladin.webp','Паладин'],['assets/shadow-wolf.webp','Гончий'],['assets/shadow-archer.webp','Лучник'],['assets/shadow-elf.webp','Эльф'],['assets/shadow-golem.webp','Голем']];document.getElementById('avatarPicker').innerHTML=avatarOptions.map(([src,label])=>`<button class="avatar-pick ${src===avatar?'selected':''}" onclick="chooseAvatar('${src}')"><img src="${src}" alt="${label}"><span>${label}</span></button>`).join('');document.getElementById('profileRankTitle').textContent='Ранг '+rnk+' · Уровень '+level();document.getElementById('activeTitleBadge').textContent='✦ Титул: '+active.id;document.getElementById('profileXpBar').style.width=(state.xp%100)+'%';document.getElementById('profileXpText').textContent=state.xp+' XP · '+(100-state.xp%100)+' до следующего уровня';let st=totalStats();document.getElementById('profilePowerText').textContent='Боевая мощь: '+(st.strength*3+st.agility*2+st.endurance*2+level());let discipline=calculateRankDiscipline();
 let rankData=state.rankSystem?.discipline||{};
 
 document.getElementById('rankDisciplineScore').textContent=discipline+'%';
@@ -4668,7 +4722,7 @@ function checkMissedDailyQuest(){const report=applyMissedDailyQuestPenalties();i
  if(recoverPlayerResources()){
   try{localStorage.setItem("hunterState",JSON.stringify(state))}catch(e){}
  }
- renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile()
+ renderHome();renderQuests();renderAtlas();renderProgress();renderCharacter();renderShadows();renderInventory();renderRecords();renderChart();renderBoss();renderCampaign();renderCraft();renderBattle();renderProfile();renderRankBExamCard()
 }
 renderAll();
 setTimeout(checkMissedDailyQuest,700);
