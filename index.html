@@ -2207,6 +2207,51 @@ button:active{transform:scale(.985)}
     <span class="tag" id="rankBTestTechnique">НЕ ПРОЙДЕНО</span>
   </div>
 
+  <div class="card" id="rankBTechniquePanel" style="margin-top:10px;padding:12px;background:rgba(30,100,180,.08)">
+  <b>ИСПЫТАНИЕ ОХОТНИКА B-КЛАССА</b>
+  <p class="muted" style="margin:8px 0">
+    Пройди три этапа, демонстрируя точность и контроль движений.
+  </p>
+
+  <div class="model-section">ЭТАП Ⅰ · РАВНОВЕСИЕ</div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Стойка на одной ноге</span>
+    <b>40 секунд на каждую</b>
+  </div>
+
+  <div class="model-section" style="margin-top:12px">ЭТАП Ⅱ · КООРДИНАЦИЯ</div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Контролируемые шаги в стороны</span>
+    <b>20 повторений</b>
+  </div>
+
+  <div class="model-section" style="margin-top:12px">ЭТАП Ⅲ · ТЕХНИКА</div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Приседания</span>
+    <b>10 повторений</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Отжимания</span>
+    <b>10 повторений</b>
+  </div>
+  <div class="row" style="justify-content:space-between;margin-top:7px">
+    <span>Планка</span>
+    <b>30 секунд</b>
+  </div>
+
+  <div class="muted" style="margin-top:9px">
+    Выполняй движения спокойно, без гонки на время. При необходимости используй опору для равновесия. Не продолжай при боли или головокружении.
+  </div>
+
+  <label style="display:flex;gap:9px;align-items:flex-start;margin-top:12px">
+    <input type="checkbox" id="rankBTechniqueConfirm" style="margin-top:3px">
+    <span class="muted">Я прошёл все три этапа с контролем движений и без боли.</span>
+  </label>
+
+  <button class="primary" id="rankBTechniqueSubmit" style="width:100%;margin-top:12px" onclick="confirmRankBTechniqueTest()">
+    Подтвердить испытание
+  </button>
+</div>
   <div class="model-section" style="margin-top:16px">ФИНАЛЬНОЕ СРАЖЕНИЕ</div>
 
   <div class="row" style="justify-content:space-between;margin-top:10px">
