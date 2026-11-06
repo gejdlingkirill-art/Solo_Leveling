@@ -4454,6 +4454,62 @@ function confirmRankBEnduranceTest(){
 
   showSystemToast("Испытание выносливости пройдено!");
 }
+  // RANK B EXAM — подтверждение испытания техники
+function confirmRankBTechniqueTest(){
+  const exam=state.rankSystem?.exams?.B;
+  if(!exam)return;
+
+  const discipline=calculateRankDiscipline();
+  const stats=state.stats||{};
+  const trainingCount=state.rankSystem?.trainingSessions?.length||0;
+
+  const admitted=
+    (Number(state.xp)||0)>=12000 &&
+    (Number(stats.strength)||0)>=22 &&
+    (Number(stats.agility)||0)>=22 &&
+    (Number(stats.endurance)||0)>=22 &&
+    trainingCount>=60 &&
+    discipline>=70;
+
+  if(!admitted){
+    showSystemToast("Сначала выполни все требования для допуска к экзамену.","error");
+    return;
+  }
+
+  const result=exam.physicalTests?.technique;
+
+  if(result===true||result?.completed===true||result?.passed===true){
+    showSystemToast("Испытание техники уже пройдено.","error");
+    return;
+  }
+
+  const confirm=document.getElementById("rankBTechniqueConfirm");
+
+  if(!confirm||!confirm.checked){
+    showSystemToast("Подтверди выполнение всех трёх этапов.","error");
+    return;
+  }
+
+  exam.physicalTests=exam.physicalTests||{};
+  exam.physicalTests.technique={
+    completed:true,
+    passed:true,
+    balance:40,
+    coordination:20,
+    squats:10,
+    pushUps:10,
+    plank:30,
+    date:hunterLocalDateKey()
+  };
+
+  exam.status="in_progress";
+  exam.startedAt=exam.startedAt||new Date().toISOString();
+  exam.updatedAt=new Date().toISOString();
+
+  save();
+
+  showSystemToast("Испытание техники пройдено!");
+}
   // RANK B EXAM — обновление статусов карточки
 function renderRankBExamCard(){
   const exam=state.rankSystem?.exams?.B;
