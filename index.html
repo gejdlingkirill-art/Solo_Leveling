@@ -4588,6 +4588,80 @@ function startRankBExamFight(){
   save();
   showSystemToast("Экзамен начат! Страж Бездны ждёт тебя.");
 }
+ // RANK B EXAM — отображение сохранённого боя
+function renderRankBExamBattle(){
+  const exam=state.rankSystem?.exams?.B;
+  const battle=exam?.battle;
+
+  const panel=document.getElementById("rankBBossBattlePanel");
+  const content=document.getElementById("rankBBossBattleContent");
+
+  if(!panel||!content)return;
+
+  if(!battle?.active){
+    panel.style.display="none";
+    return;
+  }
+
+  panel.style.display="block";
+
+  const hpMax=maxPlayerHP();
+  const mpMax=maxPlayerMP();
+
+  const playerHp=Math.max(0,Number(battle.playerHp)||0);
+  const playerMp=Math.max(0,Number(battle.playerMp)||0);
+  const bossHp=Math.max(0,Number(battle.bossHp)||0);
+
+  const hpPercent=hpMax?Math.min(100,playerHp/hpMax*100):0;
+  const mpPercent=mpMax?Math.min(100,playerMp/mpMax*100):0;
+
+  const phase=Math.max(1,Number(battle.phase)||1);
+  const turn=Math.max(1,Number(battle.turn)||1);
+
+  const log=Array.isArray(battle.log)?battle.log:[];
+
+  content.innerHTML=`
+    <div class="row" style="justify-content:space-between">
+      <span class="tag">ФАЗА ${phase} / 3</span>
+      <span class="tag">ХОД ${turn}</span>
+    </div>
+
+    <div style="margin-top:14px">
+      <div class="row" style="justify-content:space-between">
+        <b>Страж Бездны · HP</b>
+        <b>${bossHp} / 100</b>
+      </div>
+      <div class="xpbar">
+        <span style="width:${bossHp}%"></span>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="row" style="justify-content:space-between">
+        <b>Охотник · HP</b>
+        <b>${playerHp} / ${hpMax}</b>
+      </div>
+      <div class="xpbar">
+        <span style="width:${hpPercent}%;background:linear-gradient(90deg,#14a878,#6de6bb)"></span>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="row" style="justify-content:space-between">
+        <b>Мана · MP</b>
+        <b>${playerMp} / ${mpMax}</b>
+      </div>
+      <div class="xpbar">
+        <span style="width:${mpPercent}%;background:linear-gradient(90deg,#2878ed,#79baff)"></span>
+      </div>
+    </div>
+
+    <div class="guide-block" style="margin-top:14px">
+      <b>Журнал сражения</b>
+      ${log.map(entry=>`<p class="muted">• ${entry}</p>`).join("")}
+    </div>
+  `;
+}
   function renderRankBExamCard(){
   const exam=state.rankSystem?.exams?.B;
   if(!exam)return;
