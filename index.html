@@ -2523,7 +2523,44 @@ if(!state.rankSystem||typeof state.rankSystem!=="object"){
   console.error("Rank migration save failed",e);
  }
 }
-state.version=50;// HP / MP — безопасная инициализация ресурсов охотника
+// RANK B EXAM — безопасная структура сохранения
+state.rankSystem=state.rankSystem||{};
+state.rankSystem.exams=state.rankSystem.exams||{};
+
+if(!state.rankSystem.exams.B){
+  state.rankSystem.exams.B={
+    schemaVersion:1,
+    status:"locked",
+    attempts:0,
+    completedPhases:[],
+    physicalTests:{
+      strength:null,
+      endurance:null,
+      technique:null
+    },
+    selectedShadows:[],
+    battle:null,
+    rewards:{
+      uniqueClaimed:false,
+      lootClaimed:false
+    },
+    result:null,
+    startedAt:null,
+    completedAt:null,
+    updatedAt:null
+  };
+
+  try{
+    const raw=localStorage.getItem("hunterState");
+    if(raw&&raw.length>10){
+      localStorage.setItem("hunterStateBackup",raw);
+    }
+    localStorage.setItem("hunterState",JSON.stringify(state));
+  }catch(e){
+    console.error("Rank B exam migration failed",e);
+  }
+}
+  state.version=50;// HP / MP — безопасная инициализация ресурсов охотника
 state.resources=state.resources||{};
 state.resources.hp=Number.isFinite(Number(state.resources.hp))?Number(state.resources.hp):null;
 state.resources.mp=Number.isFinite(Number(state.resources.mp))?Number(state.resources.mp):null;
