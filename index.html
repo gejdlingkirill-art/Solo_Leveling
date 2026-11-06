@@ -2560,6 +2560,29 @@ if(!state.rankSystem.exams.B){
     console.error("Rank B exam migration failed",e);
   }
 }
+ // RANK B EXAM — настройки режима боя
+const rankBExam=state.rankSystem.exams.B;
+
+if(!rankBExam.settings){
+  rankBExam.settings={
+    shadowPolicy:"optional",
+    controlMode:"semi",
+    phaseRecovery:[
+      {phase:1,hp:20,mp:15},
+      {phase:2,hp:10,mp:10}
+    ]
+  };
+
+  try{
+    const raw=localStorage.getItem("hunterState");
+    if(raw&&raw.length>10){
+      localStorage.setItem("hunterStateBackup",raw);
+    }
+    localStorage.setItem("hunterState",JSON.stringify(state));
+  }catch(e){
+    console.error("Rank B exam settings save failed",e);
+  }
+}
   state.version=50;// HP / MP — безопасная инициализация ресурсов охотника
 state.resources=state.resources||{};
 state.resources.hp=Number.isFinite(Number(state.resources.hp))?Number(state.resources.hp):null;
