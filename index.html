@@ -4554,9 +4554,26 @@ function startRankBExamFight(){
     return;
   }
 
-  if(exam.battle?.active){
-    showSystemToast("Экзамен уже начат. Продолжай с текущего этапа.","error");
+  const previousBattle=exam.battle;
+
+  if(previousBattle?.status==="in_progress"){
+    showSystemToast("Экзамен уже начат. Продолжай текущий бой.","error");
     return;
+  }
+
+  if(previousBattle?.status==="completed"||exam.status==="completed"){
+    showSystemToast("Экзамен уже пройден. Повторная награда недоступна.","error");
+    return;
+  }
+
+  if(previousBattle?.status==="failed"){
+    exam.lastAttempt={
+      status:"failed",
+      phase:previousBattle.phase||1,
+      turn:previousBattle.turn||0,
+      completedPhases:[...(previousBattle.completedPhases||[])],
+      finishedAt:previousBattle.updatedAt||new Date().toISOString()
+    };
   }
 
   initPlayerResources();
@@ -4567,6 +4584,8 @@ function startRankBExamFight(){
     return;
   }
 
+  exam.attempts=(Number(exam.attempts)||0)+1;
+
   exam.battle={
     active:true,
     status:"in_progress",
@@ -4575,7 +4594,10 @@ function startRankBExamFight(){
     playerHp:state.resources.hp,
     playerMp:state.resources.mp,
     turn:1,
-    log:["Врата Бездны открыты. Страж Бездны вступает в бой."],
+    log:[
+      "Попытка №"+exam.attempts+". Врата Бездны открыты.",
+      "Страж Бездны вступает в бой."
+    ],
     completedPhases:[],
     startedAt:new Date().toISOString(),
     updatedAt:new Date().toISOString()
@@ -4586,7 +4608,7 @@ function startRankBExamFight(){
   exam.updatedAt=new Date().toISOString();
 
   save();
-  showSystemToast("Экзамен начат! Страж Бездны ждёт тебя.");
+  showSystemToast("Попытка №"+exam.attempts+". Страж Бездны ждёт тебя.");
 }
  // RANK B EXAM — отображение сохранённого боя
 // RANK B EXAM — боевые действия охотника
