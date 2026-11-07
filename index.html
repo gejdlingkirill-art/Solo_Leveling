@@ -4589,7 +4589,127 @@ function startRankBExamFight(){
   showSystemToast("Экзамен начат! Страж Бездны ждёт тебя.");
 }
  // RANK B EXAM — отображение сохранённого боя
-function renderRankBExamBattle(){
+// RANK B EXAM — боевые действия охотника
+function rankBExamAction(action){
+  const exam=state.rankSystem?.exams?.B;
+  const battle=exam?.battle;
+
+  if(!battle?.active||battle.status!=="in_progress")return;
+
+  state.resources=state.resources||{};
+
+  const stats=totalStats();
+  const phase=Math.max(1,Number(battle.phase)||1);
+  const log=battle.log||[];
+
+  let damage=0;
+  let actionText="";
+
+  if(action==="strike"){
+    damage=Math.max(12,Math.round(playerCombatPower()*.65-phase*8));
+    actionText="Обычная атака";
+  }else if(action==="strong"){
+    if((Number(battle.playerMp)||0)<20){
+      showSystemToast("Недостаточно MP. Нужно 20 MP.","error");
+      return;
+    }
+
+    battle.playerMp-=20;
+    damage=Math.max(20,Math.round(playerCombatPower()*1.15-phase*8));
+    actionText="Сильная атака";
+  }else if(action==="guard"){
+    battle.guard=true;
+    actionText="Охотник приготовился к защите.";
+  }else if(action==="dodge"){
+    battle.dodge=true;
+    actionText="Охотник приготовился уклониться.";
+  }else{
+    return;
+  }
+
+  if(damage>0){
+    battle.bossHp=Math.max(0,(Number(battle.bossHp)||0)-damage);
+    log.unshift(actionText+": нанесено "+damage+" урона.");
+  }else{
+    log.unshift(actionText);
+  }
+
+  // Проверка завершения текущей фазы
+  if(battle.bossHp<=0){
+    battle.completedPhases=battle.completedPhases||[];
+    battle.completedPhases.push(phase);
+
+    if(phase>=3){
+      battle.status="completed";
+      battle.won=true;
+      log.unshift("ПОБЕДА! Страж Бездны повержен.");
+    }else{
+      const recovery=exam.settings?.phaseRecovery?.find(x=>x.phase===phase);
+      const hpMax=maxPlayerHP();
+      const mpMax=maxPlayerMP();
+
+      battle.phase=phase+1;
+      battle.bossHp=100;
+
+      battle.playerHp=Math.min(
+        hpMax,
+        battle.playerHp+Math.round(hpMax*(Number(recovery?.hp)||0)/100)
+      );
+
+      battle.playerMp=Math.min(
+        mpMax,
+        battle.playerMp+Math.round(mpMax*(Number(recovery?.mp)||0)/100)
+      );
+
+      log.unshift("Фаза "+phase+" пройдена! Восстановление HP и MP.");
+      log.unshift("Началась фаза "+battle.phase+". Страж Бездны усилился.");
+    }
+  }else{
+    // Ответная атака босса
+    const bossDamage=Math.max(
+      10,
+      24+phase*12-Math.floor(stats.endurance*.5)
+    );
+
+    if(battle.dodge){
+      const dodgeChance=Math.min(.85,.55+(stats.agility*.005));
+      battle.dodge=false;
+
+      if(Math.random()<dodgeChance){
+        log.unshift("УКЛОНЕНИЕ! Атака босса не попала.");
+      }else{
+        battle.playerHp=Math.max(0,battle.playerHp-bossDamage);
+        log.unshift("Уклонение не удалось. Получено "+bossDamage+" урона.");
+      }
+    }else if(battle.guard){
+      battle.guard=false;
+      const reduced=Math.ceil(bossDamage*.4);
+      battle.playerHp=Math.max(0,battle.playerHp-reduced);
+      log.unshift("Защита сработала. Получено "+reduced+" урона.");
+    }else{
+      battle.playerHp=Math.max(0,battle.playerHp-bossDamage);
+      log.unshift("Страж Бездны атакует. Получено "+bossDamage+" урона.");
+    }
+
+    if(battle.playerHp<=0){
+      battle.status="failed";
+      battle.lost=true;
+      log.unshift("ПОРАЖЕНИЕ. Ранг C сохранён. Попробуй снова после восстановления.");
+    }
+  }
+
+  battle.turn++;
+  battle.log=log.slice(0,12);
+  battle.updatedAt=new Date().toISOString();
+
+  state.resources.hp=battle.playerHp;
+  state.resources.mp=battle.playerMp;
+
+  exam.updatedAt=battle.updatedAt;
+
+  save();
+}
+  function renderRankBExamBattle(){
   const exam=state.rankSystem?.exams?.B;
   const battle=exam?.battle;
 
