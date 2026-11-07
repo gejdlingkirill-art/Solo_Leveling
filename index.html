@@ -4776,6 +4776,35 @@ function rankBExamAction(action){
       </div>
     </div>
 
+        ${battle.status==="in_progress"?`
+      <div class="model-section" style="margin-top:16px">
+        ДЕЙСТВИЯ ОХОТНИКА
+      </div>
+
+      <div class="smallgrid" style="margin-top:10px">
+        <button class="primary" onclick="rankBExamAction('strike')">
+          ⚔ Обычная атака
+        </button>
+
+        <button class="primary"
+          ${playerMp<20?"disabled":""}
+          onclick="rankBExamAction('strong')">
+          ✦ Сильная атака · 20 MP
+        </button>
+
+        <button class="secondary" onclick="rankBExamAction('guard')">
+          🛡 Защита
+        </button>
+
+        <button class="secondary" onclick="rankBExamAction('dodge')">
+          💨 Уклонение
+        </button>
+      </div>
+    `:`
+      <div class="notice" style="margin-top:14px">
+        ${battle.won?"ПОБЕДА! Страж Бездны повержен.":"ПОРАЖЕНИЕ. Экзамен завершён."}
+      </div>
+    `}
     <div class="guide-block" style="margin-top:14px">
       <b>Журнал сражения</b>
       ${log.map(entry=>`<p class="muted">• ${entry}</p>`).join("")}
