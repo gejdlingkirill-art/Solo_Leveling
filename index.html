@@ -4851,9 +4851,11 @@ function rankBExamAction(action){
 
   const status=document.getElementById("rankBExamStatus");
 
-  if(status){
+    if(status){
     if(exam.status==="completed"){
       status.textContent="ЭКЗАМЕН ПРОЙДЕН";
+    }else if(exam.battle?.status==="failed"){
+      status.textContent="ПОРАЖЕНИЕ · ДОСТУПНА ПОВТОРНАЯ ПОПЫТКА";
     }else if(exam.status==="in_progress"){
       status.textContent="ЭКЗАМЕН НАЧАТ";
     }else{
@@ -4952,12 +4954,20 @@ function rankBExamAction(action){
   }
    const bossStartButton=document.getElementById("rankBBossStartButton");
 
-  if(bossStartButton){
+    if(bossStartButton){
     bossStartButton.disabled=!physicalTestsPassed;
     bossStartButton.style.opacity=physicalTestsPassed?"1":".5";
-    bossStartButton.textContent=physicalTestsPassed
-      ?"⚔ ВЫЗВАТЬ СТРАЖА БЕЗДНЫ"
-      :"🔒 СНАЧАЛА ПРОЙДИ 3 ИСПЫТАНИЯ";
+
+    bossStartButton.textContent=
+      exam.battle?.status==="failed"
+        ?"🔄 ПОВТОРИТЬ ЭКЗАМЕН"
+        :exam.battle?.status==="in_progress"
+          ?"⚔ ПРОДОЛЖИТЬ ЭКЗАМЕН"
+          :exam.status==="completed"
+            ?"✦ ЭКЗАМЕН ПРОЙДЕН"
+            :physicalTestsPassed
+              ?"⚔ ВЫЗВАТЬ СТРАЖА БЕЗДНЫ"
+              :"🔒 СНАЧАЛА ПРОЙДИ 3 ИСПЫТАНИЯ";
   }
   const phases=Array.isArray(exam.completedPhases)?exam.completedPhases.length:0;
   const progress=Math.min(100,Math.round(phases/3*100));
