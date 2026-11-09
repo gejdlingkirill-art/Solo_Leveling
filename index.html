@@ -4851,7 +4851,7 @@ function rankBExamAction(action){
 
   const status=document.getElementById("rankBExamStatus");
 
-    if(status){
+      if(status){
     if(exam.status==="completed"){
       status.textContent="ЭКЗАМЕН ПРОЙДЕН";
     }else if(exam.battle?.status==="failed"){
@@ -4954,7 +4954,7 @@ function rankBExamAction(action){
   }
    const bossStartButton=document.getElementById("rankBBossStartButton");
 
-    if(bossStartButton){
+      if(bossStartButton){
     bossStartButton.disabled=!physicalTestsPassed;
     bossStartButton.style.opacity=physicalTestsPassed?"1":".5";
 
