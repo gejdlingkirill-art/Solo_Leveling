@@ -3636,7 +3636,11 @@ function openShadowDetails(id){
    }).join('')}
   </div>`;
 }
-function isGearUnlocked(g){return (!g.reqLevel||level()>=g.reqLevel)&&(!g.reqQuests||state.history.length>=g.reqQuests)}
+function isGearUnlocked(g){
+  return (!g.reqLevel||level()>=g.reqLevel)&&
+    (!g.reqQuests||state.history.length>=g.reqQuests)&&
+    (g.id!=='abyss_core'||state.rankSystem?.exams?.B?.status==="completed");
+}
   function openGearDetails(id){
  const g=gear.find(x=>x.id===id);
  if(!g)return;
