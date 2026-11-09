@@ -4331,7 +4331,8 @@ const playerTitles=[
 {id:'Командир теней',icon:'crown',desc:'Открой теневого командира: 25 квестов.',unlock:()=>state.history.length>=25},
 {id:'Охотник ранга D',icon:'◆',desc:'Накопи 500 XP.',unlock:()=>state.xp>=500},
 {id:'Элитный охотник',icon:'★',desc:'Накопи 3000 XP.',unlock:()=>state.xp>=3000},
-{id:'Монарх',icon:'♜',desc:'Накопи 7500 XP.',unlock:()=>state.xp>=7500}
+{id:'Монарх',icon:'♜',desc:'Накопи 7500 XP.',unlock:()=>state.xp>=7500},
+{id:'Покоритель Бездны',icon:'♜',desc:'Победи Стража Бездны.',unlock:()=>state.rankSystem?.exams?.B?.status==="completed"}
 ];
 function savePlayerName(){
   let input=document.getElementById('playerNameInput');
