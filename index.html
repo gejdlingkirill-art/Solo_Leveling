@@ -4664,9 +4664,30 @@ function rankBExamAction(action){
     battle.completedPhases.push(phase);
 
     if(phase>=3){
-      battle.status="completed";
-      battle.won=true;
-      log.unshift("ПОБЕДА! Страж Бездны повержен.");
+  battle.status="completed";
+  battle.won=true;
+  exam.status="completed";
+  exam.completedAt=new Date().toISOString();
+
+  if(!exam.rewards.uniqueClaimed){
+    const rankOrder=["E","D","C","B","A","S"];
+    const currentRank=state.rankSystem.currentRank||"C";
+
+    if(rankOrder.indexOf(currentRank)<rankOrder.indexOf("B")){
+      state.rankSystem.currentRank="B";
+      state.rankSystem.nextRank="A";
+      state.rankSystem.rankHistory=state.rankSystem.rankHistory||[];
+      state.rankSystem.rankHistory.push({
+        rank:"B",
+        source:"abyss-exam",
+        date:new Date().toISOString().slice(0,10)
+      });
+    }
+
+    exam.rewards.uniqueClaimed=true;
+  }
+
+  log.unshift("ПОБЕДА! Страж Бездны повержен.");
     }else{
       const recovery=exam.settings?.phaseRecovery?.find(x=>x.phase===phase);
       const hpMax=maxPlayerHP();
