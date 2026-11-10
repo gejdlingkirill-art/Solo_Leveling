@@ -4849,10 +4849,46 @@ function rankBExamAction(action){
           💨 Уклонение
         </button>
       </div>
-    `:`
-      <div class="notice" style="margin-top:14px">
-        ${battle.won?"ПОБЕДА! Страж Бездны повержен.":"ПОРАЖЕНИЕ. Экзамен завершён."}
-      </div>
+        `:`
+      ${battle.won?`
+        <div class="notice" style="margin-top:14px">
+          <div class="eyebrow">РЕЗУЛЬТАТ РЕЙДА</div>
+          <h3 style="margin:8px 0;color:#65c7ff">✦ СТРАЖ БЕЗДНЫ ПОВЕРЖЕН</h3>
+          <p>Экзамен на ранг B успешно пройден!</p>
+        </div>
+
+        <div class="model-section" style="margin-top:16px">
+          ГАРАНТИРОВАННЫЕ НАГРАДЫ
+        </div>
+
+        <div class="compact-grid" style="margin-top:10px">
+          <div class="compact-card">
+            <div class="compact-info">
+              <b>◆ Ранг B</b>
+              <small>Повышение ранга охотника</small>
+            </div>
+          </div>
+
+          <div class="compact-card">
+            <div class="compact-info">
+              <b>♜ Покоритель Бездны</b>
+              <small>Титул открыт в коллекции. Выбери его самостоятельно</small>
+            </div>
+          </div>
+
+          <div class="compact-card rarity-legendary">
+            <img src="assets/08_mana_core.png" alt="Ядро Бездны">
+            <div class="compact-info">
+              <b>Ядро Бездны</b>
+              <small>Легендарный аксессуар · +4 ко всем характеристикам · +10% XP</small>
+            </div>
+          </div>
+        </div>
+      `:`
+        <div class="notice" style="margin-top:14px">
+          ПОРАЖЕНИЕ. Ранг C сохранён. Доступна повторная попытка.
+        </div>
+      `}
     `}
     <div class="guide-block" style="margin-top:14px">
       <b>Журнал сражения</b>
